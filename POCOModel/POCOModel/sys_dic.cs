@@ -19,5 +19,7 @@ namespace POCOModel
         public Nullable<int> ParentId { get; set; }
         public Nullable<System.DateTime> CreateAt { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<bool> IsValid { get; set; }
     }
 }

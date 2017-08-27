@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Hotel.App.API2.Controllers
 {
-
     [Route("api/[controller]")]
     public class TokenAuthController : Controller
     {

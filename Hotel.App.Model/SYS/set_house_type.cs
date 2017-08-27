@@ -12,13 +12,13 @@ namespace Hotel.App.Model.SYS
     using System;
     using System.Collections.Generic;
     
-    public partial class set_house_type
+    public partial class set_house_type : IEntityBase
     {
         public int Id { get; set; }
         public string TypeName { get; set; }
-        public Nullable<System.DateTime> CreatedAt { get; set; }
-        public Nullable<bool> IsValid { get; set; }
-        public Nullable<System.DateTime> UpdatedAt { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public bool IsValid { get; set; }
+        public System.DateTime UpdatedAt { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<decimal> AllPrice { get; set; }
         public Nullable<decimal> StartPrice { get; set; }

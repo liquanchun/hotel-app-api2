@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
-using Hotel.App.Model.{sys};
+using Hotel.App.Model.SYS;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
@@ -13,24 +13,24 @@ using System.Security.Claims;
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
-    public class {table_name_U}Controller : Controller
+    public class SetInteHouseController : Controller
     {
 		private readonly IMapper _mapper;
-        private I{table_name_U}Repository _{table_name_L}Rpt;
-        public {table_name_U}Controller(I{table_name_U}Repository {table_name_L}Rpt,
+        private ISetInteHouseRepository _setInteHouseRpt;
+        public SetInteHouseController(ISetInteHouseRepository setInteHouseRpt,
 				IMapper mapper)
         {
-            _{table_name_L}Rpt = {table_name_L}Rpt;
+            _setInteHouseRpt = setInteHouseRpt;
 			_mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<{table_name}> entityDto = null;
+		    IEnumerable<set_inte_house> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _{table_name_L}Rpt.FindBy(f => f.IsValid);
+				entityDto = _setInteHouseRpt.FindBy(f => f.IsValid);
 			});
             return new OkObjectResult(entityDto);
         }
@@ -38,30 +38,30 @@ namespace Hotel.App.API2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var single = _{table_name_L}Rpt.GetSingle(id);
+            var single = _setInteHouseRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]{table_name} value)
+        public async Task<IActionResult> Post([FromBody]set_inte_house value)
         {
             value.CreatedAt = DateTime.Now;
-			value.UpdatedAt = DateTime.Now;
-			var identity = User.Identity as ClaimsIdentity;
+            value.UpdatedAt = DateTime.Now;
+            var identity = User.Identity as ClaimsIdentity;
             if(identity != null)
             {
                 value.CreatedBy = identity.Name;
             }
-            _{table_name_L}Rpt.Add(value);
-            _{table_name_L}Rpt.Commit();
+            _setInteHouseRpt.Add(value);
+            _setInteHouseRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]{table_name} value)
+        public async Task<IActionResult> Put(int id, [FromBody]set_inte_house value)
         {
-            var single = _{table_name_L}Rpt.GetSingle(id);
+            var single = _setInteHouseRpt.GetSingle(id);
 
             if (single == null)
             {
@@ -76,7 +76,7 @@ namespace Hotel.App.API2.Controllers
 				{
 					value.CreatedBy = identity.Name;
 				}
-                _{table_name_L}Rpt.Commit();
+                _setInteHouseRpt.Commit();
             }
             return new NoContentResult();
         }
@@ -85,7 +85,7 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var single = _{table_name_L}Rpt.GetSingle(id);
+            var single = _setInteHouseRpt.GetSingle(id);
             if (single == null)
             {
                 return new NotFoundResult();
@@ -93,7 +93,7 @@ namespace Hotel.App.API2.Controllers
             else
             {
                 single.IsValid = false;
-                _{table_name_L}Rpt.Commit();
+                _setInteHouseRpt.Commit();
 
                 return new NoContentResult();
             }

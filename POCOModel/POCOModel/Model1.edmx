@@ -89,10 +89,11 @@
           <Property Name="PreReceiveFee" Type="decimal" Precision="10" Scale="0" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="set_inte_exchange">
-          <Property Name="Id" Type="int" />
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="ExchangeType" Type="varchar" MaxLength="255" />
           <Property Name="CardType" Type="varchar" MaxLength="255" />
@@ -105,7 +106,7 @@ warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a p
           <Property Name="UpdatedAt" Type="datetime" Precision="0" />
           <Property Name="IsValid" Type="bit" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
-        </EntityType>-->
+        </EntityType>
         <EntityType Name="set_inte_house">
           <Key>
             <PropertyRef Name="Id" />
@@ -170,17 +171,193 @@ warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a p
           <Property Name="DicName" Type="varchar" MaxLength="255" />
           <Property Name="ParentId" Type="int" />
           <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="IsValid" Type="bit" />
         </EntityType>
+        <EntityType Name="sys_function">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FunctionName" Type="varchar" MaxLength="64" />
+          <Property Name="FunctionAddr" Type="varchar" MaxLength="64" />
+          <Property Name="Component" Type="varchar" MaxLength="64" />
+          <Property Name="MenuId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <EntityType Name="sys_menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuName" Type="varchar" MaxLength="16" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="MenuLevel" Type="int" />
+          <Property Name="MenuAddr" Type="varchar" MaxLength="16" />
+          <Property Name="Icon" Type="varchar" MaxLength="64" />
+          <Property Name="RoleIds" Type="varchar" MaxLength="64" />
+          <Property Name="MenuOrder" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sys_org">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeptName" Type="varchar" MaxLength="64" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sys_role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="16" />
+          <Property Name="RoleDesc" Type="varchar" MaxLength="64" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <EntityType Name="sys_role_function">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="FunctionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys_role_menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="MenuId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys_role_user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys_user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="64" />
+          <Property Name="Mobile" Type="varchar" MaxLength="11" />
+          <Property Name="Weixin" Type="varchar" MaxLength="64" />
+          <Property Name="Email" Type="varchar" MaxLength="64" />
+          <Property Name="Pwd" Type="varchar" MaxLength="64" />
+          <Property Name="LastLoginTime" Type="datetime" Precision="6" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="RoleIds" Type="varchar" MaxLength="64" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="user_access_log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="MenuId" Type="int" />
+          <Property Name="FunctionId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
+          <Property Name="Desc" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="user_login_log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="LoginInfo" Type="varchar" MaxLength="128" />
+          <Property Name="LoginIP" Type="varchar" MaxLength="64" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="64" />
+          <Property Name="Avatar" Type="varchar" MaxLength="64" />
+          <Property Name="Profession" Type="varchar" MaxLength="32" />
+        </EntityType>
+        <Association Name="sys_role_roleid">
+          <End Role="sys_role" Type="Self.sys_role" Multiplicity="1" />
+          <End Role="sys_role_user" Type="Self.sys_role_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="sys_role_user">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_role_userid">
+          <End Role="sys_user" Type="Self.sys_user" Multiplicity="1" />
+          <End Role="sys_role_user" Type="Self.sys_role_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="sys_role_user">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="set_allhouse_price" EntityType="Self.set_allhouse_price" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_card" EntityType="Self.set_card" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_card_upgrade" EntityType="Self.set_card_upgrade" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_hourhouse_price" EntityType="Self.set_hourhouse_price" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_house_type" EntityType="Self.set_house_type" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_inte_exchange" EntityType="Self.set_inte_exchange" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_inte_house" EntityType="Self.set_inte_house" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_integral" EntityType="Self.set_integral" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_otherhouse_price" EntityType="Self.set_otherhouse_price" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="sys_dic" EntityType="Self.sys_dic" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_function" EntityType="Self.sys_function" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_menu" EntityType="Self.sys_menu" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_org" EntityType="Self.sys_org" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_role" EntityType="Self.sys_role" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_role_function" EntityType="Self.sys_role_function" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_role_menu" EntityType="Self.sys_role_menu" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_role_user" EntityType="Self.sys_role_user" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_user" EntityType="Self.sys_user" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="user_access_log" EntityType="Self.user_access_log" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="user_login_log" EntityType="Self.user_login_log" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="hotel-app" store:Type="Tables" />
+          <AssociationSet Name="sys_role_roleid" Association="Self.sys_role_roleid">
+            <End Role="sys_role" EntitySet="sys_role" />
+            <End Role="sys_role_user" EntitySet="sys_role_user" />
+          </AssociationSet>
+          <AssociationSet Name="sys_role_userid" Association="Self.sys_role_userid">
+            <End Role="sys_user" EntitySet="sys_user" />
+            <End Role="sys_role_user" EntitySet="sys_role_user" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -195,6 +372,8 @@ warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a p
           <Property Name="ParentId" Type="Int32" />
           <Property Name="CreateAt" Type="DateTime" />
           <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsValid" Type="Boolean" />
         </EntityType>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sys_dic" EntityType="Self.sys_dic" />
@@ -206,6 +385,26 @@ warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a p
           <EntitySet Name="set_inte_house" EntityType="Model.set_inte_house" />
           <EntitySet Name="set_integral" EntityType="Model.set_integral" />
           <EntitySet Name="set_otherhouse_price" EntityType="Model.set_otherhouse_price" />
+          <EntitySet Name="sys_function" EntityType="Model.sys_function" />
+          <EntitySet Name="sys_menu" EntityType="Model.sys_menu" />
+          <EntitySet Name="sys_org" EntityType="Model.sys_org" />
+          <EntitySet Name="sys_role" EntityType="Model.sys_role" />
+          <EntitySet Name="sys_role_function" EntityType="Model.sys_role_function" />
+          <EntitySet Name="sys_role_menu" EntityType="Model.sys_role_menu" />
+          <EntitySet Name="sys_role_user" EntityType="Model.sys_role_user" />
+          <EntitySet Name="sys_user" EntityType="Model.sys_user" />
+          <EntitySet Name="user_access_log" EntityType="Model.user_access_log" />
+          <EntitySet Name="user_login_log" EntityType="Model.user_login_log" />
+          <EntitySet Name="Users" EntityType="Model.User" />
+          <AssociationSet Name="sys_role_roleid" Association="Model.sys_role_roleid">
+            <End Role="sys_role" EntitySet="sys_role" />
+            <End Role="sys_role_user" EntitySet="sys_role_user" />
+          </AssociationSet>
+          <AssociationSet Name="sys_role_userid" Association="Model.sys_role_userid">
+            <End Role="sys_user" EntitySet="sys_user" />
+            <End Role="sys_role_user" EntitySet="sys_role_user" />
+          </AssociationSet>
+          <EntitySet Name="set_inte_exchange" EntityType="Model.set_inte_exchange" />
         </EntityContainer>
         <EntityType Name="set_allhouse_price">
           <Key>
@@ -347,6 +546,182 @@ warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a p
           <Property Name="IsValid" Type="Boolean" />
           <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="sys_function">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FunctionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="FunctionAddr" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Component" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="MenuId" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsValid" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="sys_menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuName" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="MenuLevel" Type="Int32" />
+          <Property Name="MenuAddr" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Icon" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="RoleIds" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="MenuOrder" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sys_org">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeptName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sys_role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="RoleDesc" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsValid" Type="Boolean" />
+          <NavigationProperty Name="sys_role_user" Relationship="Model.sys_role_roleid" FromRole="sys_role" ToRole="sys_role_user" />
+        </EntityType>
+        <EntityType Name="sys_role_function">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="FunctionId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys_role_menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="MenuId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys_role_user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="sys_role" Relationship="Model.sys_role_roleid" FromRole="sys_role_user" ToRole="sys_role" />
+          <NavigationProperty Name="sys_user" Relationship="Model.sys_role_userid" FromRole="sys_role_user" ToRole="sys_user" />
+        </EntityType>
+        <EntityType Name="sys_user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Weixin" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Pwd" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="LastLoginTime" Type="DateTime" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="RoleIds" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="sys_role_user" Relationship="Model.sys_role_userid" FromRole="sys_user" ToRole="sys_role_user" />
+        </EntityType>
+        <EntityType Name="user_access_log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="MenuId" Type="Int32" />
+          <Property Name="FunctionId" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="Desc" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="user_login_log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="LoginInfo" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="LoginIP" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Avatar" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Profession" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="sys_role_roleid">
+          <End Type="Model.sys_role" Role="sys_role" Multiplicity="1" />
+          <End Type="Model.sys_role_user" Role="sys_role_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="sys_role_user">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sys_role_userid">
+          <End Type="Model.sys_user" Role="sys_user" Multiplicity="1" />
+          <End Type="Model.sys_role_user" Role="sys_role_user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sys_user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="sys_role_user">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="set_inte_exchange">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ExchangeType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CardType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GiftName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ExchangeInte" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" />
+          <Property Name="EndDate" Type="DateTime" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -356,6 +731,8 @@ warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a p
           <EntitySetMapping Name="sys_dic">
             <EntityTypeMapping TypeName="Model.sys_dic">
               <MappingFragment StoreEntitySet="sys_dic">
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DicName" ColumnName="DicName" />
@@ -511,6 +888,166 @@ warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sys_function">
+            <EntityTypeMapping TypeName="Model.sys_function">
+              <MappingFragment StoreEntitySet="sys_function">
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="Component" ColumnName="Component" />
+                <ScalarProperty Name="FunctionAddr" ColumnName="FunctionAddr" />
+                <ScalarProperty Name="FunctionName" ColumnName="FunctionName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_menu">
+            <EntityTypeMapping TypeName="Model.sys_menu">
+              <MappingFragment StoreEntitySet="sys_menu">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="MenuOrder" ColumnName="MenuOrder" />
+                <ScalarProperty Name="RoleIds" ColumnName="RoleIds" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="MenuAddr" ColumnName="MenuAddr" />
+                <ScalarProperty Name="MenuLevel" ColumnName="MenuLevel" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_org">
+            <EntityTypeMapping TypeName="Model.sys_org">
+              <MappingFragment StoreEntitySet="sys_org">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_role">
+            <EntityTypeMapping TypeName="Model.sys_role">
+              <MappingFragment StoreEntitySet="sys_role">
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_role_function">
+            <EntityTypeMapping TypeName="Model.sys_role_function">
+              <MappingFragment StoreEntitySet="sys_role_function">
+                <ScalarProperty Name="FunctionId" ColumnName="FunctionId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_role_menu">
+            <EntityTypeMapping TypeName="Model.sys_role_menu">
+              <MappingFragment StoreEntitySet="sys_role_menu">
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_role_user">
+            <EntityTypeMapping TypeName="Model.sys_role_user">
+              <MappingFragment StoreEntitySet="sys_role_user">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sys_user">
+            <EntityTypeMapping TypeName="Model.sys_user">
+              <MappingFragment StoreEntitySet="sys_user">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="RoleIds" ColumnName="RoleIds" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Weixin" ColumnName="Weixin" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_access_log">
+            <EntityTypeMapping TypeName="Model.user_access_log">
+              <MappingFragment StoreEntitySet="user_access_log">
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="FunctionId" ColumnName="FunctionId" />
+                <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_login_log">
+            <EntityTypeMapping TypeName="Model.user_login_log">
+              <MappingFragment StoreEntitySet="user_login_log">
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="LoginIP" ColumnName="LoginIP" />
+                <ScalarProperty Name="LoginInfo" ColumnName="LoginInfo" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Profession" ColumnName="Profession" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_inte_exchange">
+            <EntityTypeMapping TypeName="Model.set_inte_exchange">
+              <MappingFragment StoreEntitySet="set_inte_exchange">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ExchangeInte" ColumnName="ExchangeInte" />
+                <ScalarProperty Name="GiftName" ColumnName="GiftName" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+                <ScalarProperty Name="ExchangeType" ColumnName="ExchangeType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -525,7 +1062,7 @@ warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a p
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="true" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

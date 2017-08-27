@@ -22,7 +22,7 @@ namespace Hotel.App.API2.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return new OkObjectResult(_sysDicRpt.GetAll().ToList());
+            return new OkObjectResult(_sysDicRpt.FindBy(f => f.IsValid).ToList());
         }
         // GET api/values/5
         [HttpGet("{id}")]
@@ -62,7 +62,7 @@ namespace Hotel.App.API2.Controllers
             }
             else
             {
-                _sysDicRpt.Delete(_sysDic);
+                _sysDic.IsValid = false;
                 _sysDicRpt.Commit();
 
                 return new NoContentResult();

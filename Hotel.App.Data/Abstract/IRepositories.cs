@@ -28,4 +28,14 @@ namespace Hotel.App.Data.Abstract
     public interface IUserAccessLogRepository : IEntityBaseRepository<user_access_log> { }
 
     public interface IUserLoginLogRepository : IEntityBaseRepository<user_login_log> { }
+
+    public interface ISetAllhousePriceRepository : IEntityBaseRepository<set_allhouse_price> { }
+    public interface ISetCardRepository : IEntityBaseRepository<set_card> { }
+    public interface ISetCardUpgradeRepository : IEntityBaseRepository<set_card_upgrade> { }
+    public interface ISetHourhousePriceRepository : IEntityBaseRepository<set_hourhouse_price> { }
+    public interface ISetHouseTypeRepository : IEntityBaseRepository<set_house_type> { }
+    public interface ISetIntegralRepository : IEntityBaseRepository<set_integral> { }
+    public interface ISetInteExchangeRepository : IEntityBaseRepository<set_inte_exchange> { }
+    public interface ISetInteHouseRepository : IEntityBaseRepository<set_inte_house> { }
+    public interface ISetOtherhousePriceRepository : IEntityBaseRepository<set_otherhouse_price> { }
 }

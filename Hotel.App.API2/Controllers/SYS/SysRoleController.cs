@@ -27,7 +27,7 @@ namespace Hotel.App.API2.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return new OkObjectResult(_sysRoleRpt.GetAll().ToList());
+            return new OkObjectResult(_sysRoleRpt.FindBy(f=> f.IsValid).ToList());
         }
 
         // GET api/values/5
@@ -74,8 +74,7 @@ namespace Hotel.App.API2.Controllers
                 {
                     return BadRequest(string.Concat(_sysRole.RoleName, "已经关联用户，不能删除。"));
                 }
-                _sysRoleRpt.Delete(_sysRole);
-
+                _sysRole.IsValid = false;
                 _sysRoleRpt.Commit();
 
                 return new NoContentResult();

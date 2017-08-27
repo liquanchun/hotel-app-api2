@@ -12,7 +12,7 @@ namespace Hotel.App.Model.SYS
     using System;
     using System.Collections.Generic;
     
-    public partial class set_card_upgrade
+    public partial class set_card_upgrade : IEntityBase
     {
         public int Id { get; set; }
         public string OldCard { get; set; }
@@ -20,9 +20,9 @@ namespace Hotel.App.Model.SYS
         public Nullable<int> NeedInte { get; set; }
         public Nullable<int> TakeInte { get; set; }
         public string Remark { get; set; }
-        public Nullable<System.DateTime> CreatedAt { get; set; }
-        public Nullable<System.DateTime> UpdatedAt { get; set; }
-        public Nullable<bool> IsValid { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public System.DateTime UpdatedAt { get; set; }
+        public bool IsValid { get; set; }
         public string CreatedBy { get; set; }
     }
 }

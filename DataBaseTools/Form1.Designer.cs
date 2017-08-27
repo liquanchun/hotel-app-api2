@@ -75,7 +75,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(694, 25);
             this.textBox3.TabIndex = 3;
-            this.textBox3.Text = "F:\\hotel-app-api2\\Hotel.App.API2\\Controllers\\SYS";
+            this.textBox3.Text = "F:\\hotel-app-api2\\Hotel.App.API2\\Controllers";
             // 
             // 名称空间
             // 
@@ -128,7 +128,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(694, 25);
             this.textBox4.TabIndex = 8;
-            this.textBox4.Text = "F:\\hotel-app-api2\\Hotel.App.Data\\Repositories\\SYS";
+            this.textBox4.Text = "F:\\hotel-app-api2\\Hotel.App.Data\\Repositories";
             // 
             // textBox5
             // 

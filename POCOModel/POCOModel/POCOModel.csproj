@@ -114,6 +114,39 @@
     <Compile Include="sys_dic.cs">
       <DependentUpon>Model3.tt</DependentUpon>
     </Compile>
+    <Compile Include="sys_function.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_menu.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_org.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_role.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_role_function.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_role_menu.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_role_user.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sys_user.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_access_log.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_login_log.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

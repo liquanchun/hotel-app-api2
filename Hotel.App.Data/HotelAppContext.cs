@@ -26,6 +26,16 @@ namespace Hotel.App.Data
 
         public DbSet<sys_dic> SysDics { get; set; }
 
+        public DbSet<set_allhouse_price> SetAllhousePrices { get; set; }
+        public DbSet<set_card> SetCards { get; set; }
+        public DbSet<set_card_upgrade> SetCardUpgrades { get; set; }
+        public DbSet<set_hourhouse_price> SetHourhousePrices { get; set; }
+        public DbSet<set_house_type> SetHouseTypes { get; set; }
+        public DbSet<set_integral> SetIntegrals { get; set; }
+        public DbSet<set_inte_exchange> SetInteExchanges { get; set; }
+        public DbSet<set_inte_house> SetInteHouses { get; set; }
+        public DbSet<set_otherhouse_price> SetOtherhousePrices { get; set; }
+
         public HotelAppContext(DbContextOptions options) : base(options)
         {
         }

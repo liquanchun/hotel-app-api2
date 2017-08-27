@@ -86,10 +86,13 @@ namespace DataBaseTools
                 Console.WriteLine("table_name_U:" + table_name_U);
                 Console.WriteLine("table_name_L:" + table_name_L);
 
-                string text1 = string.Format("services.AddScoped<I{0}Repository, {0}Repository>();", table_name_U);
-                string text2 = string.Format("public interface I{0}Repository : IEntityBaseRepository<{1}> { }", table_name_U, table_name);
-                string text3 = string.Format("modelBuilder.Entity<{0}>().ToTable(\"{0}\");", table_name);
-                string text4 = string.Format("public DbSet<{0}> {1}s { get; set; }", table_name, table_name_U);
+                CreateControllerFile( table_name,  table_name_U,  table_name_L);
+                CreateRepositoriesFile(table_name, table_name_U, table_name_L);
+
+                string text1 = "services.AddScoped<I" + table_name_U + "Repository, "+ table_name_U + "Repository>();";
+                string text2 = "public interface I"+ table_name_U + "Repository : IEntityBaseRepository<"+ table_name + "> { }";
+                string text3 = "modelBuilder.Entity<"+ table_name + ">().ToTable(\""+ table_name + "\");";
+                string text4 = "public DbSet<"+ table_name + "> "+ table_name_U + "s { get; set; }";
 
                 sb1.AppendLine(text1);
                 sb2.AppendLine(text2);
@@ -111,7 +114,8 @@ namespace DataBaseTools
         {
             string sys = textBox1.Text;
             string templatefile = textBox2.Text;
-            string contorllerPath = textBox3.Text;
+            if (string.IsNullOrEmpty(templatefile)) return;
+            string contorllerPath = textBox3.Text + "\\" + sys;
             if (!System.IO.Directory.Exists(contorllerPath))
             {
                 System.IO.Directory.CreateDirectory(contorllerPath);
@@ -133,6 +137,7 @@ namespace DataBaseTools
         {
             string sys = textBox1.Text;
             string templatefile = textBox5.Text;
+            if (string.IsNullOrEmpty(templatefile)) return;
             string contorllerPath = textBox4.Text + "\\" + sys;
 
             if(!System.IO.Directory.Exists(contorllerPath))

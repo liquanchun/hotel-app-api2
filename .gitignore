@@ -249,3 +249,5 @@ Hotel.App.API/Migrations
 /Hotel.App.API/Properties/PublishProfiles
 
 Hotel.App.API/appsettings.json
+POCOModel/
+DataBaseTools/

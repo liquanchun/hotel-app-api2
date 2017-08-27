@@ -25,6 +25,16 @@ namespace Hotel.App.API2
             services.AddScoped<ISysUserRepository, SysUserRepository>();
 
             services.AddScoped<ISysDicRepository, SysDicRepository>();
+
+            services.AddScoped<ISetAllhousePriceRepository, SetAllhousePriceRepository>();
+            services.AddScoped<ISetCardRepository, SetCardRepository>();
+            services.AddScoped<ISetCardUpgradeRepository, SetCardUpgradeRepository>();
+            services.AddScoped<ISetHourhousePriceRepository, SetHourhousePriceRepository>();
+            services.AddScoped<ISetHouseTypeRepository, SetHouseTypeRepository>();
+            services.AddScoped<ISetIntegralRepository, SetIntegralRepository>();
+            services.AddScoped<ISetInteExchangeRepository, SetInteExchangeRepository>();
+            services.AddScoped<ISetInteHouseRepository, SetInteHouseRepository>();
+            services.AddScoped<ISetOtherhousePriceRepository, SetOtherhousePriceRepository>();
         }
     }
 }

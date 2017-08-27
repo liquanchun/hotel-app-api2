@@ -27,7 +27,7 @@ namespace Hotel.App.API2.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            IEnumerable<sys_menu> _menusVM = _sysMenuRpt.GetAll();
+            IEnumerable<sys_menu> _menusVM = _sysMenuRpt.FindBy(f => f.IsValid);
             foreach (var item in _menusVM)
             {
                 //角色名称转换
@@ -125,6 +125,7 @@ namespace Hotel.App.API2.Controllers
                 _menuDb.RoleIds = value.RoleIds;
                 _menuDb.MenuAddr = value.MenuAddr;
                 _menuDb.Icon = value.Icon;
+                _menuDb.UpdatedAt = DateTime.Now;
                 _sysMenuRpt.Commit();
             }
             return new NoContentResult();
@@ -143,7 +144,8 @@ namespace Hotel.App.API2.Controllers
             {
                 _sysRoleMenuRpt.DeleteWhere(f => f.MenuId == id);
                 _sysRoleMenuRpt.Commit();
-                _sysMenuRpt.Delete(_sysMenu);
+
+                _sysMenu.IsValid = false;
                 _sysMenuRpt.Commit();
 
                 return new NoContentResult();

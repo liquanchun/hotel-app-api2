@@ -25,7 +25,7 @@ namespace Hotel.App.API2.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return new OkObjectResult(_sysOrgRpt.GetAll());
+            return new OkObjectResult(_sysOrgRpt.FindBy(f => f.IsValid ));
         }
         /// <summary>
         /// 获取组织下面的用户
@@ -99,7 +99,7 @@ namespace Hotel.App.API2.Controllers
                 {
                     return BadRequest(string.Concat(_sysOrg.DeptName, "已经关联用户，不能删除。"));
                 }
-                _sysOrgRpt.Delete(_sysOrg);
+                _sysOrg.IsValid = false;
 
                 _sysOrgRpt.Commit();
 

@@ -14,6 +14,20 @@
         <EntityTypeShape EntityType="Model.set_inte_house" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="Model.set_integral" Width="1.5" PointX="7.75" PointY="5.75" />
         <EntityTypeShape EntityType="Model.set_otherhouse_price" Width="1.5" PointX="4.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Model.sys_function" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Model.sys_menu" Width="1.5" PointX="7.75" PointY="10.75" />
+        <EntityTypeShape EntityType="Model.sys_org" Width="1.5" PointX="9.75" PointY="11.75" />
+        <EntityTypeShape EntityType="Model.sys_role" Width="1.5" PointX="10.75" PointY="1" />
+        <EntityTypeShape EntityType="Model.sys_role_function" Width="1.5" PointX="11.75" PointY="11.75" />
+        <EntityTypeShape EntityType="Model.sys_role_menu" Width="1.5" PointX="12.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Model.sys_role_user" Width="1.5" PointX="13" PointY="1.25" />
+        <EntityTypeShape EntityType="Model.sys_user" Width="1.5" PointX="10.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Model.user_access_log" Width="1.5" PointX="12.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Model.user_login_log" Width="1.5" PointX="2.75" PointY="13.75" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="4.75" PointY="13.75" />
+        <AssociationConnector Association="Model.sys_role_roleid" />
+        <AssociationConnector Association="Model.sys_role_userid" />
+        <EntityTypeShape EntityType="Model.set_inte_exchange" Width="1.5" PointX="14.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

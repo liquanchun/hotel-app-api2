@@ -34,5 +34,17 @@ namespace POCOModel
         public DbSet<set_inte_house> set_inte_house { get; set; }
         public DbSet<set_integral> set_integral { get; set; }
         public DbSet<set_otherhouse_price> set_otherhouse_price { get; set; }
+        public DbSet<sys_function> sys_function { get; set; }
+        public DbSet<sys_menu> sys_menu { get; set; }
+        public DbSet<sys_org> sys_org { get; set; }
+        public DbSet<sys_role> sys_role { get; set; }
+        public DbSet<sys_role_function> sys_role_function { get; set; }
+        public DbSet<sys_role_menu> sys_role_menu { get; set; }
+        public DbSet<sys_role_user> sys_role_user { get; set; }
+        public DbSet<sys_user> sys_user { get; set; }
+        public DbSet<user_access_log> user_access_log { get; set; }
+        public DbSet<user_login_log> user_login_log { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<set_inte_exchange> set_inte_exchange { get; set; }
     }
 }
