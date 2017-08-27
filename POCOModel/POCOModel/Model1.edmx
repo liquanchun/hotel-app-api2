@@ -1,0 +1,537 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="set_allhouse_price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="HalfPriceHours" Type="int" />
+          <Property Name="AllPriceHours" Type="int" />
+          <Property Name="LeaveTime" Type="varchar" MaxLength="255" />
+          <Property Name="AddFeeHours" Type="int" />
+          <Property Name="AddFeeType" Type="varchar" MaxLength="255" />
+          <Property Name="AddAllDay" Type="varchar" MaxLength="255" />
+          <Property Name="AddAllHours" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="set_card">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Level" Type="int" />
+          <Property Name="CardFee" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="IsRecharge" Type="bit" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="set_card_upgrade">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OldCard" Type="varchar" MaxLength="255" />
+          <Property Name="NewCard" Type="varchar" MaxLength="255" />
+          <Property Name="NeedInte" Type="int" />
+          <Property Name="TakeInte" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="set_hourhouse_price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Hours" Type="int" />
+          <Property Name="HalfPriceHours" Type="int" />
+          <Property Name="CheckInTime1" Type="varchar" MaxLength="255" />
+          <Property Name="CheckInTime2" Type="varchar" MaxLength="255" />
+          <Property Name="AddBuffTime" Type="int" />
+          <Property Name="TurnNormal" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="set_house_type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="AllPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="StartPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="AddPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="AddMaxPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="PreReceiveFee" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'def.hotel-app.set_inte_exchange' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="set_inte_exchange">
+          <Property Name="Id" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="ExchangeType" Type="varchar" MaxLength="255" />
+          <Property Name="CardType" Type="varchar" MaxLength="255" />
+          <Property Name="GiftName" Type="varchar" MaxLength="255" />
+          <Property Name="ExchangeInte" Type="int" />
+          <Property Name="StartDate" Type="datetime" Precision="0" />
+          <Property Name="EndDate" Type="datetime" Precision="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>-->
+        <EntityType Name="set_inte_house">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="TakeInte" Type="int" />
+          <Property Name="CardType" Type="varchar" MaxLength="255" />
+          <Property Name="HouseType" Type="varchar" MaxLength="255" />
+          <Property Name="UseWeeks" Type="varchar" MaxLength="255" />
+          <Property Name="StartDate" Type="datetime" Precision="0" />
+          <Property Name="EndDate" Type="datetime" Precision="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="set_integral">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="InteType" Type="varchar" MaxLength="255" />
+          <Property Name="CardType" Type="varchar" MaxLength="255" />
+          <Property Name="DayOrFee" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Integral" Type="int" />
+          <Property Name="StartDate" Type="datetime" Precision="0" />
+          <Property Name="EndDate" Type="datetime" Precision="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="set_otherhouse_price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="HalfPriceHours" Type="int" />
+          <Property Name="AllPriceHours" Type="int" />
+          <Property Name="CheckInTime1" Type="varchar" MaxLength="255" />
+          <Property Name="CheckInTime2" Type="varchar" MaxLength="255" />
+          <Property Name="LeaveTime" Type="varchar" MaxLength="255" />
+          <Property Name="AddBuffTime" Type="int" />
+          <Property Name="AddFeeType" Type="varchar" MaxLength="255" />
+          <Property Name="TurnNormal" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="sys_dic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DicName" Type="varchar" MaxLength="255" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="set_allhouse_price" EntityType="Self.set_allhouse_price" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_card" EntityType="Self.set_card" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_card_upgrade" EntityType="Self.set_card_upgrade" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_hourhouse_price" EntityType="Self.set_hourhouse_price" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_house_type" EntityType="Self.set_house_type" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_inte_house" EntityType="Self.set_inte_house" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_integral" EntityType="Self.set_integral" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_otherhouse_price" EntityType="Self.set_otherhouse_price" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="sys_dic" EntityType="Self.sys_dic" Schema="hotel-app" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sys_dic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DicName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="CreateAt" Type="DateTime" />
+          <Property Name="CreatedAt" Type="DateTime" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sys_dic" EntityType="Self.sys_dic" />
+          <EntitySet Name="set_allhouse_price" EntityType="Model.set_allhouse_price" />
+          <EntitySet Name="set_card" EntityType="Model.set_card" />
+          <EntitySet Name="set_card_upgrade" EntityType="Model.set_card_upgrade" />
+          <EntitySet Name="set_hourhouse_price" EntityType="Model.set_hourhouse_price" />
+          <EntitySet Name="set_house_type" EntityType="Model.set_house_type" />
+          <EntitySet Name="set_inte_house" EntityType="Model.set_inte_house" />
+          <EntitySet Name="set_integral" EntityType="Model.set_integral" />
+          <EntitySet Name="set_otherhouse_price" EntityType="Model.set_otherhouse_price" />
+        </EntityContainer>
+        <EntityType Name="set_allhouse_price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HalfPriceHours" Type="Int32" />
+          <Property Name="AllPriceHours" Type="Int32" />
+          <Property Name="LeaveTime" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AddFeeHours" Type="Int32" />
+          <Property Name="AddFeeType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AddAllDay" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AddAllHours" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_card">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Level" Type="Int32" />
+          <Property Name="CardFee" Type="Decimal" />
+          <Property Name="IsRecharge" Type="Boolean" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_card_upgrade">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OldCard" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NewCard" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NeedInte" Type="Int32" />
+          <Property Name="TakeInte" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_hourhouse_price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Hours" Type="Int32" />
+          <Property Name="HalfPriceHours" Type="Int32" />
+          <Property Name="CheckInTime1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CheckInTime2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AddBuffTime" Type="Int32" />
+          <Property Name="TurnNormal" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_house_type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AllPrice" Type="Decimal" />
+          <Property Name="StartPrice" Type="Decimal" />
+          <Property Name="AddPrice" Type="Decimal" />
+          <Property Name="AddMaxPrice" Type="Decimal" />
+          <Property Name="PreReceiveFee" Type="Decimal" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_inte_house">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TakeInte" Type="Int32" />
+          <Property Name="CardType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HouseType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UseWeeks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StartDate" Type="DateTime" />
+          <Property Name="EndDate" Type="DateTime" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_integral">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="InteType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CardType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DayOrFee" Type="Decimal" />
+          <Property Name="Integral" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" />
+          <Property Name="EndDate" Type="DateTime" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_otherhouse_price">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HalfPriceHours" Type="Int32" />
+          <Property Name="AllPriceHours" Type="Int32" />
+          <Property Name="CheckInTime1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CheckInTime2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LeaveTime" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AddBuffTime" Type="Int32" />
+          <Property Name="AddFeeType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TurnNormal" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+          <Property Name="UpdatedAt" Type="DateTime" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="sys_dic">
+            <EntityTypeMapping TypeName="Model.sys_dic">
+              <MappingFragment StoreEntitySet="sys_dic">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DicName" ColumnName="DicName" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_allhouse_price">
+            <EntityTypeMapping TypeName="Model.set_allhouse_price">
+              <MappingFragment StoreEntitySet="set_allhouse_price">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="AddAllHours" ColumnName="AddAllHours" />
+                <ScalarProperty Name="AddAllDay" ColumnName="AddAllDay" />
+                <ScalarProperty Name="AddFeeType" ColumnName="AddFeeType" />
+                <ScalarProperty Name="AddFeeHours" ColumnName="AddFeeHours" />
+                <ScalarProperty Name="LeaveTime" ColumnName="LeaveTime" />
+                <ScalarProperty Name="AllPriceHours" ColumnName="AllPriceHours" />
+                <ScalarProperty Name="HalfPriceHours" ColumnName="HalfPriceHours" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_card">
+            <EntityTypeMapping TypeName="Model.set_card">
+              <MappingFragment StoreEntitySet="set_card">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsRecharge" ColumnName="IsRecharge" />
+                <ScalarProperty Name="CardFee" ColumnName="CardFee" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_card_upgrade">
+            <EntityTypeMapping TypeName="Model.set_card_upgrade">
+              <MappingFragment StoreEntitySet="set_card_upgrade">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TakeInte" ColumnName="TakeInte" />
+                <ScalarProperty Name="NeedInte" ColumnName="NeedInte" />
+                <ScalarProperty Name="NewCard" ColumnName="NewCard" />
+                <ScalarProperty Name="OldCard" ColumnName="OldCard" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_hourhouse_price">
+            <EntityTypeMapping TypeName="Model.set_hourhouse_price">
+              <MappingFragment StoreEntitySet="set_hourhouse_price">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TurnNormal" ColumnName="TurnNormal" />
+                <ScalarProperty Name="AddBuffTime" ColumnName="AddBuffTime" />
+                <ScalarProperty Name="CheckInTime2" ColumnName="CheckInTime2" />
+                <ScalarProperty Name="CheckInTime1" ColumnName="CheckInTime1" />
+                <ScalarProperty Name="HalfPriceHours" ColumnName="HalfPriceHours" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_house_type">
+            <EntityTypeMapping TypeName="Model.set_house_type">
+              <MappingFragment StoreEntitySet="set_house_type">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="PreReceiveFee" ColumnName="PreReceiveFee" />
+                <ScalarProperty Name="AddMaxPrice" ColumnName="AddMaxPrice" />
+                <ScalarProperty Name="AddPrice" ColumnName="AddPrice" />
+                <ScalarProperty Name="StartPrice" ColumnName="StartPrice" />
+                <ScalarProperty Name="AllPrice" ColumnName="AllPrice" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_inte_house">
+            <EntityTypeMapping TypeName="Model.set_inte_house">
+              <MappingFragment StoreEntitySet="set_inte_house">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="UseWeeks" ColumnName="UseWeeks" />
+                <ScalarProperty Name="HouseType" ColumnName="HouseType" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+                <ScalarProperty Name="TakeInte" ColumnName="TakeInte" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_integral">
+            <EntityTypeMapping TypeName="Model.set_integral">
+              <MappingFragment StoreEntitySet="set_integral">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Integral" ColumnName="Integral" />
+                <ScalarProperty Name="DayOrFee" ColumnName="DayOrFee" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+                <ScalarProperty Name="InteType" ColumnName="InteType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_otherhouse_price">
+            <EntityTypeMapping TypeName="Model.set_otherhouse_price">
+              <MappingFragment StoreEntitySet="set_otherhouse_price">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TurnNormal" ColumnName="TurnNormal" />
+                <ScalarProperty Name="AddFeeType" ColumnName="AddFeeType" />
+                <ScalarProperty Name="AddBuffTime" ColumnName="AddBuffTime" />
+                <ScalarProperty Name="LeaveTime" ColumnName="LeaveTime" />
+                <ScalarProperty Name="CheckInTime2" ColumnName="CheckInTime2" />
+                <ScalarProperty Name="CheckInTime1" ColumnName="CheckInTime1" />
+                <ScalarProperty Name="AllPriceHours" ColumnName="AllPriceHours" />
+                <ScalarProperty Name="HalfPriceHours" ColumnName="HalfPriceHours" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

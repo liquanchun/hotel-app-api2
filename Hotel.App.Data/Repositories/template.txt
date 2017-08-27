@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Hotel.App.Model.{sys};
+using Hotel.App.Data;
+using Hotel.App.Data.Repositories;
+using Hotel.App.Data.Abstract;
+
+namespace Hotel.App.Data.Repositories
+{
+    public class {table_name_U}Repository : EntityBaseRepository<{table_name}>, I{table_name_U}Repository
+    {
+        public {table_name_U}Repository(HotelAppContext context)
+            : base(context)
+        { }
+    }
+}
