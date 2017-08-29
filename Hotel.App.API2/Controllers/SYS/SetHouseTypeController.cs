@@ -44,14 +44,15 @@ namespace Hotel.App.API2.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]set_house_type value)
+        public IActionResult Post([FromBody]set_house_type value)
         {
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
+            value.IsValid = true;
             var identity = User.Identity as ClaimsIdentity;
             if(identity != null)
             {
-                value.CreatedBy = identity.Name;
+                value.CreatedBy = identity.Name ?? "test";
             }
             _setHouseTypeRpt.Add(value);
             _setHouseTypeRpt.Commit();
@@ -71,10 +72,17 @@ namespace Hotel.App.API2.Controllers
             {
 				//更新字段内容
 				single.UpdatedAt = DateTime.Now;
+                single.AddMaxPrice = value.AddMaxPrice;
+                single.AddPrice = value.AddPrice;
+                single.AllPrice = value.AllPrice;
+                single.PreReceiveFee = value.PreReceiveFee;
+                single.Remark = value.Remark;
+                single.StartPrice = value.StartPrice;
+                single.TypeName = value.TypeName;
 				var identity = User.Identity as ClaimsIdentity;
 				if(identity != null)
 				{
-					value.CreatedBy = identity.Name;
+					value.CreatedBy = identity.Name ?? "test";
 				}
                 _setHouseTypeRpt.Commit();
             }

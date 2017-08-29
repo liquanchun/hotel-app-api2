@@ -105,6 +105,9 @@
     <Compile Include="set_integral.cs">
       <DependentUpon>Model3.tt</DependentUpon>
     </Compile>
+    <Compile Include="set_inte_exchange.cs">
+      <DependentUpon>Model3.tt</DependentUpon>
+    </Compile>
     <Compile Include="set_inte_house.cs">
       <DependentUpon>Model3.tt</DependentUpon>
     </Compile>

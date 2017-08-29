@@ -100,7 +100,7 @@ namespace Hotel.App.API2.Controllers
             var identity = User.Identity as ClaimsIdentity;
             if(identity != null)
             {
-                value.CreatedBy = identity.Name;
+                value.CreatedBy = identity.Name ?? "test";
             }
             _sysUserRpt.Add(value);
             _sysUserRpt.Commit();

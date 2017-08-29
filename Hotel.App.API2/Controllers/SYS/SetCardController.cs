@@ -44,22 +44,25 @@ namespace Hotel.App.API2.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]set_card value)
+        public async Task<IActionResult> Post([FromBody]SetCardDto value)
         {
-            value.CreatedAt = DateTime.Now;
-            value.UpdatedAt = DateTime.Now;
+           var entityDto = _mapper.Map<SetCardDto, set_card>(value);
+            entityDto.CreatedAt = DateTime.Now;
+            entityDto.UpdatedAt = DateTime.Now;
+            entityDto.IsValid = true;
+            entityDto.IsRecharge = value.InCome == "是";
             var identity = User.Identity as ClaimsIdentity;
             if(identity != null)
             {
-                value.CreatedBy = identity.Name;
+                entityDto.CreatedBy = identity.Name ?? "test";
             }
-            _setCardRpt.Add(value);
+            _setCardRpt.Add(entityDto);
             _setCardRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]set_card value)
+        public async Task<IActionResult> Put(int id, [FromBody]SetCardDto value)
         {
             var single = _setCardRpt.GetSingle(id);
 
@@ -71,10 +74,14 @@ namespace Hotel.App.API2.Controllers
             {
 				//更新字段内容
 				single.UpdatedAt = DateTime.Now;
-				var identity = User.Identity as ClaimsIdentity;
+                single.IsRecharge = value.InCome == "是";
+                single.Level = value.Level;
+                single.Name = value.Name;
+                single.Remark = value.Remark;
+                var identity = User.Identity as ClaimsIdentity;
 				if(identity != null)
 				{
-					value.CreatedBy = identity.Name;
+					value.CreatedBy = identity.Name ?? "test";
 				}
                 _setCardRpt.Commit();
             }

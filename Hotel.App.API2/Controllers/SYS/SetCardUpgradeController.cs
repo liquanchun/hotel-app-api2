@@ -48,10 +48,11 @@ namespace Hotel.App.API2.Controllers
         {
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
+            value.IsValid = true;
             var identity = User.Identity as ClaimsIdentity;
             if(identity != null)
             {
-                value.CreatedBy = identity.Name;
+                value.CreatedBy = identity.Name ?? "test";
             }
             _setCardUpgradeRpt.Add(value);
             _setCardUpgradeRpt.Commit();
@@ -71,10 +72,15 @@ namespace Hotel.App.API2.Controllers
             {
 				//更新字段内容
 				single.UpdatedAt = DateTime.Now;
+                single.NeedInte = value.NeedInte;
+                single.NewCard = value.NewCard;
+                single.OldCard = value.OldCard;
+                single.Remark = value.Remark;
+                single.TakeInte = value.TakeInte;
 				var identity = User.Identity as ClaimsIdentity;
 				if(identity != null)
 				{
-					value.CreatedBy = identity.Name;
+					value.CreatedBy = identity.Name ?? "test";
 				}
                 _setCardUpgradeRpt.Commit();
             }

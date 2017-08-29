@@ -48,10 +48,11 @@ namespace Hotel.App.API2.Controllers
         {
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
+            value.IsValid = true;
             var identity = User.Identity as ClaimsIdentity;
             if(identity != null)
             {
-                value.CreatedBy = identity.Name;
+                value.CreatedBy = identity.Name ?? "test";
             }
             _setOtherhousePriceRpt.Add(value);
             _setOtherhousePriceRpt.Commit();
@@ -74,7 +75,7 @@ namespace Hotel.App.API2.Controllers
 				var identity = User.Identity as ClaimsIdentity;
 				if(identity != null)
 				{
-					value.CreatedBy = identity.Name;
+                    value.CreatedBy = identity.Name ?? "test";
 				}
                 _setOtherhousePriceRpt.Commit();
             }

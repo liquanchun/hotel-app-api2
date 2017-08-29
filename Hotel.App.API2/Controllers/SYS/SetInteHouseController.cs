@@ -48,10 +48,11 @@ namespace Hotel.App.API2.Controllers
         {
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
+            value.IsValid = true;
             var identity = User.Identity as ClaimsIdentity;
             if(identity != null)
             {
-                value.CreatedBy = identity.Name;
+                value.CreatedBy = identity.Name ?? "test";
             }
             _setInteHouseRpt.Add(value);
             _setInteHouseRpt.Commit();
@@ -71,10 +72,18 @@ namespace Hotel.App.API2.Controllers
             {
 				//更新字段内容
 				single.UpdatedAt = DateTime.Now;
+                single.CardType = value.CardType;
+                single.EndDate = value.EndDate;
+                single.HouseType = value.HouseType;
+                single.Name = value.Name;
+                single.Remark = value.Remark;
+                single.StartDate = value.StartDate;
+                single.TakeInte = value.TakeInte;
+                single.UseWeeks = value.UseWeeks;
 				var identity = User.Identity as ClaimsIdentity;
 				if(identity != null)
 				{
-					value.CreatedBy = identity.Name;
+                    value.CreatedBy = identity.Name ?? "test";
 				}
                 _setInteHouseRpt.Commit();
             }
