@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Hotel.App.Model;
 using Hotel.App.Model.SYS;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Hotel.App.Data.Repositories.SYS;
+using Hotel.App.Model.House;
+using Hotel.App.Model.Store;
+using Hotel.App.Model.Sale;
 
 namespace Hotel.App.Data
 {
@@ -36,6 +38,27 @@ namespace Hotel.App.Data
         public DbSet<set_inte_house> SetInteHouses { get; set; }
         public DbSet<set_otherhouse_price> SetOtherhousePrices { get; set; }
 
+        public DbSet<set_agent> SetAgents { get; set; }
+        public DbSet<set_group> SetGroups { get; set; }
+        public DbSet<set_paytype> SetPaytypes { get; set; }
+        public DbSet<set_rent> SetRents { get; set; }
+
+        public DbSet<fw_clean> FwCleans { get; set; }
+        public DbSet<fw_cusgoods> FwCusgoodss { get; set; }
+        public DbSet<fw_houseinfo> FwHouseinfos { get; set; }
+        public DbSet<fw_repair> FwRepairs { get; set; }
+
+        public DbSet<kc_adddel> KcAdddels { get; set; }
+        public DbSet<kc_goods> KcGoodss { get; set; }
+        public DbSet<kc_store> KcStores { get; set; }
+        public DbSet<kc_storeexc> KcStoreexcs { get; set; }
+        public DbSet<kc_storein> KcStoreins { get; set; }
+        public DbSet<kc_storeout> KcStoreouts { get; set; }
+        public DbSet<kc_supplier> KcSuppliers { get; set; }
+
+        public DbSet<yx_book> YxBooks { get; set; }
+        public DbSet<yx_booklist> YxBooklists { get; set; }
+
         public HotelAppContext(DbContextOptions options) : base(options)
         {
         }
@@ -46,7 +69,7 @@ namespace Hotel.App.Data
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
-            _0SYSBuilder.Add(ref modelBuilder);
+            MyModelBuilder.Add(ref modelBuilder);
         }
     }
 }

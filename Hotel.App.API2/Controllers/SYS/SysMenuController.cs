@@ -14,38 +14,44 @@ namespace Hotel.App.API2.Controllers
     [Route("api/[controller]")]
     public class SysMenuController : Controller
     {
+        private readonly IMapper _mapper;
         private ISysMenuRepository _sysMenuRpt;
         private ISysRoleMenuRepository _sysRoleMenuRpt;
         private ISysRoleRepository _sysRoleRpt;
-        public SysMenuController(ISysMenuRepository sysMenuRpt,ISysRoleMenuRepository sysRoleMenuRpt, ISysRoleRepository sysRoleRpt)
+        public SysMenuController(ISysMenuRepository sysMenuRpt,
+            ISysRoleMenuRepository sysRoleMenuRpt,
+            ISysRoleRepository sysRoleRpt,
+            IMapper mapper)
         {
             _sysMenuRpt = sysMenuRpt;
             _sysRoleMenuRpt = sysRoleMenuRpt;
             _sysRoleRpt = sysRoleRpt;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
         public IActionResult Get()
         {
-            IEnumerable<sys_menu> _menusVM = _sysMenuRpt.FindBy(f => f.IsValid);
-            foreach (var item in _menusVM)
-            {
-                //角色名称转换
-                List<string> roleName = new List<string>();
-                if (!string.IsNullOrEmpty(item.RoleIds))
-                {
-                    string[] roleid = item.RoleIds.Split(",".ToCharArray());
-                    for (int i = 0; i < roleid.Length; i++)
-                    {
-                        var role = _sysRoleRpt.GetSingle(int.Parse(roleid[i]));
-                        if (role != null)
-                        {
-                            roleName.Add(role.RoleName);
-                        }
-                    }
-                }
-                //item.RoleNames = string.Join(",", roleName);
-            }
+            IEnumerable<sys_menu> _menusVM = _sysMenuRpt.FindBy(f => f.IsValid).OrderBy(f => f.MenuOrder);
+            //var entityDto = _mapper.Map<IEnumerable<sys_menu>, IEnumerable<SysMenuDto>>(_menusVM);
+            //foreach (var item in entityDto)
+            //{
+            //    //角色名称转换
+            //    List<string> roleName = new List<string>();
+            //    if (!string.IsNullOrEmpty(item.RoleIds))
+            //    {
+            //        string[] roleid = item.RoleIds.Split(",".ToCharArray());
+            //        for (int i = 0; i < roleid.Length; i++)
+            //        {
+            //            var role = _sysRoleRpt.GetSingle(int.Parse(roleid[i]));
+            //            if (role != null)
+            //            {
+            //                roleName.Add(role.RoleName);
+            //            }
+            //        }
+            //    }
+            //    item.RoleNames = string.Join(",", roleName);
+            //}
 
             return new OkObjectResult(_menusVM);
         }

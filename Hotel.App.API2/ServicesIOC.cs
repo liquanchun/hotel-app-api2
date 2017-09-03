@@ -35,6 +35,27 @@ namespace Hotel.App.API2
             services.AddScoped<ISetInteExchangeRepository, SetInteExchangeRepository>();
             services.AddScoped<ISetInteHouseRepository, SetInteHouseRepository>();
             services.AddScoped<ISetOtherhousePriceRepository, SetOtherhousePriceRepository>();
+
+            services.AddScoped<IFwCleanRepository, FwCleanRepository>();
+            services.AddScoped<IFwCusgoodsRepository, FwCusgoodsRepository>();
+            services.AddScoped<IFwHouseinfoRepository, FwHouseinfoRepository>();
+            services.AddScoped<IFwRepairRepository, FwRepairRepository>();
+
+            services.AddScoped<IKcAdddelRepository, KcAdddelRepository>();
+            services.AddScoped<IKcGoodsRepository, KcGoodsRepository>();
+            services.AddScoped<IKcStoreRepository, KcStoreRepository>();
+            services.AddScoped<IKcStoreexcRepository, KcStoreexcRepository>();
+            services.AddScoped<IKcStoreinRepository, KcStoreinRepository>();
+            services.AddScoped<IKcStoreoutRepository, KcStoreoutRepository>();
+            services.AddScoped<IKcSupplierRepository, KcSupplierRepository>();
+
+            services.AddScoped<ISetAgentRepository, SetAgentRepository>();
+            services.AddScoped<ISetGroupRepository, SetGroupRepository>();
+            services.AddScoped<ISetPaytypeRepository, SetPaytypeRepository>();
+            services.AddScoped<ISetRentRepository, SetRentRepository>();
+
+            services.AddScoped<IYxBookRepository, YxBookRepository>();
+            services.AddScoped<IYxBooklistRepository, YxBooklistRepository>();
         }
     }
 }

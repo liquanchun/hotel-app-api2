@@ -28,6 +28,24 @@
         <AssociationConnector Association="Model.sys_role_roleid" />
         <AssociationConnector Association="Model.sys_role_userid" />
         <EntityTypeShape EntityType="Model.set_inte_exchange" Width="1.5" PointX="14.375" PointY="11.75" />
+        <EntityTypeShape EntityType="Model.fw_clean" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.fw_cusgoods" Width="1.5" PointX="15.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Model.fw_houseinfo" Width="1.5" PointX="7.75" PointY="15.75" />
+        <EntityTypeShape EntityType="Model.fw_repair" Width="1.5" PointX="9.75" PointY="15.75" />
+        <EntityTypeShape EntityType="Model.kc_adddel" Width="1.5" PointX="11.75" PointY="15.75" />
+        <EntityTypeShape EntityType="Model.kc_goods" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Model.kc_store" Width="1.5" PointX="2.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Model.kc_storeexc" Width="1.5" PointX="4.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Model.kc_storein" Width="1.5" PointX="16.75" PointY="9.75" />
+        <EntityTypeShape EntityType="Model.kc_storeout" Width="1.5" PointX="13.75" PointY="16.75" />
+        <EntityTypeShape EntityType="Model.kc_supplier" Width="1.5" PointX="16.75" PointY="14.75" />
+        <EntityTypeShape EntityType="Model.set_agent" Width="1.5" PointX="17.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.set_group" Width="1.5" PointX="18.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Model.set_paytype" Width="1.5" PointX="18.75" PointY="12.75" />
+        <EntityTypeShape EntityType="Model.set_rent" Width="1.5" PointX="18.75" PointY="17.75" />
+        <EntityTypeShape EntityType="Model.user1" Width="1.5" PointX="19.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.yx_book" Width="1.5" PointX="6.75" PointY="19.75" />
+        <EntityTypeShape EntityType="Model.yx_booklist" Width="1.5" PointX="15.75" PointY="19.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

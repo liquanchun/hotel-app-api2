@@ -1,12 +1,15 @@
-﻿using Hotel.App.Model.SYS;
+﻿using Hotel.App.Model.House;
+using Hotel.App.Model.Sale;
+using Hotel.App.Model.Store;
+using Hotel.App.Model.SYS;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hotel.App.Data.Repositories.SYS
+namespace Hotel.App.Data
 {
-    public static class _0SYSBuilder
+    public static class MyModelBuilder
     {
         public static void Add(ref ModelBuilder modelBuilder)
         {
@@ -48,6 +51,27 @@ namespace Hotel.App.Data.Repositories.SYS
             modelBuilder.Entity<set_inte_exchange>().ToTable("set_inte_exchange");
             modelBuilder.Entity<set_inte_house>().ToTable("set_inte_house");
             modelBuilder.Entity<set_otherhouse_price>().ToTable("set_otherhouse_price");
+
+            modelBuilder.Entity<fw_clean>().ToTable("fw_clean");
+            modelBuilder.Entity<fw_cusgoods>().ToTable("fw_cusgoods");
+            modelBuilder.Entity<fw_houseinfo>().ToTable("fw_houseinfo");
+            modelBuilder.Entity<fw_repair>().ToTable("fw_repair");
+
+            modelBuilder.Entity<kc_adddel>().ToTable("kc_adddel");
+            modelBuilder.Entity<kc_goods>().ToTable("kc_goods");
+            modelBuilder.Entity<kc_store>().ToTable("kc_store");
+            modelBuilder.Entity<kc_storeexc>().ToTable("kc_storeexc");
+            modelBuilder.Entity<kc_storein>().ToTable("kc_storein");
+            modelBuilder.Entity<kc_storeout>().ToTable("kc_storeout");
+            modelBuilder.Entity<kc_supplier>().ToTable("kc_supplier");
+
+            modelBuilder.Entity<set_agent>().ToTable("set_agent");
+            modelBuilder.Entity<set_group>().ToTable("set_group");
+            modelBuilder.Entity<set_paytype>().ToTable("set_paytype");
+            modelBuilder.Entity<set_rent>().ToTable("set_rent");
+
+            modelBuilder.Entity<yx_book>().ToTable("yx_book");
+            modelBuilder.Entity<yx_booklist>().ToTable("yx_booklist");
         }
     }
 }

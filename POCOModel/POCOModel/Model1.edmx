@@ -5,6 +5,227 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fw_clean">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HouseCode" Type="varchar" MaxLength="255" />
+          <Property Name="CleanTime" Type="datetime" Precision="0" />
+          <Property Name="CleanMan" Type="varchar" MaxLength="255" />
+          <Property Name="IsOverStay" Type="bit" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="fw_cusgoods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" />
+          <Property Name="GoodsName" Type="varchar" MaxLength="255" />
+          <Property Name="GoodsPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="CusType" Type="varchar" MaxLength="255" />
+          <Property Name="HouseCode" Type="varchar" MaxLength="255" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="255" />
+          <Property Name="CusName" Type="varchar" MaxLength="255" />
+          <Property Name="Mobile" Type="varchar" MaxLength="255" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="fw_houseinfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Building" Type="varchar" MaxLength="255" />
+          <Property Name="Floor" Type="varchar" MaxLength="255" />
+          <Property Name="Code" Type="varchar" MaxLength="255" />
+          <Property Name="HouseType" Type="int" />
+          <Property Name="Tags" Type="varchar" MaxLength="255" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="fw_repair">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HouseCode" Type="varchar" MaxLength="255" />
+          <Property Name="StartTime" Type="datetime" Precision="0" />
+          <Property Name="EndTime" Type="datetime" Precision="0" />
+          <Property Name="Status" Type="varchar" MaxLength="255" />
+          <Property Name="Reason" Type="varchar" MaxLength="255" />
+          <Property Name="Result" Type="varchar" MaxLength="255" />
+          <Property Name="RepairMan" Type="varchar" MaxLength="255" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kc_adddel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="255" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" />
+          <Property Name="SupplierId" Type="int" />
+          <Property Name="InTime" Type="datetime" Precision="0" />
+          <Property Name="AddDel" Type="varchar" MaxLength="255" />
+          <Property Name="Storage" Type="varchar" MaxLength="255" />
+          <Property Name="Operator" Type="varchar" MaxLength="255" />
+          <Property Name="GoodsId" Type="int" />
+          <Property Name="GoodsAmount" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="GoodsPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kc_goods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" />
+          <Property Name="Unit" Type="varchar" MaxLength="255" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="EmpPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="MaxAmount" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="MinAmount" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kc_store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Storage" Type="varchar" MaxLength="255" />
+          <Property Name="GoodsId" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kc_storeexc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="255" />
+          <Property Name="StorageOut" Type="varchar" MaxLength="255" />
+          <Property Name="StorageIn" Type="varchar" MaxLength="255" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kc_storein">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="255" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" />
+          <Property Name="SupplierId" Type="int" />
+          <Property Name="InTime" Type="datetime" Precision="0" />
+          <Property Name="Storage" Type="varchar" MaxLength="255" />
+          <Property Name="Operator" Type="varchar" MaxLength="255" />
+          <Property Name="GoodsId" Type="int" />
+          <Property Name="GoodsAmount" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="GoodsPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kc_storeout">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="255" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" />
+          <Property Name="OutTime" Type="datetime" Precision="0" />
+          <Property Name="Storage" Type="varchar" MaxLength="255" />
+          <Property Name="Operator" Type="varchar" MaxLength="255" />
+          <Property Name="GoodsId" Type="int" />
+          <Property Name="GoodsAmount" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="GoodsPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="CheckInNo" Type="varchar" MaxLength="255" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kc_supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="LinkMan" Type="varchar" MaxLength="255" />
+          <Property Name="Tel" Type="varchar" MaxLength="255" />
+          <Property Name="Address" Type="varchar" MaxLength="255" />
+          <Property Name="BankName" Type="varchar" MaxLength="255" />
+          <Property Name="BankAcc" Type="varchar" MaxLength="255" />
+          <Property Name="BankAccNo" Type="varchar" MaxLength="255" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="set_agent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LinkMan" Type="varchar" MaxLength="255" />
+          <Property Name="Tel" Type="varchar" MaxLength="255" />
+          <Property Name="Mobile" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Address" Type="varchar" MaxLength="255" />
+          <Property Name="ContractNo" Type="varchar" MaxLength="255" />
+          <Property Name="ContractDate1" Type="date" />
+          <Property Name="ContractDate2" Type="date" />
+          <Property Name="AccountFee" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="AccountNo" Type="varchar" MaxLength="255" />
+          <Property Name="Seller" Type="varchar" MaxLength="255" />
+          <Property Name="Coupons" Type="int" />
+          <Property Name="CommissionType" Type="varchar" MaxLength="255" />
+          <Property Name="CommissionRate" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="set_allhouse_price">
           <Key>
             <PropertyRef Name="Id" />
@@ -19,10 +240,10 @@
           <Property Name="AddAllDay" Type="varchar" MaxLength="255" />
           <Property Name="AddAllHours" Type="int" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="set_card">
           <Key>
@@ -34,10 +255,10 @@
           <Property Name="CardFee" Type="decimal" Precision="10" Scale="0" />
           <Property Name="IsRecharge" Type="bit" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="set_card_upgrade">
           <Key>
@@ -49,10 +270,34 @@
           <Property Name="NeedInte" Type="int" />
           <Property Name="TakeInte" Type="int" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="set_group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LinkMan" Type="varchar" MaxLength="255" />
+          <Property Name="Tel" Type="varchar" MaxLength="255" />
+          <Property Name="Mobile" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Address" Type="varchar" MaxLength="255" />
+          <Property Name="ContractNo" Type="varchar" MaxLength="255" />
+          <Property Name="ContractDate1" Type="date" />
+          <Property Name="ContractDate2" Type="date" />
+          <Property Name="AccountFee" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="AccountNo" Type="varchar" MaxLength="255" />
+          <Property Name="Seller" Type="varchar" MaxLength="255" />
+          <Property Name="Coupons" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="set_hourhouse_price">
           <Key>
@@ -67,10 +312,10 @@
           <Property Name="AddBuffTime" Type="int" />
           <Property Name="TurnNormal" Type="int" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="set_house_type">
           <Key>
@@ -78,10 +323,10 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeName" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="AllPrice" Type="decimal" Precision="10" Scale="0" />
           <Property Name="StartPrice" Type="decimal" Precision="10" Scale="0" />
           <Property Name="AddPrice" Type="decimal" Precision="10" Scale="0" />
@@ -99,13 +344,13 @@
           <Property Name="CardType" Type="varchar" MaxLength="255" />
           <Property Name="GiftName" Type="varchar" MaxLength="255" />
           <Property Name="ExchangeInte" Type="int" />
-          <Property Name="StartDate" Type="datetime" Precision="0" />
-          <Property Name="EndDate" Type="datetime" Precision="0" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="set_inte_house">
           <Key>
@@ -117,13 +362,13 @@
           <Property Name="CardType" Type="varchar" MaxLength="255" />
           <Property Name="HouseType" Type="varchar" MaxLength="255" />
           <Property Name="UseWeeks" Type="varchar" MaxLength="255" />
-          <Property Name="StartDate" Type="datetime" Precision="0" />
-          <Property Name="EndDate" Type="datetime" Precision="0" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="set_integral">
           <Key>
@@ -135,13 +380,13 @@
           <Property Name="CardType" Type="varchar" MaxLength="255" />
           <Property Name="DayOrFee" Type="decimal" Precision="10" Scale="0" />
           <Property Name="Integral" Type="int" />
-          <Property Name="StartDate" Type="datetime" Precision="0" />
-          <Property Name="EndDate" Type="datetime" Precision="0" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="set_otherhouse_price">
           <Key>
@@ -158,10 +403,43 @@
           <Property Name="AddFeeType" Type="varchar" MaxLength="255" />
           <Property Name="TurnNormal" Type="int" />
           <Property Name="Remark" Type="varchar" MaxLength="255" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="0" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="set_paytype">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="PayType" Type="varchar" MaxLength="255" />
+          <Property Name="IsRecover" Type="bit" />
+          <Property Name="IsReturn" Type="bit" />
+          <Property Name="IsIntegral" Type="bit" />
+          <Property Name="IsDefault" Type="bit" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="set_rent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GoodsName" Type="varchar" MaxLength="255" />
+          <Property Name="RentPrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Compensation" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="sys_dic">
           <Key>
@@ -170,9 +448,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DicName" Type="varchar" MaxLength="255" />
           <Property Name="ParentId" Type="int" />
-          <Property Name="CreatedAt" Type="datetime" Precision="0" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
-          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="sys_function">
           <Key>
@@ -183,10 +461,10 @@
           <Property Name="FunctionAddr" Type="varchar" MaxLength="64" />
           <Property Name="Component" Type="varchar" MaxLength="64" />
           <Property Name="MenuId" Type="int" />
-          <Property Name="CreatedAt" Type="datetime" Precision="6" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
-          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="sys_menu">
           <Key>
@@ -200,9 +478,9 @@
           <Property Name="Icon" Type="varchar" MaxLength="64" />
           <Property Name="RoleIds" Type="varchar" MaxLength="64" />
           <Property Name="MenuOrder" Type="int" />
-          <Property Name="CreatedAt" Type="datetime" Precision="6" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
-          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="sys_org">
@@ -212,9 +490,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DeptName" Type="varchar" MaxLength="64" />
           <Property Name="ParentId" Type="int" />
-          <Property Name="CreatedAt" Type="datetime" Precision="6" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
-          <Property Name="IsValid" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="sys_role">
@@ -224,10 +502,10 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="16" />
           <Property Name="RoleDesc" Type="varchar" MaxLength="64" />
-          <Property Name="CreatedAt" Type="datetime" Precision="6" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
-          <Property Name="IsValid" Type="bit" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="sys_role_function">
           <Key>
@@ -267,9 +545,9 @@
           <Property Name="LastLoginTime" Type="datetime" Precision="6" />
           <Property Name="OrgId" Type="int" />
           <Property Name="RoleIds" Type="varchar" MaxLength="64" />
-          <Property Name="UpdatedAt" Type="datetime" Precision="6" />
-          <Property Name="CreatedAt" Type="datetime" Precision="6" />
-          <Property Name="IsValid" Type="bit" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Precision="6" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="16" />
         </EntityType>
         <EntityType Name="user_access_log">
@@ -295,7 +573,7 @@
           <Property Name="CreatedAt" Type="datetime" Precision="6" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" Precision="6" />
         </EntityType>
-        <EntityType Name="Users">
+        <EntityType Name="users">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -304,40 +582,73 @@
           <Property Name="Avatar" Type="varchar" MaxLength="64" />
           <Property Name="Profession" Type="varchar" MaxLength="32" />
         </EntityType>
-        <Association Name="sys_role_roleid">
-          <End Role="sys_role" Type="Self.sys_role" Multiplicity="1" />
-          <End Role="sys_role_user" Type="Self.sys_role_user" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="sys_role">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="sys_role_user">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="sys_role_userid">
-          <End Role="sys_user" Type="Self.sys_user" Multiplicity="1" />
-          <End Role="sys_role_user" Type="Self.sys_role_user" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="sys_user">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="sys_role_user">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="yx_book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="255" />
+          <Property Name="CusName" Type="varchar" MaxLength="255" />
+          <Property Name="Mobile" Type="varchar" MaxLength="255" />
+          <Property Name="IDCard" Type="varchar" MaxLength="255" />
+          <Property Name="Status" Type="varchar" MaxLength="255" />
+          <Property Name="GroupId" Type="int" />
+          <Property Name="BookTime" Type="datetime" Precision="0" />
+          <Property Name="ReachTime" Type="datetime" Precision="0" />
+          <Property Name="Days" Type="int" />
+          <Property Name="LeaveTime" Type="datetime" Precision="0" />
+          <Property Name="RetainTime" Type="datetime" Precision="0" />
+          <Property Name="CheckInType" Type="varchar" MaxLength="255" />
+          <Property Name="CheckInMode" Type="varchar" MaxLength="255" />
+          <Property Name="Channels" Type="varchar" MaxLength="255" />
+          <Property Name="Deposit" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="BatchNo" Type="varchar" MaxLength="255" />
+          <Property Name="Saller" Type="varchar" MaxLength="255" />
+          <Property Name="OrderTaker" Type="varchar" MaxLength="255" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="yx_booklist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="255" />
+          <Property Name="HouseType" Type="int" />
+          <Property Name="HouseCode" Type="varchar" MaxLength="255" />
+          <Property Name="PriceActive" Type="varchar" MaxLength="255" />
+          <Property Name="PriceProject" Type="varchar" MaxLength="255" />
+          <Property Name="HousePrice" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Remark" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="fw_clean" EntityType="Self.fw_clean" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="fw_cusgoods" EntityType="Self.fw_cusgoods" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="fw_houseinfo" EntityType="Self.fw_houseinfo" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="fw_repair" EntityType="Self.fw_repair" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="kc_adddel" EntityType="Self.kc_adddel" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="kc_goods" EntityType="Self.kc_goods" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="kc_store" EntityType="Self.kc_store" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="kc_storeexc" EntityType="Self.kc_storeexc" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="kc_storein" EntityType="Self.kc_storein" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="kc_storeout" EntityType="Self.kc_storeout" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="kc_supplier" EntityType="Self.kc_supplier" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_agent" EntityType="Self.set_agent" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_allhouse_price" EntityType="Self.set_allhouse_price" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_card" EntityType="Self.set_card" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_card_upgrade" EntityType="Self.set_card_upgrade" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_group" EntityType="Self.set_group" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_hourhouse_price" EntityType="Self.set_hourhouse_price" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_house_type" EntityType="Self.set_house_type" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_inte_exchange" EntityType="Self.set_inte_exchange" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_inte_house" EntityType="Self.set_inte_house" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_integral" EntityType="Self.set_integral" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="set_otherhouse_price" EntityType="Self.set_otherhouse_price" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_paytype" EntityType="Self.set_paytype" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="set_rent" EntityType="Self.set_rent" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="sys_dic" EntityType="Self.sys_dic" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="sys_function" EntityType="Self.sys_function" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="sys_menu" EntityType="Self.sys_menu" Schema="hotel-app" store:Type="Tables" />
@@ -349,15 +660,9 @@
           <EntitySet Name="sys_user" EntityType="Self.sys_user" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="user_access_log" EntityType="Self.user_access_log" Schema="hotel-app" store:Type="Tables" />
           <EntitySet Name="user_login_log" EntityType="Self.user_login_log" Schema="hotel-app" store:Type="Tables" />
-          <EntitySet Name="Users" EntityType="Self.Users" Schema="hotel-app" store:Type="Tables" />
-          <AssociationSet Name="sys_role_roleid" Association="Self.sys_role_roleid">
-            <End Role="sys_role" EntitySet="sys_role" />
-            <End Role="sys_role_user" EntitySet="sys_role_user" />
-          </AssociationSet>
-          <AssociationSet Name="sys_role_userid" Association="Self.sys_role_userid">
-            <End Role="sys_user" EntitySet="sys_user" />
-            <End Role="sys_role_user" EntitySet="sys_role_user" />
-          </AssociationSet>
+          <EntitySet Name="users" EntityType="Self.users" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="yx_book" EntityType="Self.yx_book" Schema="hotel-app" store:Type="Tables" />
+          <EntitySet Name="yx_booklist" EntityType="Self.yx_booklist" Schema="hotel-app" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -405,6 +710,24 @@
             <End Role="sys_role_user" EntitySet="sys_role_user" />
           </AssociationSet>
           <EntitySet Name="set_inte_exchange" EntityType="Model.set_inte_exchange" />
+          <EntitySet Name="fw_clean" EntityType="Model.fw_clean" />
+          <EntitySet Name="fw_cusgoods" EntityType="Model.fw_cusgoods" />
+          <EntitySet Name="fw_houseinfo" EntityType="Model.fw_houseinfo" />
+          <EntitySet Name="fw_repair" EntityType="Model.fw_repair" />
+          <EntitySet Name="kc_adddel" EntityType="Model.kc_adddel" />
+          <EntitySet Name="kc_goods" EntityType="Model.kc_goods" />
+          <EntitySet Name="kc_store" EntityType="Model.kc_store" />
+          <EntitySet Name="kc_storeexc" EntityType="Model.kc_storeexc" />
+          <EntitySet Name="kc_storein" EntityType="Model.kc_storein" />
+          <EntitySet Name="kc_storeout" EntityType="Model.kc_storeout" />
+          <EntitySet Name="kc_supplier" EntityType="Model.kc_supplier" />
+          <EntitySet Name="set_agent" EntityType="Model.set_agent" />
+          <EntitySet Name="set_group" EntityType="Model.set_group" />
+          <EntitySet Name="set_paytype" EntityType="Model.set_paytype" />
+          <EntitySet Name="set_rent" EntityType="Model.set_rent" />
+          <EntitySet Name="user1" EntityType="Model.user1" />
+          <EntitySet Name="yx_book" EntityType="Model.yx_book" />
+          <EntitySet Name="yx_booklist" EntityType="Model.yx_booklist" />
         </EntityContainer>
         <EntityType Name="set_allhouse_price">
           <Key>
@@ -722,6 +1045,335 @@
           <Property Name="IsValid" Type="Boolean" />
           <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="fw_clean">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HouseCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CleanTime" Type="DateTime" />
+          <Property Name="CleanMan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsOverStay" Type="Boolean" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fw_cusgoods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GoodsName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GoodsPrice" Type="Decimal" />
+          <Property Name="CusType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HouseCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CusName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fw_houseinfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Building" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Floor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HouseType" Type="Int32" />
+          <Property Name="Tags" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fw_repair">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HouseCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StartTime" Type="DateTime" />
+          <Property Name="EndTime" Type="DateTime" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Result" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RepairMan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kc_adddel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="InTime" Type="DateTime" />
+          <Property Name="AddDel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Storage" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GoodsId" Type="Int32" />
+          <Property Name="GoodsAmount" Type="Decimal" />
+          <Property Name="GoodsPrice" Type="Decimal" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kc_goods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" />
+          <Property Name="EmpPrice" Type="Decimal" />
+          <Property Name="MaxAmount" Type="Decimal" />
+          <Property Name="MinAmount" Type="Decimal" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kc_store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Storage" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GoodsId" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" />
+          <Property Name="TotalPrice" Type="Decimal" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kc_storeexc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StorageOut" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StorageIn" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kc_storein">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="InTime" Type="DateTime" />
+          <Property Name="Storage" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GoodsId" Type="Int32" />
+          <Property Name="GoodsAmount" Type="Decimal" />
+          <Property Name="GoodsPrice" Type="Decimal" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kc_storeout">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OutTime" Type="DateTime" />
+          <Property Name="Storage" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Operator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GoodsId" Type="Int32" />
+          <Property Name="GoodsAmount" Type="Decimal" />
+          <Property Name="GoodsPrice" Type="Decimal" />
+          <Property Name="CheckInNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kc_supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LinkMan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Tel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BankName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BankAcc" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BankAccNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_agent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LinkMan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Tel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ContractNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ContractDate1" Type="DateTime" />
+          <Property Name="ContractDate2" Type="DateTime" />
+          <Property Name="AccountFee" Type="Decimal" />
+          <Property Name="AccountNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Seller" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Coupons" Type="Int32" />
+          <Property Name="CommissionType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CommissionRate" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LinkMan" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Tel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ContractNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ContractDate1" Type="DateTime" />
+          <Property Name="ContractDate2" Type="DateTime" />
+          <Property Name="AccountFee" Type="Decimal" />
+          <Property Name="AccountNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Seller" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Coupons" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_paytype">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PayType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsRecover" Type="Boolean" />
+          <Property Name="IsReturn" Type="Boolean" />
+          <Property Name="IsIntegral" Type="Boolean" />
+          <Property Name="IsDefault" Type="Boolean" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="set_rent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GoodsName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RentPrice" Type="Decimal" />
+          <Property Name="Compensation" Type="Decimal" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="user1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Avatar" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Profession" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="yx_book">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CusName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IDCard" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GroupId" Type="Int32" />
+          <Property Name="BookTime" Type="DateTime" />
+          <Property Name="ReachTime" Type="DateTime" />
+          <Property Name="Days" Type="Int32" />
+          <Property Name="LeaveTime" Type="DateTime" />
+          <Property Name="RetainTime" Type="DateTime" />
+          <Property Name="CheckInType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CheckInMode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Channels" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Deposit" Type="Decimal" />
+          <Property Name="BatchNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Saller" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OrderTaker" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="yx_booklist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HouseType" Type="Int32" />
+          <Property Name="HouseCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PriceActive" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PriceProject" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HousePrice" Type="Decimal" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1019,16 +1671,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="Model.User">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Profession" ColumnName="Profession" />
-                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="set_inte_exchange">
             <EntityTypeMapping TypeName="Model.set_inte_exchange">
               <MappingFragment StoreEntitySet="set_inte_exchange">
@@ -1044,6 +1686,353 @@
                 <ScalarProperty Name="CardType" ColumnName="CardType" />
                 <ScalarProperty Name="ExchangeType" ColumnName="ExchangeType" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fw_clean">
+            <EntityTypeMapping TypeName="Model.fw_clean">
+              <MappingFragment StoreEntitySet="fw_clean">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsOverStay" ColumnName="IsOverStay" />
+                <ScalarProperty Name="CleanMan" ColumnName="CleanMan" />
+                <ScalarProperty Name="CleanTime" ColumnName="CleanTime" />
+                <ScalarProperty Name="HouseCode" ColumnName="HouseCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fw_cusgoods">
+            <EntityTypeMapping TypeName="Model.fw_cusgoods">
+              <MappingFragment StoreEntitySet="fw_cusgoods">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="CusName" ColumnName="CusName" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="HouseCode" ColumnName="HouseCode" />
+                <ScalarProperty Name="CusType" ColumnName="CusType" />
+                <ScalarProperty Name="GoodsPrice" ColumnName="GoodsPrice" />
+                <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fw_houseinfo">
+            <EntityTypeMapping TypeName="Model.fw_houseinfo">
+              <MappingFragment StoreEntitySet="fw_houseinfo">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+                <ScalarProperty Name="HouseType" ColumnName="HouseType" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fw_repair">
+            <EntityTypeMapping TypeName="Model.fw_repair">
+              <MappingFragment StoreEntitySet="fw_repair">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="RepairMan" ColumnName="RepairMan" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="HouseCode" ColumnName="HouseCode" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kc_adddel">
+            <EntityTypeMapping TypeName="Model.kc_adddel">
+              <MappingFragment StoreEntitySet="kc_adddel">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="GoodsPrice" ColumnName="GoodsPrice" />
+                <ScalarProperty Name="GoodsAmount" ColumnName="GoodsAmount" />
+                <ScalarProperty Name="GoodsId" ColumnName="GoodsId" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Storage" ColumnName="Storage" />
+                <ScalarProperty Name="AddDel" ColumnName="AddDel" />
+                <ScalarProperty Name="InTime" ColumnName="InTime" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kc_goods">
+            <EntityTypeMapping TypeName="Model.kc_goods">
+              <MappingFragment StoreEntitySet="kc_goods">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="MinAmount" ColumnName="MinAmount" />
+                <ScalarProperty Name="MaxAmount" ColumnName="MaxAmount" />
+                <ScalarProperty Name="EmpPrice" ColumnName="EmpPrice" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kc_store">
+            <EntityTypeMapping TypeName="Model.kc_store">
+              <MappingFragment StoreEntitySet="kc_store">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="GoodsId" ColumnName="GoodsId" />
+                <ScalarProperty Name="Storage" ColumnName="Storage" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kc_storeexc">
+            <EntityTypeMapping TypeName="Model.kc_storeexc">
+              <MappingFragment StoreEntitySet="kc_storeexc">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="StorageIn" ColumnName="StorageIn" />
+                <ScalarProperty Name="StorageOut" ColumnName="StorageOut" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kc_storein">
+            <EntityTypeMapping TypeName="Model.kc_storein">
+              <MappingFragment StoreEntitySet="kc_storein">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="GoodsPrice" ColumnName="GoodsPrice" />
+                <ScalarProperty Name="GoodsAmount" ColumnName="GoodsAmount" />
+                <ScalarProperty Name="GoodsId" ColumnName="GoodsId" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Storage" ColumnName="Storage" />
+                <ScalarProperty Name="InTime" ColumnName="InTime" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kc_storeout">
+            <EntityTypeMapping TypeName="Model.kc_storeout">
+              <MappingFragment StoreEntitySet="kc_storeout">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CheckInNo" ColumnName="CheckInNo" />
+                <ScalarProperty Name="GoodsPrice" ColumnName="GoodsPrice" />
+                <ScalarProperty Name="GoodsAmount" ColumnName="GoodsAmount" />
+                <ScalarProperty Name="GoodsId" ColumnName="GoodsId" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Storage" ColumnName="Storage" />
+                <ScalarProperty Name="OutTime" ColumnName="OutTime" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kc_supplier">
+            <EntityTypeMapping TypeName="Model.kc_supplier">
+              <MappingFragment StoreEntitySet="kc_supplier">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="BankAccNo" ColumnName="BankAccNo" />
+                <ScalarProperty Name="BankAcc" ColumnName="BankAcc" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="LinkMan" ColumnName="LinkMan" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_agent">
+            <EntityTypeMapping TypeName="Model.set_agent">
+              <MappingFragment StoreEntitySet="set_agent">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="CommissionRate" ColumnName="CommissionRate" />
+                <ScalarProperty Name="CommissionType" ColumnName="CommissionType" />
+                <ScalarProperty Name="Coupons" ColumnName="Coupons" />
+                <ScalarProperty Name="Seller" ColumnName="Seller" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="AccountFee" ColumnName="AccountFee" />
+                <ScalarProperty Name="ContractDate2" ColumnName="ContractDate2" />
+                <ScalarProperty Name="ContractDate1" ColumnName="ContractDate1" />
+                <ScalarProperty Name="ContractNo" ColumnName="ContractNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="LinkMan" ColumnName="LinkMan" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_group">
+            <EntityTypeMapping TypeName="Model.set_group">
+              <MappingFragment StoreEntitySet="set_group">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Coupons" ColumnName="Coupons" />
+                <ScalarProperty Name="Seller" ColumnName="Seller" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="AccountFee" ColumnName="AccountFee" />
+                <ScalarProperty Name="ContractDate2" ColumnName="ContractDate2" />
+                <ScalarProperty Name="ContractDate1" ColumnName="ContractDate1" />
+                <ScalarProperty Name="ContractNo" ColumnName="ContractNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="LinkMan" ColumnName="LinkMan" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_paytype">
+            <EntityTypeMapping TypeName="Model.set_paytype">
+              <MappingFragment StoreEntitySet="set_paytype">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="IsIntegral" ColumnName="IsIntegral" />
+                <ScalarProperty Name="IsReturn" ColumnName="IsReturn" />
+                <ScalarProperty Name="IsRecover" ColumnName="IsRecover" />
+                <ScalarProperty Name="PayType" ColumnName="PayType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="set_rent">
+            <EntityTypeMapping TypeName="Model.set_rent">
+              <MappingFragment StoreEntitySet="set_rent">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Compensation" ColumnName="Compensation" />
+                <ScalarProperty Name="RentPrice" ColumnName="RentPrice" />
+                <ScalarProperty Name="GoodsName" ColumnName="GoodsName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user1">
+            <EntityTypeMapping TypeName="Model.user1">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="Profession" ColumnName="Profession" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="yx_book">
+            <EntityTypeMapping TypeName="Model.yx_book">
+              <MappingFragment StoreEntitySet="yx_book">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="OrderTaker" ColumnName="OrderTaker" />
+                <ScalarProperty Name="Saller" ColumnName="Saller" />
+                <ScalarProperty Name="BatchNo" ColumnName="BatchNo" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="Channels" ColumnName="Channels" />
+                <ScalarProperty Name="CheckInMode" ColumnName="CheckInMode" />
+                <ScalarProperty Name="CheckInType" ColumnName="CheckInType" />
+                <ScalarProperty Name="RetainTime" ColumnName="RetainTime" />
+                <ScalarProperty Name="LeaveTime" ColumnName="LeaveTime" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="ReachTime" ColumnName="ReachTime" />
+                <ScalarProperty Name="BookTime" ColumnName="BookTime" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="CusName" ColumnName="CusName" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="yx_booklist">
+            <EntityTypeMapping TypeName="Model.yx_booklist">
+              <MappingFragment StoreEntitySet="yx_booklist">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="HousePrice" ColumnName="HousePrice" />
+                <ScalarProperty Name="PriceProject" ColumnName="PriceProject" />
+                <ScalarProperty Name="PriceActive" ColumnName="PriceActive" />
+                <ScalarProperty Name="HouseCode" ColumnName="HouseCode" />
+                <ScalarProperty Name="HouseType" ColumnName="HouseType" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

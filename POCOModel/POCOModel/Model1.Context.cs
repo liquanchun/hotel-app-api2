@@ -46,5 +46,23 @@ namespace POCOModel
         public DbSet<user_login_log> user_login_log { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<set_inte_exchange> set_inte_exchange { get; set; }
+        public DbSet<fw_clean> fw_clean { get; set; }
+        public DbSet<fw_cusgoods> fw_cusgoods { get; set; }
+        public DbSet<fw_houseinfo> fw_houseinfo { get; set; }
+        public DbSet<fw_repair> fw_repair { get; set; }
+        public DbSet<kc_adddel> kc_adddel { get; set; }
+        public DbSet<kc_goods> kc_goods { get; set; }
+        public DbSet<kc_store> kc_store { get; set; }
+        public DbSet<kc_storeexc> kc_storeexc { get; set; }
+        public DbSet<kc_storein> kc_storein { get; set; }
+        public DbSet<kc_storeout> kc_storeout { get; set; }
+        public DbSet<kc_supplier> kc_supplier { get; set; }
+        public DbSet<set_agent> set_agent { get; set; }
+        public DbSet<set_group> set_group { get; set; }
+        public DbSet<set_paytype> set_paytype { get; set; }
+        public DbSet<set_rent> set_rent { get; set; }
+        public DbSet<user1> user1 { get; set; }
+        public DbSet<yx_book> yx_book { get; set; }
+        public DbSet<yx_booklist> yx_booklist { get; set; }
     }
 }

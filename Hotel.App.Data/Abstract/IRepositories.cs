@@ -1,4 +1,7 @@
 ﻿using Hotel.App.Model;
+using Hotel.App.Model.House;
+using Hotel.App.Model.Sale;
+using Hotel.App.Model.Store;
 using Hotel.App.Model.SYS;
 using System;
 using System.Collections.Generic;
@@ -38,4 +41,25 @@ namespace Hotel.App.Data.Abstract
     public interface ISetInteExchangeRepository : IEntityBaseRepository<set_inte_exchange> { }
     public interface ISetInteHouseRepository : IEntityBaseRepository<set_inte_house> { }
     public interface ISetOtherhousePriceRepository : IEntityBaseRepository<set_otherhouse_price> { }
+
+    public interface IFwCleanRepository : IEntityBaseRepository<fw_clean> { }
+    public interface IFwCusgoodsRepository : IEntityBaseRepository<fw_cusgoods> { }
+    public interface IFwHouseinfoRepository : IEntityBaseRepository<fw_houseinfo> { }
+    public interface IFwRepairRepository : IEntityBaseRepository<fw_repair> { }
+
+    public interface IKcAdddelRepository : IEntityBaseRepository<kc_adddel> { }
+    public interface IKcGoodsRepository : IEntityBaseRepository<kc_goods> { }
+    public interface IKcStoreRepository : IEntityBaseRepository<kc_store> { }
+    public interface IKcStoreexcRepository : IEntityBaseRepository<kc_storeexc> { }
+    public interface IKcStoreinRepository : IEntityBaseRepository<kc_storein> { }
+    public interface IKcStoreoutRepository : IEntityBaseRepository<kc_storeout> { }
+    public interface IKcSupplierRepository : IEntityBaseRepository<kc_supplier> { }
+
+    public interface ISetAgentRepository : IEntityBaseRepository<set_agent> { }
+    public interface ISetGroupRepository : IEntityBaseRepository<set_group> { }
+    public interface ISetPaytypeRepository : IEntityBaseRepository<set_paytype> { }
+    public interface ISetRentRepository : IEntityBaseRepository<set_rent> { }
+
+    public interface IYxBookRepository : IEntityBaseRepository<yx_book> { }
+    public interface IYxBooklistRepository : IEntityBaseRepository<yx_booklist> { }
 }
