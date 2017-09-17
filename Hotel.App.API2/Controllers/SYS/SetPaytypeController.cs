@@ -8,6 +8,7 @@ using Hotel.App.Model.SYS;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.API2.Common;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -32,7 +33,9 @@ namespace Hotel.App.API2.Controllers
             {
 				entityDto = _setPaytypeRpt.FindBy(f => f.IsValid);
 			});
-            return new OkObjectResult(entityDto);
+            var entity = _mapper.Map<IEnumerable<set_paytype>, IEnumerable<SetPaytypeDto>>(entityDto);
+
+            return new OkObjectResult(entity);
         }
         // GET api/values/5
         [HttpGet("{id}")]
@@ -44,23 +47,24 @@ namespace Hotel.App.API2.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]set_paytype value)
+        public async Task<IActionResult> Post([FromBody]SetPaytypeDto value)
         {
-            value.CreatedAt = DateTime.Now;
-			value.UpdatedAt = DateTime.Now;
-            value.IsValid = true;
+            var entityDto = _mapper.Map<SetPaytypeDto, set_paytype>(value);
+            entityDto.CreatedAt = DateTime.Now;
+            entityDto.UpdatedAt = DateTime.Now;
+            entityDto.IsValid = true;
             var identity = User.Identity as ClaimsIdentity;
             if(identity != null)
             {
-                value.CreatedBy = identity.Name ?? "test";
+                entityDto.CreatedBy = identity.Name ?? "test";
             }
-            _setPaytypeRpt.Add(value);
+            _setPaytypeRpt.Add(entityDto);
             _setPaytypeRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]set_paytype value)
+        public async Task<IActionResult> Put(int id, [FromBody]SetPaytypeDto value)
         {
             var single = _setPaytypeRpt.GetSingle(id);
 
@@ -70,8 +74,10 @@ namespace Hotel.App.API2.Controllers
             }
             else
             {
-				//更新字段内容
-				single.UpdatedAt = DateTime.Now;
+                var entityDto = _mapper.Map<SetPaytypeDto, set_paytype>(value);
+                ObjectCopy.Copy<set_paytype>(single, entityDto,new string[] { "IsReturn", "Name", "PayType", "IsIntegral", "IsDefault", "Remark" });
+                //更新字段内容
+                single.UpdatedAt = DateTime.Now;
 				var identity = User.Identity as ClaimsIdentity;
 				if(identity != null)
 				{

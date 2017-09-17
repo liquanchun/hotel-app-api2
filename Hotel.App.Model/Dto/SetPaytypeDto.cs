@@ -12,16 +12,15 @@ namespace Hotel.App.Model.SYS
     using System;
     using System.Collections.Generic;
     
-    public partial class set_paytype : IEntityBase
+    public partial class SetPaytypeDto
     {
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public string PayType { get; set; }
-        public Nullable<bool> IsRecover { get; set; }
-        public bool IsReturn { get; set; }
-        public bool IsIntegral { get; set; }
-        public bool IsDefault { get; set; }
+        public string IsReturnT { get; set; }
+        public string IsIntegralT { get; set; }
+        public string IsDefaultT { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }

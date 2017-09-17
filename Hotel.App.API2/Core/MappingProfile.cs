@@ -17,6 +17,15 @@ namespace Hotel.App.API2.Core
 
             CreateMap<set_card, SetCardDto>();
             CreateMap<SetCardDto, set_card>();
+
+            CreateMap<set_paytype, SetPaytypeDto>()
+                .ForMember(d => d.IsReturnT, opt => opt.MapFrom(s => s.IsReturn ? "是":"否"))
+                .ForMember(d => d.IsIntegralT, opt => opt.MapFrom(s => s.IsIntegral ? "是" : "否"))
+                .ForMember(d => d.IsDefaultT, opt => opt.MapFrom(s => s.IsDefault ? "是" : "否"));
+            CreateMap<SetPaytypeDto, set_paytype>()
+                .ForMember(d => d.IsReturn, opt => opt.MapFrom(s => s.IsReturnT == "是"))
+                .ForMember(d => d.IsIntegral, opt => opt.MapFrom(s => s.IsIntegralT == "是"))
+                .ForMember(d => d.IsDefault, opt => opt.MapFrom(s => s.IsDefaultT == "是"));
         }
     }
 }

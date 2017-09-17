@@ -12,7 +12,7 @@ namespace Hotel.App.Model.SYS
     using System;
     using System.Collections.Generic;
     
-    public partial class SetCardDto : IEntityBase
+    public partial class SetCardDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
