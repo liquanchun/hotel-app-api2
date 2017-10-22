@@ -56,6 +56,7 @@ namespace Hotel.App.Data
             modelBuilder.Entity<fw_cusgoods>().ToTable("fw_cusgoods");
             modelBuilder.Entity<fw_houseinfo>().ToTable("fw_houseinfo");
             modelBuilder.Entity<fw_repair>().ToTable("fw_repair");
+            modelBuilder.Entity<fw_statelog>().ToTable("fw_statelog");
 
             modelBuilder.Entity<kc_adddel>().ToTable("kc_adddel");
             modelBuilder.Entity<kc_goods>().ToTable("kc_goods");

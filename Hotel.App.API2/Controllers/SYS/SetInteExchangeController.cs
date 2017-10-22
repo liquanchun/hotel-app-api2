@@ -16,7 +16,7 @@ namespace Hotel.App.API2.Controllers
     public class SetInteExchangeController : Controller
     {
 		private readonly IMapper _mapper;
-        private ISetInteExchangeRepository _setInteExchangeRpt;
+        private readonly ISetInteExchangeRepository _setInteExchangeRpt;
         public SetInteExchangeController(ISetInteExchangeRepository setInteExchangeRpt,
 				IMapper mapper)
         {
@@ -49,8 +49,7 @@ namespace Hotel.App.API2.Controllers
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
             value.IsValid = true;
-            var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
@@ -68,24 +67,20 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
+            //更新字段内容
+            single.UpdatedAt = DateTime.Now;
+            single.CardType = value.CardType;
+            single.EndDate = value.EndDate;
+            single.ExchangeInte = value.ExchangeInte;
+            single.ExchangeType = value.ExchangeType;
+            single.GiftName = value.GiftName;
+            single.Name = value.Name;
+            single.Remark = value.Remark;
+            if(User.Identity is ClaimsIdentity identity)
             {
-				//更新字段内容
-				single.UpdatedAt = DateTime.Now;
-                single.CardType = value.CardType;
-                single.EndDate = value.EndDate;
-                single.ExchangeInte = value.ExchangeInte;
-                single.ExchangeType = value.ExchangeType;
-                single.GiftName = value.GiftName;
-                single.Name = value.Name;
-                single.Remark = value.Remark;
-				var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
-				{
-					value.CreatedBy = identity.Name ?? "test";
-				}
-                _setInteExchangeRpt.Commit();
+                value.CreatedBy = identity.Name ?? "test";
             }
+            _setInteExchangeRpt.Commit();
             return new NoContentResult();
         }
 
@@ -98,13 +93,10 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _setInteExchangeRpt.Commit();
+            single.IsValid = false;
+            _setInteExchangeRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Hotel.App.API2.Controllers
     public class SetPaytypeController : Controller
     {
 		private readonly IMapper _mapper;
-        private ISetPaytypeRepository _setPaytypeRpt;
+        private readonly ISetPaytypeRepository _setPaytypeRpt;
         public SetPaytypeController(ISetPaytypeRepository setPaytypeRpt,
 				IMapper mapper)
         {
@@ -53,8 +53,7 @@ namespace Hotel.App.API2.Controllers
             entityDto.CreatedAt = DateTime.Now;
             entityDto.UpdatedAt = DateTime.Now;
             entityDto.IsValid = true;
-            var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 entityDto.CreatedBy = identity.Name ?? "test";
             }
@@ -72,19 +71,15 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
+            var entityDto = _mapper.Map<SetPaytypeDto, set_paytype>(value);
+            ObjectCopy.Copy<set_paytype>(single, entityDto,new string[] { "IsReturn", "Name", "PayType", "IsIntegral", "IsDefault", "Remark" });
+            //更新字段内容
+            single.UpdatedAt = DateTime.Now;
+            if(User.Identity is ClaimsIdentity identity)
             {
-                var entityDto = _mapper.Map<SetPaytypeDto, set_paytype>(value);
-                ObjectCopy.Copy<set_paytype>(single, entityDto,new string[] { "IsReturn", "Name", "PayType", "IsIntegral", "IsDefault", "Remark" });
-                //更新字段内容
-                single.UpdatedAt = DateTime.Now;
-				var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
-				{
-					value.CreatedBy = identity.Name ?? "test";
-				}
-                _setPaytypeRpt.Commit();
+                value.CreatedBy = identity.Name ?? "test";
             }
+            _setPaytypeRpt.Commit();
             return new NoContentResult();
         }
 
@@ -97,13 +92,10 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _setPaytypeRpt.Commit();
+            single.IsValid = false;
+            _setPaytypeRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

@@ -39,14 +39,11 @@ namespace Hotel.App.API2.Controllers
                     }
                 });
             }
-            else
+            return Json(new RequestResult
             {
-                return Json(new RequestResult
-                {
-                    State = RequestState.Failed,
-                    Msg = "Username or password is invalid"
-                });
-            }
+                State = RequestState.Failed,
+                Msg = "Username or password is invalid"
+            });
         }
 
         private string GenerateToken(User user, DateTime expires)

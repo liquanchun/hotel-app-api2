@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
-using Hotel.App.Model.Store;
+using Hotel.App.Model.House;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
@@ -13,24 +13,24 @@ using System.Security.Claims;
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
-    public class KcStoreController : Controller
+    public class FwStatelogController : Controller
     {
 		private readonly IMapper _mapper;
-        private readonly IKcStoreRepository _kcStoreRpt;
-        public KcStoreController(IKcStoreRepository kcStoreRpt,
+        private readonly IFwStatelogRepository _fwStatelogRpt;
+        public FwStatelogController(IFwStatelogRepository fwStatelogRpt,
 				IMapper mapper)
         {
-            _kcStoreRpt = kcStoreRpt;
+            _fwStatelogRpt = fwStatelogRpt;
 			_mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<kc_store> entityDto = null;
+		    IEnumerable<fw_statelog> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _kcStoreRpt.FindBy(f => f.IsValid);
+				entityDto = _fwStatelogRpt.FindBy(f => f.IsValid);
 			});
             return new OkObjectResult(entityDto);
         }
@@ -38,42 +38,42 @@ namespace Hotel.App.API2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var single = _kcStoreRpt.GetSingle(id);
+            var single = _fwStatelogRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]kc_store value)
+        public async Task<IActionResult> Post([FromBody]fw_statelog value)
         {
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
-            value.IsValid = true;
+			value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
-            _kcStoreRpt.Add(value);
-            _kcStoreRpt.Commit();
+            _fwStatelogRpt.Add(value);
+            _fwStatelogRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]kc_store value)
+        public async Task<IActionResult> Put(int id, [FromBody]fw_statelog value)
         {
-            var single = _kcStoreRpt.GetSingle(id);
+            var single = _fwStatelogRpt.GetSingle(id);
 
             if (single == null)
             {
                 return NotFound();
             }
-            //更新字段内容
-            single.UpdatedAt = DateTime.Now;
-            if(User.Identity is ClaimsIdentity identity)
-            {
-                value.CreatedBy = identity.Name ?? "test";
-            }
-            _kcStoreRpt.Commit();
+			//更新字段内容
+			single.UpdatedAt = DateTime.Now;
+			if(User.Identity is ClaimsIdentity identity)
+			{
+				value.CreatedBy = identity.Name ?? "test";
+			}
+            _fwStatelogRpt.Commit();
             return new NoContentResult();
         }
 
@@ -81,13 +81,14 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var single = _kcStoreRpt.GetSingle(id);
+            var single = _fwStatelogRpt.GetSingle(id);
             if (single == null)
             {
                 return new NotFoundResult();
             }
+
             single.IsValid = false;
-            _kcStoreRpt.Commit();
+            _fwStatelogRpt.Commit();
 
             return new NoContentResult();
         }

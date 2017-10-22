@@ -16,7 +16,7 @@ namespace Hotel.App.API2.Controllers
     public class SetOtherhousePriceController : Controller
     {
 		private readonly IMapper _mapper;
-        private ISetOtherhousePriceRepository _setOtherhousePriceRpt;
+        private readonly ISetOtherhousePriceRepository _setOtherhousePriceRpt;
         public SetOtherhousePriceController(ISetOtherhousePriceRepository setOtherhousePriceRpt,
 				IMapper mapper)
         {
@@ -49,8 +49,7 @@ namespace Hotel.App.API2.Controllers
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
             value.IsValid = true;
-            var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
@@ -68,17 +67,13 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
+            //更新字段内容
+            single.UpdatedAt = DateTime.Now;
+            if(User.Identity is ClaimsIdentity identity)
             {
-				//更新字段内容
-				single.UpdatedAt = DateTime.Now;
-				var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
-				{
-                    value.CreatedBy = identity.Name ?? "test";
-				}
-                _setOtherhousePriceRpt.Commit();
+                value.CreatedBy = identity.Name ?? "test";
             }
+            _setOtherhousePriceRpt.Commit();
             return new NoContentResult();
         }
 
@@ -91,13 +86,10 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _setOtherhousePriceRpt.Commit();
+            single.IsValid = false;
+            _setOtherhousePriceRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

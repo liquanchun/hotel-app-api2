@@ -13,7 +13,7 @@ namespace Hotel.App.API2.Controllers
     [Route("api/[controller]")]
     public class SysDicController : Controller
     {
-        private ISysDicRepository _sysDicRpt;
+        private readonly ISysDicRepository _sysDicRpt;
         public SysDicController(ISysDicRepository sysDicRpt)
         {
             _sysDicRpt = sysDicRpt;
@@ -36,7 +36,7 @@ namespace Hotel.App.API2.Controllers
         public IActionResult Post([FromBody]sys_dic value)
         {
             var oldSysDic = _sysDicRpt.FindBy(f => f.DicName == value.DicName);
-            if(oldSysDic.Count() > 0)
+            if(oldSysDic.Any())
             {
                 return BadRequest(string.Concat(value.DicName, "已经存在。"));
             }
@@ -55,18 +55,15 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            sys_dic _sysDic = _sysDicRpt.GetSingle(id);
-            if (_sysDic == null)
+            sys_dic sysDic = _sysDicRpt.GetSingle(id);
+            if (sysDic == null)
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                _sysDic.IsValid = false;
-                _sysDicRpt.Commit();
+            sysDic.IsValid = false;
+            _sysDicRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Hotel.App.API2.Controllers
     public class SetGroupController : Controller
     {
 		private readonly IMapper _mapper;
-        private ISetGroupRepository _setGroupRpt;
+        private readonly ISetGroupRepository _setGroupRpt;
         public SetGroupController(ISetGroupRepository setGroupRpt,
 				IMapper mapper)
         {
@@ -50,8 +50,7 @@ namespace Hotel.App.API2.Controllers
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
             value.IsValid = true;
-			var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
@@ -69,18 +68,14 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
+            ObjectCopy.Copy<set_group>(single, value, "address", "contractDate1", "contractDate2", "contractNo", "coupons", "linkMan", "mobile", "name", "remark");
+            //更新字段内容
+            single.UpdatedAt = DateTime.Now;
+            if(User.Identity is ClaimsIdentity identity)
             {
-                ObjectCopy.Copy<set_group>(single, value, new string[] { "address", "contractDate1", "contractDate2", "contractNo", "coupons", "linkMan", "mobile" , "name", "remark" });
-                //更新字段内容
-                single.UpdatedAt = DateTime.Now;
-				var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
-				{
-					value.CreatedBy = identity.Name ?? "test";
-				}
-                _setGroupRpt.Commit();
+                value.CreatedBy = identity.Name ?? "test";
             }
+            _setGroupRpt.Commit();
             return new NoContentResult();
         }
 
@@ -93,13 +88,10 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _setGroupRpt.Commit();
+            single.IsValid = false;
+            _setGroupRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

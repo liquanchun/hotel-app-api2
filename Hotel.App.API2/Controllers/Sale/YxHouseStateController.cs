@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
-using Hotel.App.Model.Store;
+using Hotel.App.Model.Sale;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
@@ -13,24 +13,24 @@ using System.Security.Claims;
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
-    public class KcStoreController : Controller
+    public class YxHouseStateController : Controller
     {
 		private readonly IMapper _mapper;
-        private readonly IKcStoreRepository _kcStoreRpt;
-        public KcStoreController(IKcStoreRepository kcStoreRpt,
+        private readonly IYxBookRepository _yxBookRpt;
+        public YxHouseStateController(IYxBookRepository yxBookRpt,
 				IMapper mapper)
         {
-            _kcStoreRpt = kcStoreRpt;
+            _yxBookRpt = yxBookRpt;
 			_mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<kc_store> entityDto = null;
+		    IEnumerable<yx_book> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _kcStoreRpt.FindBy(f => f.IsValid);
+				entityDto = _yxBookRpt.FindBy(f => f.IsValid);
 			});
             return new OkObjectResult(entityDto);
         }
@@ -38,13 +38,13 @@ namespace Hotel.App.API2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var single = _kcStoreRpt.GetSingle(id);
+            var single = _yxBookRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]kc_store value)
+        public async Task<IActionResult> Post([FromBody]yx_book value)
         {
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
@@ -53,15 +53,15 @@ namespace Hotel.App.API2.Controllers
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
-            _kcStoreRpt.Add(value);
-            _kcStoreRpt.Commit();
+            _yxBookRpt.Add(value);
+            _yxBookRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]kc_store value)
+        public async Task<IActionResult> Put(int id, [FromBody]yx_book value)
         {
-            var single = _kcStoreRpt.GetSingle(id);
+            var single = _yxBookRpt.GetSingle(id);
 
             if (single == null)
             {
@@ -73,7 +73,7 @@ namespace Hotel.App.API2.Controllers
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
-            _kcStoreRpt.Commit();
+            _yxBookRpt.Commit();
             return new NoContentResult();
         }
 
@@ -81,13 +81,13 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var single = _kcStoreRpt.GetSingle(id);
+            var single = _yxBookRpt.GetSingle(id);
             if (single == null)
             {
                 return new NotFoundResult();
             }
             single.IsValid = false;
-            _kcStoreRpt.Commit();
+            _yxBookRpt.Commit();
 
             return new NoContentResult();
         }

@@ -12,22 +12,16 @@ namespace Hotel.App.Model.House
     using System;
     using System.Collections.Generic;
     
-    public partial class fw_cusgoods : IEntityBase
+    public partial class fw_statelog : IEntityBase
     {
         public int Id { get; set; }
-        public string TypeName { get; set; }
-        public string GoodsName { get; set; }
-        public Nullable<decimal> GoodsPrice { get; set; }
-        public string CusType { get; set; }
         public string HouseCode { get; set; }
-        public string OrderNo { get; set; }
-        public string CusName { get; set; }
-        public string Mobile { get; set; }
+        public string OldState { get; set; }
+        public string NewState { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
         public bool IsValid { get; set; }
         public string CreatedBy { get; set; }
-        public string UpdatedBy { get; set; }
     }
 }

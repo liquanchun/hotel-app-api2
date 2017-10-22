@@ -14,9 +14,9 @@ namespace Hotel.App.API2.Controllers
     [Route("api/[controller]")]
     public class SysRoleController : Controller
     {
-        private ISysRoleRepository _sysRoleRpt;
+        private readonly ISysRoleRepository _sysRoleRpt;
         private ISysUserRepository _sysUserRpt;
-        private ISysRoleUserRepository _sysRoleUserRpt;
+        private readonly ISysRoleUserRepository _sysRoleUserRpt;
         public SysRoleController(ISysRoleRepository sysRoleRpt,ISysUserRepository sysUserRpt,ISysRoleUserRepository sysRoleUserRpt)
         {
             _sysRoleRpt = sysRoleRpt;
@@ -42,7 +42,7 @@ namespace Hotel.App.API2.Controllers
         public IActionResult Post([FromBody]sys_role value)
         {
             var oldSysRole = _sysRoleRpt.FindBy(f => f.RoleName == value.RoleName);
-            if(oldSysRole.Count() > 0)
+            if(oldSysRole.Any())
             {
                 return BadRequest(string.Concat(value.RoleName, "已经存在。"));
             }
@@ -63,22 +63,19 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            sys_role _sysRole = _sysRoleRpt.GetSingle(id);
-            if (_sysRole == null)
+            sys_role sysRole = _sysRoleRpt.GetSingle(id);
+            if (sysRole == null)
             {
                 return new NotFoundResult();
             }
-            else
+            if(_sysRoleUserRpt.FindBy(f => f.RoleId == sysRole.Id).Any())
             {
-                if(_sysRoleUserRpt.FindBy(f => f.RoleId == _sysRole.Id).Count() > 0)
-                {
-                    return BadRequest(string.Concat(_sysRole.RoleName, "已经关联用户，不能删除。"));
-                }
-                _sysRole.IsValid = false;
-                _sysRoleRpt.Commit();
-
-                return new NoContentResult();
+                return BadRequest(string.Concat(sysRole.RoleName, "已经关联用户，不能删除。"));
             }
+            sysRole.IsValid = false;
+            _sysRoleRpt.Commit();
+
+            return new NoContentResult();
         }
     }
 }

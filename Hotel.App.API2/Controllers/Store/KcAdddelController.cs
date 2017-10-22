@@ -16,7 +16,7 @@ namespace Hotel.App.API2.Controllers
     public class KcAdddelController : Controller
     {
 		private readonly IMapper _mapper;
-        private IKcAdddelRepository _kcAdddelRpt;
+        private readonly IKcAdddelRepository _kcAdddelRpt;
         public KcAdddelController(IKcAdddelRepository kcAdddelRpt,
 				IMapper mapper)
         {
@@ -49,8 +49,7 @@ namespace Hotel.App.API2.Controllers
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
             value.IsValid = true;
-            var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
@@ -72,8 +71,7 @@ namespace Hotel.App.API2.Controllers
             {
 				//更新字段内容
 				single.UpdatedAt = DateTime.Now;
-				var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
+                if(User.Identity is ClaimsIdentity identity)
 				{
 					value.CreatedBy = identity.Name ?? "test";
 				}
@@ -91,13 +89,10 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _kcAdddelRpt.Commit();
+            single.IsValid = false;
+            _kcAdddelRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

@@ -40,6 +40,7 @@ namespace Hotel.App.API2
             services.AddScoped<IFwCusgoodsRepository, FwCusgoodsRepository>();
             services.AddScoped<IFwHouseinfoRepository, FwHouseinfoRepository>();
             services.AddScoped<IFwRepairRepository, FwRepairRepository>();
+            services.AddScoped<IFwStatelogRepository, FwStatelogRepository>();
 
             services.AddScoped<IKcAdddelRepository, KcAdddelRepository>();
             services.AddScoped<IKcGoodsRepository, KcGoodsRepository>();

@@ -23,7 +23,7 @@ namespace Hotel.App.API2.Common
             PropertyInfo[] pi = type.GetProperties();
             foreach (var item in par)
             {
-                var temp = pi.Where(x => x.Name.Equals(item, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                var temp = pi.FirstOrDefault(x => x.Name.Equals(item, StringComparison.OrdinalIgnoreCase));
                 if (temp != null)
                     temp.SetValue(model1, temp.GetValue(model2, null), null);
             }

@@ -46,6 +46,7 @@ namespace Hotel.App.Data.Abstract
     public interface IFwCusgoodsRepository : IEntityBaseRepository<fw_cusgoods> { }
     public interface IFwHouseinfoRepository : IEntityBaseRepository<fw_houseinfo> { }
     public interface IFwRepairRepository : IEntityBaseRepository<fw_repair> { }
+    public interface IFwStatelogRepository : IEntityBaseRepository<fw_statelog> { }
 
     public interface IKcAdddelRepository : IEntityBaseRepository<kc_adddel> { }
     public interface IKcGoodsRepository : IEntityBaseRepository<kc_goods> { }

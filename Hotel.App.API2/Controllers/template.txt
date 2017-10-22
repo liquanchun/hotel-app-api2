@@ -16,7 +16,7 @@ namespace Hotel.App.API2.Controllers
     public class {table_name_U}Controller : Controller
     {
 		private readonly IMapper _mapper;
-        private I{table_name_U}Repository _{table_name_L}Rpt;
+        private readonly I{table_name_U}Repository _{table_name_L}Rpt;
         public {table_name_U}Controller(I{table_name_U}Repository {table_name_L}Rpt,
 				IMapper mapper)
         {
@@ -49,8 +49,7 @@ namespace Hotel.App.API2.Controllers
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
 			value.IsValid = true;
-			var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
@@ -68,17 +67,13 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
-            {
-				//更新字段内容
-				single.UpdatedAt = DateTime.Now;
-				var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
-				{
-					value.CreatedBy = identity.Name ?? "test";
-				}
-                _{table_name_L}Rpt.Commit();
-            }
+			//更新字段内容
+			single.UpdatedAt = DateTime.Now;
+			if(User.Identity is ClaimsIdentity identity)
+			{
+				value.CreatedBy = identity.Name ?? "test";
+			}
+            _{table_name_L}Rpt.Commit();
             return new NoContentResult();
         }
 
@@ -91,13 +86,11 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _{table_name_L}Rpt.Commit();
 
-                return new NoContentResult();
-            }
+            single.IsValid = false;
+            _{table_name_L}Rpt.Commit();
+
+            return new NoContentResult();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace Hotel.App.API2
 {
-     public class RSAKeyHelper
+     public class RsaKeyHelper
     {
         public static RSAParameters GenerateKey()
         {

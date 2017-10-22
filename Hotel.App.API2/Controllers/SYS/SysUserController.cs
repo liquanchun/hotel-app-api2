@@ -16,9 +16,9 @@ namespace Hotel.App.API2.Controllers
     public class SysUserController : Controller
     {
         private readonly IMapper _mapper;
-        private ISysUserRepository _sysUserRpt;
-        private ISysRoleUserRepository _sysRoleUserRpt;
-        private ISysRoleRepository _sysRoleRpt;
+        private readonly ISysUserRepository _sysUserRpt;
+        private readonly ISysRoleUserRepository _sysRoleUserRpt;
+        private readonly ISysRoleRepository _sysRoleRpt;
         public SysUserController(ISysUserRepository sysUserRpt, 
             ISysRoleUserRepository sysRoleUserRpt, 
             ISysRoleRepository sysRoleRpt,
@@ -91,14 +91,13 @@ namespace Hotel.App.API2.Controllers
         public async Task<IActionResult> Post([FromBody]sys_user value)
         {
             var oldSysUser = _sysUserRpt.FindBy(f => f.UserId == value.UserId);
-            if(oldSysUser.Count() > 0)
+            if(oldSysUser.Any())
             {
                 return BadRequest(string.Concat(value.UserId, "已经存在。"));
             }
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
-            var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
@@ -126,24 +125,24 @@ namespace Hotel.App.API2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]sys_user value)
         {
-            sys_user _userDb = _sysUserRpt.GetSingle(id);
-            if (_userDb == null)
+            sys_user userDb = _sysUserRpt.GetSingle(id);
+            if (userDb == null)
             {
                 return NotFound();
             }
             else
             {
-                _userDb.IsValid = value.IsValid;
-                _userDb.Mobile = value.Mobile;
-                _userDb.Weixin = value.Weixin;
-                _userDb.Email = value.Email;
-                _userDb.UserId = value.UserId;
-                _userDb.UserName = value.UserName;
-                _userDb.UpdatedAt = DateTime.Now;
-                _userDb.RoleIds = value.RoleIds;
+                userDb.IsValid = value.IsValid;
+                userDb.Mobile = value.Mobile;
+                userDb.Weixin = value.Weixin;
+                userDb.Email = value.Email;
+                userDb.UserId = value.UserId;
+                userDb.UserName = value.UserName;
+                userDb.UpdatedAt = DateTime.Now;
+                userDb.RoleIds = value.RoleIds;
                 _sysUserRpt.Commit();
 
-                if (value.RoleIds != _userDb.RoleIds)
+                if (value.RoleIds != userDb.RoleIds)
                 {
                     //修改了用户角色
                     _sysRoleUserRpt.DeleteWhere(f => f.UserId == id);
@@ -167,17 +166,17 @@ namespace Hotel.App.API2.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            sys_user _sysUser = _sysUserRpt.GetSingle(id);
-            if (_sysUser == null)
+            sys_user sysUser = _sysUserRpt.GetSingle(id);
+            if (sysUser == null)
             {
                 return new NotFoundResult();
             }
             else
             {
                 //_sysUser.IsValid = false;
-                _sysUserRpt.Delete(_sysUser);
+                _sysUserRpt.Delete(sysUser);
                 _sysUserRpt.Commit();
                 return new NoContentResult();
             }

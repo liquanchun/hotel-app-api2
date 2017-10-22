@@ -16,7 +16,7 @@ namespace Hotel.App.API2.Controllers
     public class YxBooklistController : Controller
     {
 		private readonly IMapper _mapper;
-        private IYxBooklistRepository _yxBooklistRpt;
+        private readonly IYxBooklistRepository _yxBooklistRpt;
         public YxBooklistController(IYxBooklistRepository yxBooklistRpt,
 				IMapper mapper)
         {
@@ -60,11 +60,8 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
-            {
-				//更新字段内容
-                _yxBooklistRpt.Commit();
-            }
+            //更新字段内容
+            _yxBooklistRpt.Commit();
             return new NoContentResult();
         }
 
@@ -77,12 +74,9 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                _yxBooklistRpt.Commit();
+            _yxBooklistRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

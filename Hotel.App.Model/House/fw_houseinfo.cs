@@ -25,5 +25,6 @@ namespace Hotel.App.Model.House
         public System.DateTime UpdatedAt { get; set; }
         public bool IsValid { get; set; }
         public string CreatedBy { get; set; }
+        public string State { get; set; }
     }
 }

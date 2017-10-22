@@ -14,8 +14,8 @@ namespace Hotel.App.API2.Controllers
     [Route("api/[controller]")]
     public class SysOrgController : Controller
     {
-        private ISysOrgRepository _sysOrgRpt;
-        private ISysUserRepository _sysUserRpt;
+        private readonly ISysOrgRepository _sysOrgRpt;
+        private readonly ISysUserRepository _sysUserRpt;
         public SysOrgController(ISysOrgRepository sysOrgRpt,ISysUserRepository sysUserRpt)
         {
             _sysOrgRpt = sysOrgRpt;
@@ -50,7 +50,7 @@ namespace Hotel.App.API2.Controllers
         public IActionResult Post([FromBody]sys_org value)
         {
             var oldSysOrg = _sysOrgRpt.FindBy(f => f.DeptName == value.DeptName);
-            if(oldSysOrg.Count() > 0)
+            if(oldSysOrg.Any())
             {
                 return BadRequest(string.Concat(value.DeptName,"已经存在。"));
             }
@@ -88,23 +88,20 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            sys_org _sysOrg = _sysOrgRpt.GetSingle(id);
-            if (_sysOrg == null)
+            sys_org sysOrg = _sysOrgRpt.GetSingle(id);
+            if (sysOrg == null)
             {
                 return new NotFoundResult();
             }
-            else
+            if(_sysUserRpt.FindBy(f => f.OrgId == sysOrg.Id).Any())
             {
-                if(_sysUserRpt.FindBy(f => f.OrgId == _sysOrg.Id).Count() > 0)
-                {
-                    return BadRequest(string.Concat(_sysOrg.DeptName, "已经关联用户，不能删除。"));
-                }
-                _sysOrg.IsValid = false;
-
-                _sysOrgRpt.Commit();
-
-                return new NoContentResult();
+                return BadRequest(string.Concat(sysOrg.DeptName, "已经关联用户，不能删除。"));
             }
+            sysOrg.IsValid = false;
+
+            _sysOrgRpt.Commit();
+
+            return new NoContentResult();
         }
         /// <summary>
         /// 删除用户组织

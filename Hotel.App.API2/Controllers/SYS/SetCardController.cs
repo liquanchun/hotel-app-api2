@@ -16,7 +16,7 @@ namespace Hotel.App.API2.Controllers
     public class SetCardController : Controller
     {
 		private readonly IMapper _mapper;
-        private ISetCardRepository _setCardRpt;
+        private readonly ISetCardRepository _setCardRpt;
         public SetCardController(ISetCardRepository setCardRpt,
 				IMapper mapper)
         {
@@ -51,8 +51,7 @@ namespace Hotel.App.API2.Controllers
             entityDto.UpdatedAt = DateTime.Now;
             entityDto.IsValid = true;
             entityDto.IsRecharge = value.InCome == "是";
-            var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 entityDto.CreatedBy = identity.Name ?? "test";
             }
@@ -70,21 +69,17 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
+            //更新字段内容
+            single.UpdatedAt = DateTime.Now;
+            single.IsRecharge = value.InCome == "是";
+            single.Level = value.Level;
+            single.Name = value.Name;
+            single.Remark = value.Remark;
+            if(User.Identity is ClaimsIdentity identity)
             {
-				//更新字段内容
-				single.UpdatedAt = DateTime.Now;
-                single.IsRecharge = value.InCome == "是";
-                single.Level = value.Level;
-                single.Name = value.Name;
-                single.Remark = value.Remark;
-                var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
-				{
-					value.CreatedBy = identity.Name ?? "test";
-				}
-                _setCardRpt.Commit();
+                value.CreatedBy = identity.Name ?? "test";
             }
+            _setCardRpt.Commit();
             return new NoContentResult();
         }
 
@@ -97,13 +92,10 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _setCardRpt.Commit();
+            single.IsValid = false;
+            _setCardRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

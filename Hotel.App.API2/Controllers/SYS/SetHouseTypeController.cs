@@ -16,7 +16,7 @@ namespace Hotel.App.API2.Controllers
     public class SetHouseTypeController : Controller
     {
 		private readonly IMapper _mapper;
-        private ISetHouseTypeRepository _setHouseTypeRpt;
+        private readonly ISetHouseTypeRepository _setHouseTypeRpt;
         public SetHouseTypeController(ISetHouseTypeRepository setHouseTypeRpt,
 				IMapper mapper)
         {
@@ -49,8 +49,7 @@ namespace Hotel.App.API2.Controllers
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
             value.IsValid = true;
-            var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
@@ -68,24 +67,20 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
+            //更新字段内容
+            single.UpdatedAt = DateTime.Now;
+            single.AddMaxPrice = value.AddMaxPrice;
+            single.AddPrice = value.AddPrice;
+            single.AllPrice = value.AllPrice;
+            single.PreReceiveFee = value.PreReceiveFee;
+            single.Remark = value.Remark;
+            single.StartPrice = value.StartPrice;
+            single.TypeName = value.TypeName;
+            if(User.Identity is ClaimsIdentity identity)
             {
-				//更新字段内容
-				single.UpdatedAt = DateTime.Now;
-                single.AddMaxPrice = value.AddMaxPrice;
-                single.AddPrice = value.AddPrice;
-                single.AllPrice = value.AllPrice;
-                single.PreReceiveFee = value.PreReceiveFee;
-                single.Remark = value.Remark;
-                single.StartPrice = value.StartPrice;
-                single.TypeName = value.TypeName;
-				var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
-				{
-					value.CreatedBy = identity.Name ?? "test";
-				}
-                _setHouseTypeRpt.Commit();
+                value.CreatedBy = identity.Name ?? "test";
             }
+            _setHouseTypeRpt.Commit();
             return new NoContentResult();
         }
 
@@ -98,13 +93,10 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _setHouseTypeRpt.Commit();
+            single.IsValid = false;
+            _setHouseTypeRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
     }
 }

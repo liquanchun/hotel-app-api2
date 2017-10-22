@@ -17,7 +17,7 @@ namespace Hotel.App.API2.Controllers
     public class SetAgentController : Controller
     {
 		private readonly IMapper _mapper;
-        private ISetAgentRepository _setAgentRpt;
+        private readonly ISetAgentRepository _setAgentRpt;
         public SetAgentController(ISetAgentRepository setAgentRpt,
 				IMapper mapper)
         {
@@ -50,8 +50,7 @@ namespace Hotel.App.API2.Controllers
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
             value.IsValid = true;
-            var identity = User.Identity as ClaimsIdentity;
-            if(identity != null)
+            if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
@@ -74,8 +73,7 @@ namespace Hotel.App.API2.Controllers
                 ObjectCopy.Copy<set_agent>(single, value, new string[] { "name", "typeName", "linkMan", "mobile", "address", "contractNo", "contractDate1", "contractDate2", "commissionType", "commissionRate", "remark" });
                 //更新字段内容
                 single.UpdatedAt = DateTime.Now;
-				var identity = User.Identity as ClaimsIdentity;
-				if(identity != null)
+                if(User.Identity is ClaimsIdentity identity)
 				{
 					value.CreatedBy = identity.Name ?? "test";
 				}

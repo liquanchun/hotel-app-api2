@@ -47,6 +47,7 @@ namespace Hotel.App.Data
         public DbSet<fw_cusgoods> FwCusgoodss { get; set; }
         public DbSet<fw_houseinfo> FwHouseinfos { get; set; }
         public DbSet<fw_repair> FwRepairs { get; set; }
+        public DbSet<fw_statelog> FwStatelogs { get; set; }
 
         public DbSet<kc_adddel> KcAdddels { get; set; }
         public DbSet<kc_goods> KcGoodss { get; set; }

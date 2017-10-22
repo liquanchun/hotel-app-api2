@@ -7,6 +7,9 @@ using Hotel.App.Data.Abstract;
 using Hotel.App.Model.SYS;
 using AutoMapper;
 using Hotel.App.API2.Core;
+using Hotel.App.Data;
+using Microsoft.Azure.KeyVault.Models;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -15,17 +18,21 @@ namespace Hotel.App.API2.Controllers
     public class SysMenuController : Controller
     {
         private readonly IMapper _mapper;
-        private ISysMenuRepository _sysMenuRpt;
-        private ISysRoleMenuRepository _sysRoleMenuRpt;
+        private readonly ISysMenuRepository _sysMenuRpt;
+        private readonly ISysRoleMenuRepository _sysRoleMenuRpt;
         private ISysRoleRepository _sysRoleRpt;
+        private readonly HotelAppContext _context;
+
         public SysMenuController(ISysMenuRepository sysMenuRpt,
             ISysRoleMenuRepository sysRoleMenuRpt,
             ISysRoleRepository sysRoleRpt,
+            HotelAppContext context,
             IMapper mapper)
         {
             _sysMenuRpt = sysMenuRpt;
             _sysRoleMenuRpt = sysRoleMenuRpt;
             _sysRoleRpt = sysRoleRpt;
+            _context = context;
             _mapper = mapper;
         }
         // GET: api/values
@@ -73,17 +80,43 @@ namespace Hotel.App.API2.Controllers
         }
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]sys_menu value)
+        public IActionResult Post([FromBody] sys_menu value)
         {
             var oldSysMenu = _sysMenuRpt.FindBy(f => f.MenuName == value.MenuName);
-            if(oldSysMenu.Count() > 0)
+            if (oldSysMenu.Any())
             {
                 return BadRequest(string.Concat(value.MenuName, "已经存在。"));
             }
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
+            value.IsValid = true;
+
             _sysMenuRpt.Add(value);
-            _sysMenuRpt.Commit();
+            using (var tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _sysMenuRpt.Commit();
+                    this.SetMenuRoles(value);
+                    tran.Commit();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    tran.Rollback();
+                    return new BadRequestResult();;
+                }
+            }
+            return new OkObjectResult(value);
+        }
+
+        /// <summary>
+        /// 设置菜单权限
+        /// </summary>
+        /// <param name="value"></param>
+        private void SetMenuRoles(sys_menu value)
+        {
+            _sysRoleMenuRpt.DeleteWhere(f => f.MenuId == value.Id);
             if (!string.IsNullOrEmpty(value.RoleIds) && value.RoleIds.Length > 1)
             {
                 //新增用户角色关系表
@@ -98,13 +131,12 @@ namespace Hotel.App.API2.Controllers
                 }
                 _sysRoleMenuRpt.Commit();
             }
-            return new OkObjectResult(value);
         }
         /// <summary>
         /// 设置用户所属组织
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="uid"></param>
+        /// <param name="rid"></param>
         /// <returns></returns>
         // POST api/values
         [HttpPost("{id}/{rid}", Name = "NewRoleMenu")]
@@ -118,21 +150,33 @@ namespace Hotel.App.API2.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]sys_menu value)
         {
-            var _menuDb = _sysMenuRpt.GetSingle(id);
+            var menuDb = _sysMenuRpt.GetSingle(id);
 
-            if (_menuDb == null)
+            if (menuDb == null)
             {
                 return NotFound();
             }
-            else
+            menuDb.MenuName = value.MenuName;
+            menuDb.MenuOrder = value.MenuOrder;
+            menuDb.RoleIds = value.RoleIds;
+            menuDb.MenuAddr = value.MenuAddr;
+            menuDb.Icon = value.Icon;
+            menuDb.UpdatedAt = DateTime.Now;
+            menuDb.IsValid = true;
+            using (var tran = _context.Database.BeginTransaction())
             {
-                _menuDb.MenuName = value.MenuName;
-                _menuDb.MenuOrder = value.MenuOrder;
-                _menuDb.RoleIds = value.RoleIds;
-                _menuDb.MenuAddr = value.MenuAddr;
-                _menuDb.Icon = value.Icon;
-                _menuDb.UpdatedAt = DateTime.Now;
-                _sysMenuRpt.Commit();
+                try
+                {
+                    _sysMenuRpt.Commit();
+                    this.SetMenuRoles(menuDb);
+                    tran.Commit();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    tran.Rollback();
+                    return new BadRequestResult(); ;
+                }
             }
             return new NoContentResult();
         }
@@ -141,27 +185,25 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            sys_menu _sysMenu = _sysMenuRpt.GetSingle(id);
-            if (_sysMenu == null)
+            sys_menu sysMenu = _sysMenuRpt.GetSingle(id);
+            if (sysMenu == null)
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                _sysRoleMenuRpt.DeleteWhere(f => f.MenuId == id);
-                _sysRoleMenuRpt.Commit();
+            _sysRoleMenuRpt.DeleteWhere(f => f.MenuId == id);
+            _sysRoleMenuRpt.Commit();
 
-                _sysMenu.IsValid = false;
-                _sysMenuRpt.Commit();
+            sysMenu.IsValid = false;
+            _sysMenuRpt.Commit();
 
-                return new NoContentResult();
-            }
+            return new NoContentResult();
         }
+
         /// <summary>
         /// 删除用户组织
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="uid"></param>
+        /// <param name="rid"></param>
         /// <returns></returns>
         [HttpDelete("{id}/{rid}",Name ="DeleteRoleMenu")]
         public IActionResult DeleteRoleMenu(int id,int rid)
