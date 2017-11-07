@@ -12,6 +12,7 @@ namespace Hotel.App.Data.Abstract
         IEnumerable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties);
         IEnumerable<T> GetAll();
         int Count();
+        bool Exist(Expression<Func<T, bool>> predicate);
         T GetSingle(int id);
         T GetSingle(Expression<Func<T, bool>> predicate);
         T GetSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);

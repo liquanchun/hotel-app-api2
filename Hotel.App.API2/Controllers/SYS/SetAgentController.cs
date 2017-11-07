@@ -68,17 +68,14 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            else
+            ObjectCopy.Copy<set_agent>(single, value, new string[] { "name", "typeName", "linkMan", "mobile", "address", "contractNo", "contractDate1", "contractDate2", "commissionType", "commissionRate", "remark" });
+            //更新字段内容
+            single.UpdatedAt = DateTime.Now;
+            if(User.Identity is ClaimsIdentity identity)
             {
-                ObjectCopy.Copy<set_agent>(single, value, new string[] { "name", "typeName", "linkMan", "mobile", "address", "contractNo", "contractDate1", "contractDate2", "commissionType", "commissionRate", "remark" });
-                //更新字段内容
-                single.UpdatedAt = DateTime.Now;
-                if(User.Identity is ClaimsIdentity identity)
-				{
-					value.CreatedBy = identity.Name ?? "test";
-				}
-                _setAgentRpt.Commit();
+                value.CreatedBy = identity.Name ?? "test";
             }
+            _setAgentRpt.Commit();
             return new NoContentResult();
         }
 

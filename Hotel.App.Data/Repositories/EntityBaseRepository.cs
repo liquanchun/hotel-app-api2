@@ -31,6 +31,12 @@ namespace Hotel.App.Data.Repositories
         {
             return _context.Set<T>().Count();
         }
+
+        public virtual bool Exist(Expression<Func<T, bool>> predicate)
+        {
+            return _context.Set<T>().Count(predicate) > 0;
+        }
+
         public virtual IEnumerable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _context.Set<T>();

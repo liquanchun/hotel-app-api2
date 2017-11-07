@@ -8,6 +8,10 @@ using Hotel.App.Model.House;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.API2.Common;
+using Hotel.App.Model.SYS;
+using Newtonsoft.Json.Serialization;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -53,6 +57,10 @@ namespace Hotel.App.API2.Controllers
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
+            if (_fwHouseinfoRpt.Exist(f => f.Code == value.Code))
+            {
+                return BadRequest(string.Concat(value.Code, "已经存在。"));
+            }
             _fwHouseinfoRpt.Add(value);
             _fwHouseinfoRpt.Commit();
             return new OkObjectResult(value);
@@ -67,6 +75,7 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
+            ObjectCopy.Copy<fw_houseinfo>(single, value, new string[] { "floor", "houseType", "tags", "remark"});
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
             if(User.Identity is ClaimsIdentity identity)
