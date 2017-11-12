@@ -7,25 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Hotel.App.Model.SYS
+namespace Hotel.App.Model.House
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class set_inte_exchange : IEntityBase
+    public partial class FwHouseinfoDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string ExchangeType { get; set; }
-        public int CardType { get; set; }
-        public string GiftName { get; set; }
-        public Nullable<int> ExchangeInte { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
+        public string Building { get; set; }
+        public string Floor { get; set; }
+        public string Code { get; set; }
+        public int HouseType { get; set; }
+        public string HouseTypeTxt { get; set; }
+        public string Tags { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
         public bool IsValid { get; set; }
         public string CreatedBy { get; set; }
+        public string State { get; set; }
     }
 }

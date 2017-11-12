@@ -12,16 +12,15 @@ namespace Hotel.App.Model.SYS
     using System;
     using System.Collections.Generic;
     
-    public partial class set_integral : IEntityBase
+    public partial class SetCardUpgradeDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string InteType { get; set; }
-        public int CardType { get; set; }
-        public Nullable<decimal> DayOrFee { get; set; }
-        public Nullable<int> Integral { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
+        public int OldCard { get; set; }
+        public string OldCardTxt { get; set; }
+        public int NewCard { get; set; }
+        public string NewCardTxt { get; set; }
+        public Nullable<int> NeedInte { get; set; }
+        public Nullable<int> TakeInte { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }

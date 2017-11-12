@@ -75,6 +75,7 @@ namespace Hotel.App.API2.Controllers
             single.Level = value.Level;
             single.Name = value.Name;
             single.Remark = value.Remark;
+            single.CardFee = value.CardFee;
             if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";

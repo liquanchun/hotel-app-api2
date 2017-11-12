@@ -21,24 +21,32 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly IFwHouseinfoRepository _fwHouseinfoRpt;
-        public FwHouseinfoController(IFwHouseinfoRepository fwHouseinfoRpt,
-				IMapper mapper)
+        private readonly ISetHouseTypeRepository _setHouseTypeRpt;
+        public FwHouseinfoController(IFwHouseinfoRepository fwHouseinfoRpt, ISetHouseTypeRepository setHouseTypeRpt,
+                IMapper mapper)
         {
             _fwHouseinfoRpt = fwHouseinfoRpt;
-			_mapper = mapper;
+            _setHouseTypeRpt = setHouseTypeRpt;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<fw_houseinfo> entityDto = null;
+            IEnumerable<fw_houseinfo> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _fwHouseinfoRpt.FindBy(f => f.IsValid);
-			});
-            return new OkObjectResult(entityDto);
+                entityDto = _fwHouseinfoRpt.FindBy(f => f.IsValid);
+            });
+            var entity = _mapper.Map<IEnumerable<fw_houseinfo>, IEnumerable<FwHouseinfoDto>>(entityDto).ToList();
+            var houseTypeList = _setHouseTypeRpt.GetAll().ToList();
+            foreach (var hs in entity)
+            {
+                hs.HouseTypeTxt = houseTypeList.FirstOrDefault(f => f.Id == hs.HouseType)?.TypeName;
+            }
+            return new OkObjectResult(entity);
         }
-        // GET api/values/5
+        // GET api/values/
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -52,6 +60,7 @@ namespace Hotel.App.API2.Controllers
         {
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
+            value.State = "空净";
             value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {

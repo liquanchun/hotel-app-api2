@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hotel.App.Model.House;
 
 namespace Hotel.App.API2.Core
 {
@@ -17,6 +18,21 @@ namespace Hotel.App.API2.Core
 
             CreateMap<set_card, SetCardDto>();
             CreateMap<SetCardDto, set_card>();
+
+            CreateMap<fw_houseinfo, FwHouseinfoDto>();
+            CreateMap<FwHouseinfoDto, fw_houseinfo>();
+
+            CreateMap<set_integral, SetCardIntegralDto>();
+            CreateMap<SetCardIntegralDto, set_integral>();
+
+            CreateMap<set_card_upgrade, SetCardUpgradeDto>();
+            CreateMap<SetCardUpgradeDto, set_card_upgrade>();
+
+            CreateMap<set_inte_exchange, SetIneExchangDto>();
+            CreateMap<SetIneExchangDto, set_inte_exchange>();
+
+            CreateMap<set_inte_house, SetInteHouseDto>();
+            CreateMap<SetInteHouseDto, set_inte_house>();
 
             CreateMap<set_paytype, SetPaytypeDto>()
                 .ForMember(d => d.IsReturnT, opt => opt.MapFrom(s => s.IsReturn ? "是":"否"))

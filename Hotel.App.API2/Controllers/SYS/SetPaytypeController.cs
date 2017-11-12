@@ -47,9 +47,9 @@ namespace Hotel.App.API2.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]SetPaytypeDto value)
+        public async Task<IActionResult> Post([FromBody]set_paytype value)
         {
-            var entityDto = _mapper.Map<SetPaytypeDto, set_paytype>(value);
+            var entityDto = value;
             entityDto.CreatedAt = DateTime.Now;
             entityDto.UpdatedAt = DateTime.Now;
             entityDto.IsValid = true;
@@ -63,7 +63,7 @@ namespace Hotel.App.API2.Controllers
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]SetPaytypeDto value)
+        public async Task<IActionResult> Put(int id, [FromBody]set_paytype value)
         {
             var single = _setPaytypeRpt.GetSingle(id);
 
@@ -71,8 +71,7 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            var entityDto = _mapper.Map<SetPaytypeDto, set_paytype>(value);
-            ObjectCopy.Copy<set_paytype>(single, entityDto,new string[] { "IsReturn", "Name", "PayType", "IsIntegral", "IsDefault", "Remark" });
+            ObjectCopy.Copy<set_paytype>(single, value, new string[] { "IsReturn", "Name", "PayType", "IsIntegral", "IsDefault", "Remark" });
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
             if(User.Identity is ClaimsIdentity identity)

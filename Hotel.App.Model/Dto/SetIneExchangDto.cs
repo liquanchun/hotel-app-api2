@@ -12,12 +12,13 @@ namespace Hotel.App.Model.SYS
     using System;
     using System.Collections.Generic;
     
-    public partial class set_inte_exchange : IEntityBase
+    public partial class SetIneExchangDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string ExchangeType { get; set; }
         public int CardType { get; set; }
+        public string CardTypeTxt { get; set; }
         public string GiftName { get; set; }
         public Nullable<int> ExchangeInte { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }

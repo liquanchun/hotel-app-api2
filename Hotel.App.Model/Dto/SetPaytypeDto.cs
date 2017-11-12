@@ -21,6 +21,9 @@ namespace Hotel.App.Model.SYS
         public string IsReturnT { get; set; }
         public string IsIntegralT { get; set; }
         public string IsDefaultT { get; set; }
+        public bool IsReturn { get; set; }
+        public bool IsIntegral { get; set; }
+        public bool IsDefault { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }

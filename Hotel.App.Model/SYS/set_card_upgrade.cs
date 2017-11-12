@@ -15,8 +15,8 @@ namespace Hotel.App.Model.SYS
     public partial class set_card_upgrade : IEntityBase
     {
         public int Id { get; set; }
-        public string OldCard { get; set; }
-        public string NewCard { get; set; }
+        public int OldCard { get; set; }
+        public int NewCard { get; set; }
         public Nullable<int> NeedInte { get; set; }
         public Nullable<int> TakeInte { get; set; }
         public string Remark { get; set; }

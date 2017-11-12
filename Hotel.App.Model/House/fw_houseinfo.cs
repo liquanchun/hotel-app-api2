@@ -18,7 +18,7 @@ namespace Hotel.App.Model.House
         public string Building { get; set; }
         public string Floor { get; set; }
         public string Code { get; set; }
-        public string HouseType { get; set; }
+        public int HouseType { get; set; }
         public string Tags { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }

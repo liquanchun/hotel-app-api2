@@ -17,11 +17,13 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly ISetIntegralRepository _setIntegralRpt;
-        public SetIntegralController(ISetIntegralRepository setIntegralRpt,
-				IMapper mapper)
+        private readonly ISetCardRepository _setCardRpt;
+        public SetIntegralController(ISetIntegralRepository setIntegralRpt, ISetCardRepository setCardRpt,
+                IMapper mapper)
         {
             _setIntegralRpt = setIntegralRpt;
-			_mapper = mapper;
+            _setCardRpt = setCardRpt;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
@@ -32,7 +34,13 @@ namespace Hotel.App.API2.Controllers
             {
 				entityDto = _setIntegralRpt.FindBy(f => f.IsValid);
 			});
-            return new OkObjectResult(entityDto);
+            var entity = _mapper.Map<IEnumerable<set_integral>, IEnumerable<SetCardIntegralDto>>(entityDto).ToList();
+            var cardTypeList = _setCardRpt.GetAll().ToList();
+            foreach (var hs in entity)
+            {
+                hs.CardTypeTxt = cardTypeList.FirstOrDefault(f => f.Id == hs.CardType)?.Name;
+            }
+            return new OkObjectResult(entity);
         }
         // GET api/values/5
         [HttpGet("{id}")]

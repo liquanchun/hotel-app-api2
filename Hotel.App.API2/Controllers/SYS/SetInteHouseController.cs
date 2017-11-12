@@ -17,11 +17,16 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly ISetInteHouseRepository _setInteHouseRpt;
-        public SetInteHouseController(ISetInteHouseRepository setInteHouseRpt,
-				IMapper mapper)
+        private readonly ISetCardRepository _setCardRpt;
+        private readonly ISetHouseTypeRepository _setHouseTypeRpt;
+        public SetInteHouseController(ISetInteHouseRepository setInteHouseRpt, ISetCardRepository setCardRpt,
+                ISetHouseTypeRepository setHouseTypeRpt,
+                IMapper mapper)
         {
             _setInteHouseRpt = setInteHouseRpt;
-			_mapper = mapper;
+            _setCardRpt = setCardRpt;
+            _setHouseTypeRpt = setHouseTypeRpt;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
@@ -32,7 +37,25 @@ namespace Hotel.App.API2.Controllers
             {
 				entityDto = _setInteHouseRpt.FindBy(f => f.IsValid);
 			});
-            return new OkObjectResult(entityDto);
+            var entity = _mapper.Map<IEnumerable<set_inte_house>, IEnumerable<SetInteHouseDto>>(entityDto).ToList();
+            try
+            {
+                var houseTypeList = _setHouseTypeRpt.GetAll().ToList();
+                foreach (var hs in entity)
+                {
+                    hs.HouseTypeTxt = houseTypeList.FirstOrDefault(f => f.Id == hs.HouseType)?.TypeName;
+                }
+                var cardTypeList = _setCardRpt.GetAll().ToList();
+                foreach (var hs in entity)
+                {
+                    hs.CardTypeTxt = cardTypeList.FirstOrDefault(f => f.Id == hs.CardType)?.Name;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return new OkObjectResult(entity);
         }
         // GET api/values/5
         [HttpGet("{id}")]

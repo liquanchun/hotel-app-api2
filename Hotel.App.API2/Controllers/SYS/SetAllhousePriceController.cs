@@ -8,6 +8,7 @@ using Hotel.App.Model.SYS;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.API2.Common;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -17,11 +18,13 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly ISetAllhousePriceRepository _setAllhousePriceRpt;
-        public SetAllhousePriceController(ISetAllhousePriceRepository setAllhousePriceRpt,
-				IMapper mapper)
+        private readonly ISetHouseTypeRepository _setHouseTypeRpt;
+        public SetAllhousePriceController(ISetAllhousePriceRepository setAllhousePriceRpt, ISetHouseTypeRepository setHouseTypeRpt,
+                IMapper mapper)
         {
             _setAllhousePriceRpt = setAllhousePriceRpt;
-			_mapper = mapper;
+            _setHouseTypeRpt = setHouseTypeRpt;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
@@ -30,7 +33,15 @@ namespace Hotel.App.API2.Controllers
 		    IEnumerable<set_allhouse_price> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _setAllhousePriceRpt.FindBy(f => f.IsValid);
+                try
+                {
+                    entityDto = _setAllhousePriceRpt.FindBy(f => f.IsValid);
+                    var entList = entityDto.ToList();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
 			});
             return new OkObjectResult(entityDto);
         }
@@ -67,6 +78,7 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
+            ObjectCopy.Copy<set_allhouse_price>(single, value, new string[] { "name", "halfPriceHours", "allPriceHours", "leaveTime", "addFeeHours", "addAllDay", "addAllHours","remark" });
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
             if(User.Identity is ClaimsIdentity identity)
