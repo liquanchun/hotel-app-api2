@@ -27,5 +27,7 @@ namespace Hotel.App.Model.House
         public bool IsValid { get; set; }
         public string CreatedBy { get; set; }
         public string State { get; set; }
+        public int HouseFee { get; set; }
+        public int PreFee { get; set; }
     }
 }

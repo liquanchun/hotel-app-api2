@@ -42,7 +42,10 @@ namespace Hotel.App.API2.Controllers
             var houseTypeList = _setHouseTypeRpt.GetAll().ToList();
             foreach (var hs in entity)
             {
-                hs.HouseTypeTxt = houseTypeList.FirstOrDefault(f => f.Id == hs.HouseType)?.TypeName;
+                var ht = houseTypeList.FirstOrDefault(f => f.Id == hs.HouseType);
+                hs.HouseTypeTxt = ht.TypeName;
+                hs.HouseFee = ht.AllPrice;
+                hs.PreFee = ht.PreReceiveFee;
             }
             return new OkObjectResult(entity);
         }

@@ -20,11 +20,11 @@ namespace Hotel.App.Model.SYS
         public bool IsValid { get; set; }
         public System.DateTime UpdatedAt { get; set; }
         public string CreatedBy { get; set; }
-        public Nullable<decimal> AllPrice { get; set; }
-        public Nullable<decimal> StartPrice { get; set; }
-        public Nullable<decimal> AddPrice { get; set; }
-        public Nullable<decimal> AddMaxPrice { get; set; }
-        public Nullable<decimal> PreReceiveFee { get; set; }
+        public int AllPrice { get; set; }
+        public Nullable<int> StartPrice { get; set; }
+        public Nullable<int> AddPrice { get; set; }
+        public Nullable<int> AddMaxPrice { get; set; }
+        public int PreReceiveFee { get; set; }
         public string Remark { get; set; }
     }
 }
