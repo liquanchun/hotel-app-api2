@@ -23,9 +23,10 @@ namespace DataBaseTools
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string mysql = "select table_name from information_schema.tables where table_schema='hotel-app' and table_type='base table' order by table_name";
             try
             {
+                string mysql = "select table_name from information_schema.tables where table_schema='hotel-app' and table_type='base table' order by table_name";
+
                 //创建数据库连接
                 myconnection.Open();
                 //创建MySqlCommand对象
@@ -86,9 +87,18 @@ namespace DataBaseTools
                 Console.WriteLine("table_name_U:" + table_name_U);
                 Console.WriteLine("table_name_L:" + table_name_L);
 
-                CreateControllerFile( table_name,  table_name_U,  table_name_L);
-                CreateRepositoriesFile(table_name, table_name_U, table_name_L);
-
+                if (checkBox1.Checked)
+                {
+                    CreateControllerFile(table_name, table_name_U, table_name_L);
+                }
+                if (checkBox2.Checked)
+                {
+                    CreateRepositoriesFile(table_name, table_name_U, table_name_L);
+                }
+                if (checkBox3.Checked)
+                {
+                    CreateOtherText(table_name);
+                }
                 string text1 = "services.AddScoped<I" + table_name_U + "Repository, "+ table_name_U + "Repository>();";
                 string text2 = "public interface I"+ table_name_U + "Repository : IEntityBaseRepository<"+ table_name + "> { }";
                 string text3 = "modelBuilder.Entity<"+ table_name + ">().ToTable(\""+ table_name + "\");";
@@ -108,6 +118,7 @@ namespace DataBaseTools
             richTextBox1.AppendText(System.Environment.NewLine);
             richTextBox1.AppendText(sb4.ToString());
             richTextBox1.AppendText(System.Environment.NewLine);
+            MessageBox.Show("生成完成。");
         }
 
         private void CreateControllerFile(string table_name, string table_name_U, string table_name_L)
@@ -158,9 +169,77 @@ namespace DataBaseTools
             File.WriteAllText(controllerFile, controllertext);
         }
 
-        private void CreateOtherText(string table_name, string table_name_U, string table_name_L)
+        private void CreateOtherText(string table_name)
         {
+            string sqlstring = string.Format(
+                @"select COLUMN_NAME,IS_NULLABLE,DATA_TYPE,COLUMN_COMMENT from information_schema.columns  
+            where table_schema = 'hotel-app' and table_name = '{0}' ", table_name);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("namespace Hotel.App.Model." + textBox1.Text);
+            sb.AppendLine("{");
+            sb.AppendLine("   using System;");
+            sb.AppendLine(string.Format("   public partial class {0} : IEntityBase", table_name));
+            sb.AppendLine("   {");
+            try
+            {
+                //创建数据库连接
+                myconnection.Open();
+                //创建MySqlCommand对象
+                MySqlCommand mycommand = new MySqlCommand(sqlstring, myconnection);
+                //通过MySqlCommand的ExecuteReader()方法构造DataReader对象
+                MySqlDataReader myreader = mycommand.ExecuteReader();
 
+                while (myreader.Read())
+                {
+                    sb.AppendLine("      ///<summary>");
+                    sb.AppendLine("      ///" + myreader.GetString("COLUMN_COMMENT"));
+                    sb.AppendLine("      ///</summary>");
+                    sb.AppendLine(string.Concat("      public ", GetDataType(myreader.GetString("DATA_TYPE"))," ", myreader.GetString("COLUMN_NAME"), " { get; set; }"));
+                }
+                myreader.Close();
+                sb.AppendLine("   }");
+                sb.AppendLine("}");
+
+                string sys = textBox1.Text;
+                string modelPath = textBox6.Text + "\\" + sys;
+                if (!System.IO.Directory.Exists(modelPath))
+                {
+                    System.IO.Directory.CreateDirectory(modelPath);
+                }
+                string modelFile = modelPath + "\\" + table_name + ".cs";
+                if (File.Exists(modelFile))
+                {
+                    File.Delete(modelFile);
+                }
+                File.WriteAllText(modelFile, sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                myconnection.Close();
+            }
+        }
+
+        private string GetDataType(string oldtype)
+        {
+            switch (oldtype)
+            {
+                case "int":
+                    return "int";
+                case "varchar":
+                    return "string";
+                case "bit":
+                    return "bool";
+                case "decimal":
+                    return "decimal";
+                case "datetime":
+                    return "DateTime";
+                default:
+                    return "string";
+            }
         }
     }
 }

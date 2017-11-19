@@ -19,10 +19,10 @@ namespace Hotel.App.Model.SYS
         public string InteType { get; set; }
         public int CardType { get; set; }
         public string CardTypeTxt { get; set; }
-        public Nullable<decimal> DayOrFee { get; set; }
-        public Nullable<int> Integral { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
+        public int DayOrFee { get; set; }
+        public int Integral { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }

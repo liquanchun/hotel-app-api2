@@ -60,6 +60,9 @@ namespace Hotel.App.Data
         public DbSet<yx_book> YxBooks { get; set; }
         public DbSet<yx_booklist> YxBooklists { get; set; }
 
+        public DbSet<yx_order> YxOrders { get; set; }
+        public DbSet<yx_orderlist> YxOrderlists { get; set; }
+
         public HotelAppContext(DbContextOptions options) : base(options)
         {
         }

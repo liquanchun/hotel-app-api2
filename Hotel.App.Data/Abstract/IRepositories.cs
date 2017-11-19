@@ -63,4 +63,8 @@ namespace Hotel.App.Data.Abstract
 
     public interface IYxBookRepository : IEntityBaseRepository<yx_book> { }
     public interface IYxBooklistRepository : IEntityBaseRepository<yx_booklist> { }
+
+    public interface IYxOrderRepository : IEntityBaseRepository<yx_order> { }
+    public interface IYxOrderlistRepository : IEntityBaseRepository<yx_orderlist> { }
+
 }

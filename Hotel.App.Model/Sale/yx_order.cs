@@ -1,52 +1,56 @@
-namespace Hotel.App.Model.Store
+namespace Hotel.App.Model.Sale
 {
    using System;
-   public partial class kc_storeout : IEntityBase
+   public partial class yx_order : IEntityBase
    {
       ///<summary>
       ///
       ///</summary>
       public int Id { get; set; }
       ///<summary>
-      ///单号
+      ///订单号
       ///</summary>
       public string OrderNo { get; set; }
       ///<summary>
-      ///类型
+      ///客人姓名
       ///</summary>
-      public string TypeName { get; set; }
+      public string CusName { get; set; }
       ///<summary>
-      ///日期
+      ///客人电话
       ///</summary>
-      public DateTime OutTime { get; set; }
+      public string CusPhone { get; set; }
       ///<summary>
-      ///仓库
+      ///客人身份证
       ///</summary>
-      public string Storage { get; set; }
+      public string IdCard { get; set; }
       ///<summary>
-      ///经办人
+      ///入住方式
       ///</summary>
-      public string Operator { get; set; }
+      public string InType { get; set; }
       ///<summary>
-      ///商品
+      ///支付方式
       ///</summary>
-      public int GoodsId { get; set; }
+      public int PayType { get; set; }
       ///<summary>
-      ///数量
+      ///合计房费
       ///</summary>
-      public decimal GoodsAmount { get; set; }
+      public int HouseFee { get; set; }
       ///<summary>
-      ///价格
+      ///预收押金
       ///</summary>
-      public decimal GoodsPrice { get; set; }
+      public int PreReceivefee { get; set; }
+      /// <summary>
+      /// 单据号、授权码
+      /// </summary>
+      public string BillNo { get; set; }
       ///<summary>
-      ///入住订单号
+      ///备注
       ///</summary>
-      public string CheckInNo { get; set; }
+        public string Remark { get; set; }
       ///<summary>
-      ///
+      ///状态
       ///</summary>
-      public string Remark { get; set; }
+      public string Status { get; set; }
       ///<summary>
       ///
       ///</summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
@@ -22,7 +23,7 @@ namespace Hotel.App.API2.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return new OkObjectResult(_sysDicRpt.FindBy(f => f.IsValid).ToList());
+            return new OkObjectResult(_sysDicRpt.FindBy(f => f.IsValid).ToList().OrderBy(f => f.Id).ThenBy(f => f.IndexNo));
         }
         // GET api/values/5
         [HttpGet("{id}")]
@@ -41,6 +42,13 @@ namespace Hotel.App.API2.Controllers
                 return BadRequest(string.Concat(value.DicName, "已经存在。"));
             }
             value.CreatedAt = DateTime.Now;
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                value.CreatedBy = identity.Name ?? "test";
+            }
+            value.IndexNo = 1;
+            value.IsValid = true;
+            value.IsDefault = false;
             _sysDicRpt.Add(value);
             _sysDicRpt.Commit();
             return new OkObjectResult(value);

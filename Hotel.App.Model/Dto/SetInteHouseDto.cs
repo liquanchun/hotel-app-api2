@@ -16,14 +16,14 @@ namespace Hotel.App.Model.SYS
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Nullable<int> TakeInte { get; set; }
+        public int TakeInte { get; set; }
         public int CardType { get; set; }
         public string CardTypeTxt { get; set; }
         public int HouseType { get; set; }
         public string HouseTypeTxt { get; set; }
         public string UseWeeks { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }

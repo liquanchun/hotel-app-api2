@@ -19,8 +19,8 @@ namespace Hotel.App.Model.SYS
         public string OldCardTxt { get; set; }
         public int NewCard { get; set; }
         public string NewCardTxt { get; set; }
-        public Nullable<int> NeedInte { get; set; }
-        public Nullable<int> TakeInte { get; set; }
+        public int NeedInte { get; set; }
+        public int TakeInte { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }

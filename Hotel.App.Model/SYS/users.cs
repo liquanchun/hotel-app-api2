@@ -1,7 +1,7 @@
 namespace Hotel.App.Model.SYS
 {
    using System;
-   public partial class sys_role_user : IEntityBase
+   public partial class users : IEntityBase
    {
       ///<summary>
       ///
@@ -10,10 +10,14 @@ namespace Hotel.App.Model.SYS
       ///<summary>
       ///
       ///</summary>
-      public int RoleId { get; set; }
+      public string Name { get; set; }
       ///<summary>
       ///
       ///</summary>
-      public int UserId { get; set; }
+      public string Avatar { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public string Profession { get; set; }
    }
 }

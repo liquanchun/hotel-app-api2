@@ -42,6 +42,11 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // checkedListBox1
@@ -63,9 +68,9 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(408, 64);
+            this.textBox2.Location = new System.Drawing.Point(434, 64);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(694, 25);
+            this.textBox2.Size = new System.Drawing.Size(668, 25);
             this.textBox2.TabIndex = 2;
             this.textBox2.Text = "F:\\hotel-app-api2\\Hotel.App.API2\\Controllers\\template.txt";
             // 
@@ -132,9 +137,9 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(408, 169);
+            this.textBox5.Location = new System.Drawing.Point(434, 169);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(694, 25);
+            this.textBox5.Size = new System.Drawing.Size(668, 25);
             this.textBox5.TabIndex = 7;
             this.textBox5.Text = "F:\\hotel-app-api2\\Hotel.App.Data\\Repositories\\template.txt";
             // 
@@ -165,11 +170,60 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(269, 258);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(137, 15);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Model生成文件目录";
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(434, 253);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(668, 25);
+            this.textBox6.TabIndex = 14;
+            this.textBox6.Text = "F:\\hotel-app-api2\\Hotel.App.Model";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(413, 67);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(18, 17);
+            this.checkBox1.TabIndex = 16;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(412, 173);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(18, 17);
+            this.checkBox2.TabIndex = 17;
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(413, 256);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(18, 17);
+            this.checkBox3.TabIndex = 18;
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1155, 671);
+            this.Controls.Add(this.checkBox3);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.textBox6);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.richTextBox1);
@@ -208,6 +262,11 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }
 

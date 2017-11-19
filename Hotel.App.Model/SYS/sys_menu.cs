@@ -1,43 +1,55 @@
-using System;
 namespace Hotel.App.Model.SYS
 {
-    public class sys_menu : IEntityBase
-    {
-        public int Id { get; set; }
-        /// <summary>
-        /// menu_name
-        /// </summary>		
-        public string MenuName { get; set; }
-        /// <summary>
-        /// parent_menu_id
-        /// </summary>		
-        public int ParentId { get; set; }
-        /// <summary>
-        /// menu_level
-        /// </summary>		
-        public int MenuLevel { get; set; }
-        /// <summary>
-        /// menu_addr
-        /// </summary>		
-        public string MenuAddr { get; set; }
-
-        public string Icon { get; set; }
-
-        public int MenuOrder { get; set; }
-        /// <summary>
-        /// createdAt
-        /// </summary>		
-        public DateTime CreatedAt { get; set; }
-        /// <summary>
-        /// updatedAt
-        /// </summary>		
-        public DateTime UpdatedAt { get; set; }
-
-        public string RoleIds { get; set; }
-
-        public bool IsValid { get; set; }
-        public string CreatedBy { get; set; }
-
-    }
+   using System;
+   public partial class sys_menu : IEntityBase
+   {
+      ///<summary>
+      ///
+      ///</summary>
+      public int Id { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public string MenuName { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public int ParentId { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public int MenuLevel { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public string MenuAddr { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public string Icon { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public string RoleIds { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public int MenuOrder { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public DateTime CreatedAt { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public DateTime UpdatedAt { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public bool IsValid { get; set; }
+      ///<summary>
+      ///
+      ///</summary>
+      public string CreatedBy { get; set; }
+   }
 }
-

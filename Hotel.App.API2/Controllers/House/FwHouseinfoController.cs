@@ -22,11 +22,15 @@ namespace Hotel.App.API2.Controllers
 		private readonly IMapper _mapper;
         private readonly IFwHouseinfoRepository _fwHouseinfoRpt;
         private readonly ISetHouseTypeRepository _setHouseTypeRpt;
-        public FwHouseinfoController(IFwHouseinfoRepository fwHouseinfoRpt, ISetHouseTypeRepository setHouseTypeRpt,
+        private readonly ISysDicRepository _sysDicRpt;
+        public FwHouseinfoController(IFwHouseinfoRepository fwHouseinfoRpt, 
+            ISetHouseTypeRepository setHouseTypeRpt,
+            ISysDicRepository sysDicRpt,
                 IMapper mapper)
         {
             _fwHouseinfoRpt = fwHouseinfoRpt;
             _setHouseTypeRpt = setHouseTypeRpt;
+            _sysDicRpt = sysDicRpt;
             _mapper = mapper;
         }
         // GET: api/values
@@ -40,13 +44,23 @@ namespace Hotel.App.API2.Controllers
             });
             var entity = _mapper.Map<IEnumerable<fw_houseinfo>, IEnumerable<FwHouseinfoDto>>(entityDto).ToList();
             var houseTypeList = _setHouseTypeRpt.GetAll().ToList();
+            var dicList = _sysDicRpt.GetAll().ToList();
+
             foreach (var hs in entity)
             {
                 var ht = houseTypeList.FirstOrDefault(f => f.Id == hs.HouseType);
-                hs.HouseTypeTxt = ht.TypeName;
-                hs.HouseFee = ht.AllPrice;
-                hs.PreFee = ht.PreReceiveFee;
+                if (ht != null)
+                {
+                    hs.HouseTypeTxt = ht.TypeName;
+                    hs.HouseFee = ht.AllPrice;
+                    hs.PreFee = ht.PreReceiveFee;
+                }
+
+                var dic = dicList.FirstOrDefault(f => f.Id == hs.State);
+                if (dic != null) hs.StateTxt = dic.DicName;
             }
+
+
             return new OkObjectResult(entity);
         }
         // GET api/values/
@@ -63,7 +77,7 @@ namespace Hotel.App.API2.Controllers
         {
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
-            value.State = "空净";
+            value.State = 1000;
             value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {

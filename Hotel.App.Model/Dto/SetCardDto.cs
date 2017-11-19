@@ -16,8 +16,8 @@ namespace Hotel.App.Model.SYS
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Nullable<int> Level { get; set; }
-        public Nullable<decimal> CardFee { get; set; }
+        public int Level { get; set; }
+        public int CardFee { get; set; }
         public string InCome { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }

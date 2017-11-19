@@ -4,7 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hotel.App.Model.Dto;
 using Hotel.App.Model.House;
+using Hotel.App.Model.Sale;
+using StackExchange.Redis;
 
 namespace Hotel.App.API2.Core
 {
@@ -33,6 +36,12 @@ namespace Hotel.App.API2.Core
 
             CreateMap<set_inte_house, SetInteHouseDto>();
             CreateMap<SetInteHouseDto, set_inte_house>();
+
+            CreateMap<yx_order, OrderDto>();
+            CreateMap<OrderDto, yx_order>();
+
+            CreateMap<yx_orderlist, OrderListDto>();
+            CreateMap<OrderListDto, yx_orderlist>();
 
             CreateMap<set_paytype, SetPaytypeDto>()
                 .ForMember(d => d.IsReturnT, opt => opt.MapFrom(s => s.IsReturn ? "是":"否"))

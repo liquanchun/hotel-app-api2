@@ -20,9 +20,9 @@ namespace Hotel.App.Model.SYS
         public int CardType { get; set; }
         public string CardTypeTxt { get; set; }
         public string GiftName { get; set; }
-        public Nullable<int> ExchangeInte { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
+        public int ExchangeInte { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string Remark { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }

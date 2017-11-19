@@ -73,6 +73,8 @@ namespace Hotel.App.Data
 
             modelBuilder.Entity<yx_book>().ToTable("yx_book");
             modelBuilder.Entity<yx_booklist>().ToTable("yx_booklist");
+            modelBuilder.Entity<yx_order>().ToTable("yx_order");
+            modelBuilder.Entity<yx_orderlist>().ToTable("yx_orderlist");
         }
     }
 }
