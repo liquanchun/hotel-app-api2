@@ -23,13 +23,16 @@ namespace Hotel.App.API2.Controllers
         private readonly IFwHouseinfoRepository _fwHouseinfoRpt;
         private readonly ISetHouseTypeRepository _setHouseTypeRpt;
         private readonly ISysDicRepository _sysDicRpt;
+        private readonly IFwStatelogRepository _fwStatelogRepository;
         public FwHouseinfoController(IFwHouseinfoRepository fwHouseinfoRpt, 
             ISetHouseTypeRepository setHouseTypeRpt,
             ISysDicRepository sysDicRpt,
+            IFwStatelogRepository fwStatelogRepository,
                 IMapper mapper)
         {
             _fwHouseinfoRpt = fwHouseinfoRpt;
             _setHouseTypeRpt = setHouseTypeRpt;
+            _fwStatelogRepository = fwStatelogRepository;
             _sysDicRpt = sysDicRpt;
             _mapper = mapper;
         }
@@ -42,7 +45,7 @@ namespace Hotel.App.API2.Controllers
             {
                 entityDto = _fwHouseinfoRpt.FindBy(f => f.IsValid);
             });
-            var entity = _mapper.Map<IEnumerable<fw_houseinfo>, IEnumerable<FwHouseinfoDto>>(entityDto).ToList();
+            var entity = _mapper.Map<IEnumerable<fw_houseinfo>, IEnumerable<HouseinfoDto>>(entityDto).ToList();
             var houseTypeList = _setHouseTypeRpt.GetAll().ToList();
             var dicList = _sysDicRpt.GetAll().ToList();
 

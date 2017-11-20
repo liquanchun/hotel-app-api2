@@ -82,7 +82,11 @@ namespace Hotel.App.API2.Controllers
             var single = _yxOrderRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
-
+        /// <summary>
+        /// 客人入住办理
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CheckInOrderDto value)
@@ -131,7 +135,12 @@ namespace Hotel.App.API2.Controllers
                             IsValid = true,
                             CreatedBy = createBy
                         });
-                        if (houseInfo != null) houseInfo.State = 1003;
+                        if (houseInfo != null)
+                        {
+                            houseInfo.State = 1003;  //住人净
+                            houseInfo.OrderNo = order.OrderNo;
+                            houseInfo.CusName = value.YxOrderList.Count == 1 && orderDetail.CusName != order.CusName ? order.CusName + "，" + orderDetail.CusName : orderDetail.CusName;
+                        }
 
                     }
                     _fwStatelogRepository.Commit();

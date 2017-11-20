@@ -51,5 +51,13 @@ namespace Hotel.App.Model.House
       ///
       ///</summary>
       public string CreatedBy { get; set; }
-   }
+      /// <summary>
+      /// 当前订单号
+      /// </summary>
+      public string OrderNo { get; set; }
+      /// <summary>
+      /// 当前入住客人
+      /// </summary>
+      public string CusName { get; set; }
+    }
 }

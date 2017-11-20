@@ -22,8 +22,8 @@ namespace Hotel.App.API2.Core
             CreateMap<set_card, SetCardDto>();
             CreateMap<SetCardDto, set_card>();
 
-            CreateMap<fw_houseinfo, FwHouseinfoDto>();
-            CreateMap<FwHouseinfoDto, fw_houseinfo>();
+            CreateMap<fw_houseinfo, HouseinfoDto>();
+            CreateMap<HouseinfoDto, fw_houseinfo>();
 
             CreateMap<set_integral, SetCardIntegralDto>();
             CreateMap<SetCardIntegralDto, set_integral>();

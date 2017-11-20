@@ -12,7 +12,7 @@ namespace Hotel.App.Model.House
     using System;
     using System.Collections.Generic;
     
-    public partial class FwHouseinfoDto
+    public partial class HouseinfoDto
     {
         public int Id { get; set; }
         public string Building { get; set; }
@@ -30,5 +30,7 @@ namespace Hotel.App.Model.House
         public string StateTxt { get; set; }
         public int HouseFee { get; set; }
         public int PreFee { get; set; }
+        public string OrderNo { get; set; }
+        public string CusName { get; set; }
     }
 }
