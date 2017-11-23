@@ -53,7 +53,7 @@ namespace Hotel.App.API2.Controllers
             await Task.Run(() =>
             {
                 entityDto = _yxOrderRpt.FindBy(f =>
-                    f.IsValid && f.CreatedAt > DateTime.Today && f.CreatedAt < DateTime.Today.AddDays(1));
+                    f.IsValid);  //&& f.CreatedAt > DateTime.Today && f.CreatedAt < DateTime.Today.AddDays(1)
             });
             var orderDtoList = _mapper.Map<IEnumerable<yx_order>, IEnumerable<OrderDto>>(entityDto).ToList();
             var payTypeList = this._setPaytypeRepository.GetAll();
@@ -102,6 +102,7 @@ namespace Hotel.App.API2.Controllers
                 createBy = identity.Name ?? "test";
             }
             order.CreatedBy = createBy;
+            order.Status = "未结账";
             order.OrderNo = GetOrderNo(order.InType);
             _yxOrderRpt.Add(order);
             //事务处理
@@ -153,7 +154,6 @@ namespace Hotel.App.API2.Controllers
                     Console.WriteLine(e);
                     tran.Rollback();
                     return new BadRequestResult();
-                    ;
                 }
             }
 
@@ -188,9 +188,52 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
+            string createBy = string.Empty;
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                createBy = identity.Name ?? "test";
+            }
 
-            single.IsValid = false;
-            _yxOrderRpt.Commit();
+            single.Status = "已取消";
+            var orderDetail = _yxOrderlistRpt.FindBy(f => f.OrderId == id);
+            using (var tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _yxOrderRpt.Commit();
+
+                    foreach (var item in orderDetail)
+                    {
+                        var house = _fwHouseinfoRpt.GetSingle(f => f.Code == item.HouseCode);
+                        //新增房态日志
+                        _fwStatelogRepository.Add(new fw_statelog()
+                        {
+                            HouseCode = item.HouseCode,
+                            OldState = house.State,
+                            NewState = 1001,
+                            OrderNo = single.OrderNo,
+                            CreatedAt = DateTime.Now,
+                            UpdatedAt = DateTime.Now,
+                            IsValid = true,
+                            CreatedBy = createBy
+                        });
+
+                        house.State = 1001;  //空净
+                        house.CusName = string.Empty;
+                        house.OrderNo = string.Empty;
+                        _fwHouseinfoRpt.Update(house);
+                    }
+                    _fwStatelogRepository.Commit();
+                    _fwHouseinfoRpt.Commit();
+                    tran.Commit();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    tran.Rollback();
+                    return new BadRequestResult();
+                }
+            }
 
             return new NoContentResult();
         }

@@ -63,8 +63,7 @@ namespace Hotel.App.API2.Controllers
                 if (dic != null) hs.StateTxt = dic.DicName;
             }
 
-
-            return new OkObjectResult(entity);
+            return new OkObjectResult(entity.OrderBy(f => f.Code));
         }
         // GET api/values/
         [HttpGet("{id}")]
@@ -80,7 +79,7 @@ namespace Hotel.App.API2.Controllers
         {
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
-            value.State = 1000;
+            value.State = 1001;  //初始化状态为空净
             value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {

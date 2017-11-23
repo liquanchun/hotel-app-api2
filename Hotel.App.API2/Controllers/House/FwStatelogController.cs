@@ -17,11 +17,14 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly IFwStatelogRepository _fwStatelogRpt;
+        private readonly ISysDicRepository _sysDicRpt;
         public FwStatelogController(IFwStatelogRepository fwStatelogRpt,
-				IMapper mapper)
+            ISysDicRepository sysDicRpt,
+                IMapper mapper)
         {
             _fwStatelogRpt = fwStatelogRpt;
-			_mapper = mapper;
+            _sysDicRpt = sysDicRpt;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
@@ -32,7 +35,17 @@ namespace Hotel.App.API2.Controllers
             {
 				entityDto = _fwStatelogRpt.FindBy(f => f.IsValid);
 			});
-            return new OkObjectResult(entityDto);
+            var entity = _mapper.Map<IEnumerable<fw_statelog>, IEnumerable<HouseStateLogDto>>(entityDto).ToList();
+            var dicList = _sysDicRpt.GetAll().ToList();
+            foreach (var hs in entity)
+            {
+                var dic1 = dicList.FirstOrDefault(f => f.Id == hs.OldState);
+                if (dic1 != null) hs.OldStateTxt = dic1.DicName;
+
+                var dic2 = dicList.FirstOrDefault(f => f.Id == hs.NewState);
+                if (dic2 != null) hs.NewStateTxt = dic2.DicName;
+            }
+            return new OkObjectResult(entity.OrderByDescending(f=> f.CreatedAt));
         }
         // GET api/values/5
         [HttpGet("{id}")]
