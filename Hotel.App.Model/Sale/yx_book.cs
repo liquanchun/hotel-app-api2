@@ -99,5 +99,9 @@ namespace Hotel.App.Model.Sale
       ///
       ///</summary>
       public string CreatedBy { get; set; }
-   }
+
+      public  int HouseTypeId { get; set; }
+
+      public int HouseNum { get; set; }
+    }
 }
