@@ -50,7 +50,7 @@ namespace Hotel.App.Model.SYS
         /// isvalid
         /// </summary>		
         public bool IsValid { get; set; }
-
+        public bool IsDelete { get; set; }
         public string RoleIds { get; set; }
 
         public string RoleNames { get; set; }

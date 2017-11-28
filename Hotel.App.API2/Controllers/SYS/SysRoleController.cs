@@ -48,6 +48,7 @@ namespace Hotel.App.API2.Controllers
             }
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
+            value.IsValid = true;
             _sysRoleRpt.Add(value);
             _sysRoleRpt.Commit();
             return new OkObjectResult(value);

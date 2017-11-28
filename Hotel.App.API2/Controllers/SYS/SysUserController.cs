@@ -8,6 +8,7 @@ using Hotel.App.Model.SYS;
 using AutoMapper;
 using NLog;
 using System.Security.Claims;
+using Hotel.App.Data;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -19,14 +20,17 @@ namespace Hotel.App.API2.Controllers
         private readonly ISysUserRepository _sysUserRpt;
         private readonly ISysRoleUserRepository _sysRoleUserRpt;
         private readonly ISysRoleRepository _sysRoleRpt;
+        private readonly HotelAppContext _context;
         public SysUserController(ISysUserRepository sysUserRpt, 
             ISysRoleUserRepository sysRoleUserRpt, 
             ISysRoleRepository sysRoleRpt,
+            HotelAppContext context,
             IMapper mapper)
         {
             _sysUserRpt = sysUserRpt;
             _sysRoleUserRpt = sysRoleUserRpt;
             _sysRoleRpt = sysRoleRpt;
+            _context = context;
             _mapper = mapper;
         }
         // GET: api/values
@@ -36,7 +40,7 @@ namespace Hotel.App.API2.Controllers
             IEnumerable<SysUserDto> entityDto = null;
             await Task.Run(() =>
             {
-                var users = _sysUserRpt.FindBy(f => f.IsValid);
+                var users = _sysUserRpt.FindBy(f => f.IsDelete == false);
                 entityDto = _mapper.Map<IEnumerable<sys_user>, IEnumerable<SysUserDto>>(users);
                 foreach (var item in entityDto)
                 {
@@ -90,33 +94,47 @@ namespace Hotel.App.API2.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]sys_user value)
         {
-            var oldSysUser = _sysUserRpt.FindBy(f => f.UserId == value.UserId);
-            if(oldSysUser.Any())
+            using (var tran = _context.Database.BeginTransaction())
             {
-                return BadRequest(string.Concat(value.UserId, "已经存在。"));
-            }
-            value.CreatedAt = DateTime.Now;
-            value.UpdatedAt = DateTime.Now;
-            if(User.Identity is ClaimsIdentity identity)
-            {
-                value.CreatedBy = identity.Name ?? "test";
-            }
-            _sysUserRpt.Add(value);
-            _sysUserRpt.Commit();
-
-            if (!string.IsNullOrEmpty(value.RoleIds) && value.RoleIds.Length > 1)
-            {
-                //新增用户角色关系表
-                string[] roles = value.RoleIds.Split(",".ToArray());
-                foreach (var item in roles)
+                try
                 {
-                    if (!string.IsNullOrEmpty(item))
+                    var oldSysUser = _sysUserRpt.FindBy(f => f.UserId == value.UserId);
+                    if (oldSysUser.Any())
                     {
-                        var userrole = new sys_role_user { RoleId = int.Parse(item), UserId = value.Id };
-                        _sysRoleUserRpt.Add(userrole);
+                        return BadRequest(string.Concat(value.UserId, "已经存在。"));
                     }
+                    value.CreatedAt = DateTime.Now;
+                    value.UpdatedAt = DateTime.Now;
+                    value.IsDelete = false;
+                    if (User.Identity is ClaimsIdentity identity)
+                    {
+                        value.CreatedBy = identity.Name ?? "test";
+                    }
+                    _sysUserRpt.Add(value);
+                    _sysUserRpt.Commit();
+
+                    if (!string.IsNullOrEmpty(value.RoleIds) && value.RoleIds.Length > 1)
+                    {
+                        //新增用户角色关系表
+                        string[] roles = value.RoleIds.Split(",".ToArray());
+                        foreach (var item in roles)
+                        {
+                            if (!string.IsNullOrEmpty(item))
+                            {
+                                var userrole = new sys_role_user { RoleId = int.Parse(item), UserId = value.Id };
+                                _sysRoleUserRpt.Add(userrole);
+                            }
+                        }
+                        _sysRoleUserRpt.Commit();
+                    }
+                    tran.Commit();
                 }
-                _sysRoleUserRpt.Commit();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    tran.Rollback();
+                    return BadRequest(ex);
+                }
             }
             return new OkObjectResult(value);
         }
@@ -125,40 +143,53 @@ namespace Hotel.App.API2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]sys_user value)
         {
-            sys_user userDb = _sysUserRpt.GetSingle(id);
-            if (userDb == null)
+            using (var tran = _context.Database.BeginTransaction())
             {
-                return NotFound();
-            }
-            else
-            {
-                userDb.IsValid = value.IsValid;
-                userDb.Mobile = value.Mobile;
-                userDb.Weixin = value.Weixin;
-                userDb.Email = value.Email;
-                userDb.UserId = value.UserId;
-                userDb.UserName = value.UserName;
-                userDb.UpdatedAt = DateTime.Now;
-                userDb.RoleIds = value.RoleIds;
-                _sysUserRpt.Commit();
-
-                if (value.RoleIds != userDb.RoleIds)
+                try
                 {
-                    //修改了用户角色
-                    _sysRoleUserRpt.DeleteWhere(f => f.UserId == id);
-                    _sysRoleUserRpt.Commit();
-
-                    //新增用户角色关系表
-                    string[] roles = value.RoleIds.Split(",".ToArray());
-                    foreach (var item in roles)
+                    sys_user userDb = _sysUserRpt.GetSingle(id);
+                    if (userDb == null)
                     {
-                        if (!string.IsNullOrEmpty(item))
+                        return NotFound();
+                    }
+                    else
+                    {
+                        userDb.IsValid = value.IsValid;
+                        userDb.Mobile = value.Mobile;
+                        userDb.Weixin = value.Weixin;
+                        userDb.Email = value.Email;
+                        userDb.UserId = value.UserId;
+                        userDb.UserName = value.UserName;
+                        userDb.UpdatedAt = DateTime.Now;
+                        userDb.RoleIds = value.RoleIds;
+                        _sysUserRpt.Commit();
+
+                        if (value.RoleIds != userDb.RoleIds)
                         {
-                            var userrole = new sys_role_user { RoleId = int.Parse(item), UserId = id };
-                            _sysRoleUserRpt.Add(userrole);
+                            //修改了用户角色
+                            _sysRoleUserRpt.DeleteWhere(f => f.UserId == id);
+                            _sysRoleUserRpt.Commit();
+
+                            //新增用户角色关系表
+                            string[] roles = value.RoleIds.Split(",".ToArray());
+                            foreach (var item in roles)
+                            {
+                                if (!string.IsNullOrEmpty(item))
+                                {
+                                    var userrole = new sys_role_user { RoleId = int.Parse(item), UserId = id };
+                                    _sysRoleUserRpt.Add(userrole);
+                                }
+                            }
+                            _sysRoleUserRpt.Commit();
                         }
                     }
-                    _sysRoleUserRpt.Commit();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    tran.Rollback();
+                    return BadRequest(ex);
                 }
             }
             return new NoContentResult();
@@ -175,8 +206,7 @@ namespace Hotel.App.API2.Controllers
             }
             else
             {
-                //_sysUser.IsValid = false;
-                _sysUserRpt.Delete(sysUser);
+                sysUser.IsDelete = true;
                 _sysUserRpt.Commit();
                 return new NoContentResult();
             }

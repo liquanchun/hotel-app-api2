@@ -55,9 +55,11 @@ namespace Hotel.App.Model.SYS
       ///
       ///</summary>
       public bool IsValid { get; set; }
+
+      public bool IsDelete { get; set; }
       ///<summary>
       ///
       ///</summary>
-      public string CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
    }
 }
