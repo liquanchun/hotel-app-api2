@@ -38,11 +38,11 @@ namespace Hotel.App.Model.SYS
       ///<summary>
       ///合同起始
       ///</summary>
-      public string ContractDate1 { get; set; }
+      public DateTime ContractDate1 { get; set; }
       ///<summary>
       ///合同截止
       ///</summary>
-      public string ContractDate2 { get; set; }
+      public DateTime ContractDate2 { get; set; }
       ///<summary>
       ///挂账金额
       ///</summary>
