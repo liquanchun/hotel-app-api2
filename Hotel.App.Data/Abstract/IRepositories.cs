@@ -67,4 +67,9 @@ namespace Hotel.App.Data.Abstract
     public interface IYxOrderRepository : IEntityBaseRepository<yx_order> { }
     public interface IYxOrderlistRepository : IEntityBaseRepository<yx_orderlist> { }
 
+    public interface ISmsSendrecordRepository : IEntityBaseRepository<sms_sendrecord> { }
+    public interface ISmsSettingRepository : IEntityBaseRepository<sms_setting> { }
+    public interface ISmsTemplateRepository : IEntityBaseRepository<sms_template> { }
+    public interface IYxCustomerRepository : IEntityBaseRepository<yx_customer> { }
+
 }

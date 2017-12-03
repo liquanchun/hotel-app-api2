@@ -46,6 +46,9 @@ namespace Hotel.App.API2.Core
             CreateMap<fw_statelog, HouseStateLogDto>();
             CreateMap<HouseStateLogDto, fw_statelog>();
 
+            CreateMap<yx_customer, CustomerDto>();
+            CreateMap<CustomerDto, yx_customer>();
+
             CreateMap<set_paytype, SetPaytypeDto>()
                 .ForMember(d => d.IsReturnT, opt => opt.MapFrom(s => s.IsReturn ? "是":"否"))
                 .ForMember(d => d.IsIntegralT, opt => opt.MapFrom(s => s.IsIntegral ? "是" : "否"))

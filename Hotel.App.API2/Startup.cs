@@ -20,6 +20,8 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Rest.Serialization;
+using Newtonsoft.Json;
 
 namespace Hotel.App.API2
 {
@@ -95,6 +97,8 @@ namespace Hotel.App.API2
                 {
                     // Force Camel Case to JSON
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    opts.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm";
+                    opts.SerializerSettings.DateParseHandling = DateParseHandling.None;
                 });
 
             services.AddAutoMapper();

@@ -26,6 +26,7 @@ namespace Hotel.App.API2.Controllers
         private readonly IFwStatelogRepository _fwStatelogRepository;
         private readonly ISetPaytypeRepository _setPaytypeRepository;
         private readonly ISetHouseTypeRepository _setHouseTypeRepository;
+        private readonly IYxCustomerRepository _yxCustomerRpt;
         private readonly HotelAppContext _context;
         public YxOrderController(IYxOrderRepository yxOrderRpt, 
             IYxOrderlistRepository yxOrderlistRpt,
@@ -33,6 +34,7 @@ namespace Hotel.App.API2.Controllers
             IFwStatelogRepository fwStatelogRepository,
             ISetPaytypeRepository setPaytypeRepository,
             ISetHouseTypeRepository setHouseTypeRepository,
+            IYxCustomerRepository yxCustomerRpt,
         HotelAppContext context,
                 IMapper mapper)
         {
@@ -42,6 +44,7 @@ namespace Hotel.App.API2.Controllers
             _fwStatelogRepository = fwStatelogRepository;
             _setPaytypeRepository = setPaytypeRepository;
             _setHouseTypeRepository = setHouseTypeRepository;
+            _yxCustomerRpt = yxCustomerRpt;
             _context = context;
             _mapper = mapper;
         }
@@ -142,8 +145,23 @@ namespace Hotel.App.API2.Controllers
                             houseInfo.OrderNo = order.OrderNo;
                             houseInfo.CusName = value.YxOrderList.Count == 1 && orderDetail.CusName != order.CusName ? order.CusName + "，" + orderDetail.CusName : orderDetail.CusName;
                         }
-
+                        //添加到客户资料表中
+                        if (!_yxCustomerRpt.Exist(f => f.IDCardNo == order.IdCard))
+                        {
+                            var customer = new yx_customer
+                            {
+                                CustomerName = orderDetail.CusName,
+                                IDCardNo = orderDetail.IdCard,
+                                Mobile = order.CusPhone,
+                                IsValid = true,
+                                CreatedBy = createBy,
+                                CreatedAt = DateTime.Now,
+                                UpdatedAt = DateTime.Now
+                            };
+                            _yxCustomerRpt.Add(customer);
+                        }
                     }
+                    _yxCustomerRpt.Commit();
                     _fwStatelogRepository.Commit();
                     _fwHouseinfoRpt.Commit();
                     _yxOrderlistRpt.Commit();
@@ -173,7 +191,7 @@ namespace Hotel.App.API2.Controllers
 			single.UpdatedAt = DateTime.Now;
 			if(User.Identity is ClaimsIdentity identity)
 			{
-				value.CreatedBy = identity.Name ?? "test";
+			    single.CreatedBy = identity.Name ?? "test";
 			}
             _yxOrderRpt.Commit();
             return new NoContentResult();

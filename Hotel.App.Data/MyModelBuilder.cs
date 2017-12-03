@@ -75,6 +75,12 @@ namespace Hotel.App.Data
             modelBuilder.Entity<yx_booklist>().ToTable("yx_booklist");
             modelBuilder.Entity<yx_order>().ToTable("yx_order");
             modelBuilder.Entity<yx_orderlist>().ToTable("yx_orderlist");
+
+            modelBuilder.Entity<sms_sendrecord>().ToTable("sms_sendrecord");
+            modelBuilder.Entity<sms_setting>().ToTable("sms_setting");
+            modelBuilder.Entity<sms_template>().ToTable("sms_template");
+
+            modelBuilder.Entity<yx_customer>().ToTable("yx_customer");
         }
     }
 }

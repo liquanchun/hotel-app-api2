@@ -8,6 +8,8 @@ using Hotel.App.Model.House;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.API2.Common;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -47,7 +49,7 @@ namespace Hotel.App.API2.Controllers
         public async Task<IActionResult> Post([FromBody]fw_cusgoods value)
         {
             value.CreatedAt = DateTime.Now;
-			value.UpdatedAt = DateTime.Now;
+            value.UpdatedAt = DateTime.Now;
             value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {
@@ -67,11 +69,20 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            //更新字段内容
+            ObjectCopy.Copy<fw_cusgoods>(single, value, new string[] { "TypeName", "GoodsName", "GoodsPrice", "HouseCode", "OrderNo", "CusName", "Mobile", "Remark" });
             single.UpdatedAt = DateTime.Now;
-            if(User.Identity is ClaimsIdentity identity)
+            //更新字段内容
+            if (User.Identity is ClaimsIdentity identity)
             {
-                value.CreatedBy = identity.Name ?? "test";
+                if (!string.IsNullOrEmpty(value.TakeBy))
+                {
+                    single.TakeBy = identity.Name ?? "test";
+                    single.TakeTime = DateTime.Now;
+                }
+                else
+                {
+                    single.CreatedBy = identity.Name ?? "test";
+                }
             }
             _fwCusgoodsRpt.Commit();
             return new NoContentResult();

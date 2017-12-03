@@ -86,7 +86,7 @@ namespace Hotel.App.API2.Controllers
             single.Remark = value.Remark;
             if(User.Identity is ClaimsIdentity identity)
             {
-                value.CreatedBy = identity.Name ?? "test";
+                single.CreatedBy = identity.Name ?? "test";
             }
             _setInteExchangeRpt.Commit();
             return new NoContentResult();

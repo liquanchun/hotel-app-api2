@@ -62,7 +62,11 @@ namespace Hotel.App.Data
 
         public DbSet<yx_order> YxOrders { get; set; }
         public DbSet<yx_orderlist> YxOrderlists { get; set; }
+        public DbSet<sms_sendrecord> SmsSendrecords { get; set; }
+        public DbSet<sms_setting> SmsSettings { get; set; }
+        public DbSet<sms_template> SmsTemplates { get; set; }
 
+        public DbSet<yx_customer> YxCustomers { get; set; }
         public HotelAppContext(DbContextOptions options) : base(options)
         {
         }

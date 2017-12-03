@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
-using Hotel.App.Model.Store;
+using Hotel.App.Model.SYS;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
@@ -13,24 +13,24 @@ using System.Security.Claims;
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
-    public class KcGoodsController : Controller
+    public class SmsSettingController : Controller
     {
 		private readonly IMapper _mapper;
-        private IKcGoodsRepository _kcGoodsRpt;
-        public KcGoodsController(IKcGoodsRepository kcGoodsRpt,
+        private readonly ISmsSettingRepository _smsSettingRpt;
+        public SmsSettingController(ISmsSettingRepository smsSettingRpt,
 				IMapper mapper)
         {
-            _kcGoodsRpt = kcGoodsRpt;
+            _smsSettingRpt = smsSettingRpt;
 			_mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<kc_goods> entityDto = null;
+		    IEnumerable<sms_setting> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _kcGoodsRpt.FindBy(f => f.IsValid);
+				entityDto = _smsSettingRpt.FindBy(f => f.IsValid);
 			});
             return new OkObjectResult(entityDto);
         }
@@ -38,42 +38,52 @@ namespace Hotel.App.API2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _smsSettingRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]kc_goods value)
+        public async Task<IActionResult> Post([FromBody]sms_setting value)
         {
-            value.CreatedAt = DateTime.Now;
-			value.UpdatedAt = DateTime.Now;
-            value.IsValid = true;
-            if(User.Identity is ClaimsIdentity identity)
+            var first = _smsSettingRpt.GetFirst();
+            if (first == null)
             {
-                value.CreatedBy = identity.Name ?? "test";
+                value.CreatedAt = DateTime.Now;
+                value.UpdatedAt = DateTime.Now;
+                value.IsValid = true;
+                if (User.Identity is ClaimsIdentity identity)
+                {
+                    value.CreatedBy = identity.Name ?? "test";
+                }
+                _smsSettingRpt.Add(value);
             }
-            _kcGoodsRpt.Add(value);
-            _kcGoodsRpt.Commit();
+            else
+            {
+                first.IPAddress = value.IPAddress;
+                first.Port = value.Port;
+                _smsSettingRpt.Update(first);
+            }
+            _smsSettingRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]kc_goods value)
+        public async Task<IActionResult> Put(int id, [FromBody]sms_setting value)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _smsSettingRpt.GetSingle(id);
 
             if (single == null)
             {
                 return NotFound();
             }
-            //更新字段内容
-            single.UpdatedAt = DateTime.Now;
-            if(User.Identity is ClaimsIdentity identity)
-            {
-                single.CreatedBy = identity.Name ?? "test";
-            }
-            _kcGoodsRpt.Commit();
+			//更新字段内容
+			single.UpdatedAt = DateTime.Now;
+			if(User.Identity is ClaimsIdentity identity)
+			{
+			    single.CreatedBy = identity.Name ?? "test";
+			}
+            _smsSettingRpt.Commit();
             return new NoContentResult();
         }
 
@@ -81,13 +91,14 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _smsSettingRpt.GetSingle(id);
             if (single == null)
             {
                 return new NotFoundResult();
             }
+
             single.IsValid = false;
-            _kcGoodsRpt.Commit();
+            _smsSettingRpt.Commit();
 
             return new NoContentResult();
         }

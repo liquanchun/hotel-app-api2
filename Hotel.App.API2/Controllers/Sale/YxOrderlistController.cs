@@ -71,7 +71,7 @@ namespace Hotel.App.API2.Controllers
 			single.UpdatedAt = DateTime.Now;
 			if(User.Identity is ClaimsIdentity identity)
 			{
-				value.CreatedBy = identity.Name ?? "test";
+			    single.CreatedBy = identity.Name ?? "test";
 			}
             _yxOrderlistRpt.Commit();
             return new NoContentResult();

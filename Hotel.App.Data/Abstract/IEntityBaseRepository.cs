@@ -14,6 +14,7 @@ namespace Hotel.App.Data.Abstract
         int Count();
         bool Exist(Expression<Func<T, bool>> predicate);
         T GetSingle(int id);
+        T GetFirst();
         T GetSingle(Expression<Func<T, bool>> predicate);
         T GetSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);

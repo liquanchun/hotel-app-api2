@@ -9,29 +9,31 @@ using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
 using Hotel.App.API2.Common;
+using Hotel.App.Model.House;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
-    public class SetAgentController : Controller
+    public class SmsTemplateController : Controller
     {
 		private readonly IMapper _mapper;
-        private readonly ISetAgentRepository _setAgentRpt;
-        public SetAgentController(ISetAgentRepository setAgentRpt,
+        private readonly ISmsTemplateRepository _smsTemplateRpt;
+        public SmsTemplateController(ISmsTemplateRepository smsTemplateRpt,
 				IMapper mapper)
         {
-            _setAgentRpt = setAgentRpt;
+            _smsTemplateRpt = smsTemplateRpt;
 			_mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<set_agent> entityDto = null;
+		    IEnumerable<sms_template> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _setAgentRpt.FindBy(f => f.IsValid);
+				entityDto = _smsTemplateRpt.FindBy(f => f.IsValid);
 			});
             return new OkObjectResult(entityDto);
         }
@@ -39,43 +41,43 @@ namespace Hotel.App.API2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var single = _setAgentRpt.GetSingle(id);
+            var single = _smsTemplateRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]set_agent value)
+        public async Task<IActionResult> Post([FromBody]sms_template value)
         {
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
-            value.IsValid = true;
+			value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
-            _setAgentRpt.Add(value);
-            _setAgentRpt.Commit();
+            _smsTemplateRpt.Add(value);
+            _smsTemplateRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]set_agent value)
+        public async Task<IActionResult> Put(int id, [FromBody]sms_template value)
         {
-            var single = _setAgentRpt.GetSingle(id);
+            var single = _smsTemplateRpt.GetSingle(id);
 
             if (single == null)
             {
                 return NotFound();
             }
-            ObjectCopy.Copy<set_agent>(single, value, new string[] { "name", "typeName", "linkMan", "mobile", "address", "contractNo", "contractDate1", "contractDate2", "commissionType", "commissionRate", "remark" });
+            ObjectCopy.Copy<sms_template>(single, value, new string[] { "tmp_name", "to_business", "tmp_content", "remark" });
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
-            if(User.Identity is ClaimsIdentity identity)
-            {
-                single.CreatedBy = identity.Name ?? "test";
-            }
-            _setAgentRpt.Commit();
+			if(User.Identity is ClaimsIdentity identity)
+			{
+			    single.CreatedBy = identity.Name ?? "test";
+			}
+            _smsTemplateRpt.Commit();
             return new NoContentResult();
         }
 
@@ -83,18 +85,16 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var single = _setAgentRpt.GetSingle(id);
+            var single = _smsTemplateRpt.GetSingle(id);
             if (single == null)
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                single.IsValid = false;
-                _setAgentRpt.Commit();
 
-                return new NoContentResult();
-            }
+            single.IsValid = false;
+            _smsTemplateRpt.Commit();
+
+            return new NoContentResult();
         }
     }
 }

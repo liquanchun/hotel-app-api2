@@ -59,6 +59,11 @@ namespace Hotel.App.API2
             services.AddScoped<IYxBooklistRepository, YxBooklistRepository>();
             services.AddScoped<IYxOrderRepository, YxOrderRepository>();
             services.AddScoped<IYxOrderlistRepository, YxOrderlistRepository>();
+
+            services.AddScoped<ISmsSendrecordRepository, SmsSendrecordRepository>();
+            services.AddScoped<ISmsSettingRepository, SmsSettingRepository>();
+            services.AddScoped<ISmsTemplateRepository, SmsTemplateRepository>();
+            services.AddScoped<IYxCustomerRepository, YxCustomerRepository>();
         }
     }
 }

@@ -72,7 +72,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(668, 25);
             this.textBox2.TabIndex = 2;
-            this.textBox2.Text = "F:\\hotel-app-api2\\Hotel.App.API2\\Controllers\\template.txt";
+            this.textBox2.Text = "F:\\GitHub\\hotel-app-api2\\Hotel.App.API2\\Controllers\\template.txt";
             // 
             // textBox3
             // 
@@ -80,7 +80,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(694, 25);
             this.textBox3.TabIndex = 3;
-            this.textBox3.Text = "F:\\hotel-app-api2\\Hotel.App.API2\\Controllers";
+            this.textBox3.Text = "F:\\GitHub\\hotel-app-api2\\Hotel.App.API2\\Controllers";
             // 
             // 名称空间
             // 
@@ -133,7 +133,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(694, 25);
             this.textBox4.TabIndex = 8;
-            this.textBox4.Text = "F:\\hotel-app-api2\\Hotel.App.Data\\Repositories";
+            this.textBox4.Text = "F:\\GitHub\\hotel-app-api2\\Hotel.App.Data\\Repositories";
             // 
             // textBox5
             // 
@@ -141,7 +141,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(668, 25);
             this.textBox5.TabIndex = 7;
-            this.textBox5.Text = "F:\\hotel-app-api2\\Hotel.App.Data\\Repositories\\template.txt";
+            this.textBox5.Text = "F:\\GitHub\\hotel-app-api2\\Hotel.App.Data\\Repositories\\template.txt";
             // 
             // richTextBox1
             // 
@@ -185,7 +185,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(668, 25);
             this.textBox6.TabIndex = 14;
-            this.textBox6.Text = "F:\\hotel-app-api2\\Hotel.App.Model";
+            this.textBox6.Text = "F:\\GitHub\\hotel-app-api2\\Hotel.App.Model";
             // 
             // checkBox1
             // 

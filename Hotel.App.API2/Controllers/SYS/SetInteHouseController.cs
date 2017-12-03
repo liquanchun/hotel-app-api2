@@ -102,7 +102,7 @@ namespace Hotel.App.API2.Controllers
             single.UseWeeks = value.UseWeeks;
             if(User.Identity is ClaimsIdentity identity)
             {
-                value.CreatedBy = identity.Name ?? "test";
+                single.CreatedBy = identity.Name ?? "test";
             }
             _setInteHouseRpt.Commit();
             return new NoContentResult();

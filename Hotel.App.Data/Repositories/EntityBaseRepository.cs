@@ -51,7 +51,10 @@ namespace Hotel.App.Data.Repositories
         {
             return _context.Set<T>().FirstOrDefault(x => x.Id == id);
         }
-
+        public T GetFirst()
+        {
+            return _context.Set<T>().FirstOrDefault();
+        }
         public T GetSingle(Expression<Func<T, bool>> predicate)
         {
             return _context.Set<T>().FirstOrDefault(predicate);

@@ -78,7 +78,7 @@ namespace Hotel.App.API2.Controllers
             single.CardFee = value.CardFee;
             if(User.Identity is ClaimsIdentity identity)
             {
-                value.CreatedBy = identity.Name ?? "test";
+                single.CreatedBy = identity.Name ?? "test";
             }
             _setCardRpt.Commit();
             return new NoContentResult();

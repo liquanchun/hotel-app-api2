@@ -46,8 +46,11 @@ namespace Hotel.App.API2.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]yx_book value)
         {
+            value.Status = "未完成";
+            value.OrderNo = GetOrderNo();
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
+            value.BookTime = DateTime.Now;
             value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {
@@ -71,7 +74,7 @@ namespace Hotel.App.API2.Controllers
             single.UpdatedAt = DateTime.Now;
             if(User.Identity is ClaimsIdentity identity)
             {
-                value.CreatedBy = identity.Name ?? "test";
+                single.CreatedBy = identity.Name ?? "test";
             }
             _yxBookRpt.Commit();
             return new NoContentResult();
@@ -86,10 +89,24 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            single.IsValid = false;
+            single.Status = "取消";
             _yxBookRpt.Commit();
 
             return new NoContentResult();
+        }
+        /// <summary>
+        /// 获取订单号
+        /// </summary>
+        /// <param name="intype"></param>
+        /// <returns></returns>
+        private string GetOrderNo()
+        {
+            string preCode = "YY";
+            int orderCount = _yxBookRpt
+                .FindBy(f => f.CreatedAt > DateTime.Today && f.CreatedAt < DateTime.Today.AddDays(1)).Count();
+            string orderNo =
+                $"{preCode}{DateTime.Today.ToString("yyyyMMdd")}{(orderCount + 1).ToString().PadLeft(3, '0')}";
+            return orderNo;
         }
     }
 }

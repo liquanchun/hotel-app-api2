@@ -51,10 +51,13 @@ namespace Hotel.App.API2.Controllers
                         string[] roleid = item.RoleIds.Split(",".ToCharArray());
                         for (int i = 0; i < roleid.Length; i++)
                         {
-                            var role = _sysRoleRpt.GetSingle(int.Parse(roleid[i]));
-                            if (role != null)
+                            if (!string.IsNullOrEmpty(roleid[i]))
                             {
-                                roleName.Add(role.RoleName);
+                                var role = _sysRoleRpt.GetSingle(int.Parse(roleid[i]));
+                                if (role != null)
+                                {
+                                    roleName.Add(role.RoleName);
+                                }
                             }
                         }
                     }
@@ -66,10 +69,10 @@ namespace Hotel.App.API2.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Get(string userId)
         {
-            var single = _sysUserRpt.GetSingle(id);
+            var single = _sysUserRpt.GetSingle(f => f.UserId == userId);
             return new OkObjectResult(single);
         }
         // POST api/values
@@ -143,17 +146,28 @@ namespace Hotel.App.API2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]sys_user value)
         {
-            using (var tran = _context.Database.BeginTransaction())
+            if (id == 0)
             {
-                try
+                //修改密码
+                var usr = _sysUserRpt.GetSingle(f => f.UserId == value.UserId);
+                if (usr != null)
                 {
-                    sys_user userDb = _sysUserRpt.GetSingle(id);
-                    if (userDb == null)
+                    usr.Pwd = value.Pwd;
+                    _sysUserRpt.Update(usr);
+                    _sysUserRpt.Commit();
+                }
+            }
+            else
+            {
+                using (var tran = _context.Database.BeginTransaction())
+                {
+                    try
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
+                        sys_user userDb = _sysUserRpt.GetSingle(id);
+                        if (userDb == null)
+                        {
+                            return NotFound();
+                        }
                         userDb.IsValid = value.IsValid;
                         userDb.Mobile = value.Mobile;
                         userDb.Weixin = value.Weixin;
@@ -176,20 +190,20 @@ namespace Hotel.App.API2.Controllers
                             {
                                 if (!string.IsNullOrEmpty(item))
                                 {
-                                    var userrole = new sys_role_user { RoleId = int.Parse(item), UserId = id };
+                                    var userrole = new sys_role_user {RoleId = int.Parse(item), UserId = id};
                                     _sysRoleUserRpt.Add(userrole);
                                 }
                             }
                             _sysRoleUserRpt.Commit();
                         }
+                        tran.Commit();
                     }
-                    tran.Commit();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    tran.Rollback();
-                    return BadRequest(ex);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        tran.Rollback();
+                        return BadRequest(ex);
+                    }
                 }
             }
             return new NoContentResult();
