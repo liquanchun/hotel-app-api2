@@ -136,7 +136,10 @@ namespace Hotel.App.API2
                         {
                             var logger = loggerFactory.CreateLogger("UnHandler Error");
                             logger.LogError(error.Error.Message + ". {path}", context.Request.Path);
-                            logger.LogError(error.Error.InnerException.Message);
+                            if (error.Error.InnerException != null)
+                            {
+                                logger.LogError(error.Error.InnerException.Message);
+                            }
                             logger.LogError(error.Error.StackTrace.ToString());
 
                             context.Response.AddApplicationError(error.Error.Message);
