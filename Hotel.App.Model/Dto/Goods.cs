@@ -1,7 +1,7 @@
 namespace Hotel.App.Model.Store
 {
    using System;
-   public partial class kc_goods : IEntityBase
+   public partial class Goods
    {
       ///<summary>
       ///
@@ -15,10 +15,12 @@ namespace Hotel.App.Model.Store
       ///
       ///</summary>
       public int TypeId { get; set; }
-      ///<summary>
-      ///
-      ///</summary>
-      public string Unit { get; set; }
+
+       public string TypeName { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
+        public string Unit { get; set; }
       ///<summary>
       ///
       ///</summary>

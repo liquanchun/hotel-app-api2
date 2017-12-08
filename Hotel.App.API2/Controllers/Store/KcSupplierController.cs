@@ -8,6 +8,8 @@ using Hotel.App.Model.Store;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.API2.Common;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -67,6 +69,7 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
+            ObjectCopy.Copy<kc_supplier>(single, value, new string[] { "name", "address", "linkMan", "tel", "bankName", "bankAcc", "bankAccNo", "remark" });
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
             if(User.Identity is ClaimsIdentity identity)

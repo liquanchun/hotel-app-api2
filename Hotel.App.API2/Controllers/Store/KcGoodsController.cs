@@ -8,6 +8,8 @@ using Hotel.App.Model.Store;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.API2.Common;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -17,11 +19,13 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private IKcGoodsRepository _kcGoodsRpt;
-        public KcGoodsController(IKcGoodsRepository kcGoodsRpt,
-				IMapper mapper)
+        private readonly ISysDicRepository _sysDicRpt;
+        public KcGoodsController(IKcGoodsRepository kcGoodsRpt, ISysDicRepository sysDicRpt,
+        IMapper mapper)
         {
             _kcGoodsRpt = kcGoodsRpt;
-			_mapper = mapper;
+            _sysDicRpt = sysDicRpt;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
@@ -32,7 +36,14 @@ namespace Hotel.App.API2.Controllers
             {
 				entityDto = _kcGoodsRpt.FindBy(f => f.IsValid);
 			});
-            return new OkObjectResult(entityDto);
+            var entity = _mapper.Map<IEnumerable<kc_goods>, IEnumerable<Goods>>(entityDto).ToList();
+            var dicList = _sysDicRpt.GetAll().ToList();
+            foreach (var hs in entity)
+            {
+                var dic = dicList.FirstOrDefault(f => f.Id == hs.TypeId);
+                if (dic != null) hs.TypeName = dic.DicName;
+            }
+            return new OkObjectResult(entity);
         }
         // GET api/values/5
         [HttpGet("{id}")]
@@ -67,6 +78,7 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
+            ObjectCopy.Copy<kc_goods>(single, value, new string[] { "name","typeId", "unit", "maxAmount", "minAmount", "remark" });
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
             if(User.Identity is ClaimsIdentity identity)
