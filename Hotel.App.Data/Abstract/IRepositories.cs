@@ -72,4 +72,6 @@ namespace Hotel.App.Data.Abstract
     public interface ISmsTemplateRepository : IEntityBaseRepository<sms_template> { }
     public interface IYxCustomerRepository : IEntityBaseRepository<yx_customer> { }
 
+    public interface IKcStoreinlistRepository : IEntityBaseRepository<kc_storeinlist> { }
+
 }

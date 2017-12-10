@@ -81,6 +81,7 @@ namespace Hotel.App.Data
             modelBuilder.Entity<sms_template>().ToTable("sms_template");
 
             modelBuilder.Entity<yx_customer>().ToTable("yx_customer");
+            modelBuilder.Entity<kc_storeinlist>().ToTable("kc_storeinlist");
         }
     }
 }
