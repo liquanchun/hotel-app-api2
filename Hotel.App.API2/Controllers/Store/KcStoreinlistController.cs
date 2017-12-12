@@ -30,7 +30,7 @@ namespace Hotel.App.API2.Controllers
 		    IEnumerable<kc_storeinlist> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _kcStoreinlistRpt.FindBy(f => f.IsValid);
+				entityDto = _kcStoreinlistRpt.GetAll();
 			});
             return new OkObjectResult(entityDto);
         }
@@ -46,13 +46,6 @@ namespace Hotel.App.API2.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]kc_storeinlist value)
         {
-            value.CreatedAt = DateTime.Now;
-			value.UpdatedAt = DateTime.Now;
-			value.IsValid = true;
-            if(User.Identity is ClaimsIdentity identity)
-            {
-                value.CreatedBy = identity.Name ?? "test";
-            }
             _kcStoreinlistRpt.Add(value);
             _kcStoreinlistRpt.Commit();
             return new OkObjectResult(value);
@@ -67,12 +60,6 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-			//更新字段内容
-			single.UpdatedAt = DateTime.Now;
-			if(User.Identity is ClaimsIdentity identity)
-			{
-				single.CreatedBy = identity.Name ?? "test";
-			}
             _kcStoreinlistRpt.Commit();
             return new NoContentResult();
         }
@@ -87,7 +74,6 @@ namespace Hotel.App.API2.Controllers
                 return new NotFoundResult();
             }
 
-            single.IsValid = false;
             _kcStoreinlistRpt.Commit();
 
             return new NoContentResult();
