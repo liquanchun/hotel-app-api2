@@ -8,6 +8,8 @@ using Hotel.App.Model.House;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.Model.SYS;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -17,11 +19,14 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly IFwCleanRepository _fwCleanRpt;
+        private readonly ISysUserRepository _sysUserRpt;
         public FwCleanController(IFwCleanRepository fwCleanRpt,
-				IMapper mapper)
+            ISysUserRepository sysUserRpt,
+                IMapper mapper)
         {
             _fwCleanRpt = fwCleanRpt;
-			_mapper = mapper;
+            _sysUserRpt = sysUserRpt;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
@@ -32,6 +37,15 @@ namespace Hotel.App.API2.Controllers
             {
 				entityDto = _fwCleanRpt.FindBy(f => f.IsValid);
 			});
+            var entity = _mapper.Map<IEnumerable<fw_clean>, IEnumerable<FWCleanDto>>(entityDto).ToList();
+            var userList = _sysUserRpt.GetAll();
+
+            foreach (var ent in entity)
+            {
+                var sysUsers = userList as sys_user[] ?? userList.ToArray();
+                var user = sysUsers.FirstOrDefault(f => f.UserId == ent.CleanMan);
+                if (user != null) ent.CleanManTxt = user.UserName;
+            }
             return new OkObjectResult(entityDto);
         }
         // GET api/values/5

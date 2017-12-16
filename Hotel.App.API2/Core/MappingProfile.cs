@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hotel.App.Model.Account;
 using Hotel.App.Model.Dto;
 using Hotel.App.Model.House;
 using Hotel.App.Model.Sale;
@@ -50,8 +51,17 @@ namespace Hotel.App.API2.Core
             CreateMap<yx_customer, CustomerDto>();
             CreateMap<CustomerDto, yx_customer>();
 
-            CreateMap<kc_goods, Goods>();
-            CreateMap<Goods, kc_goods>();
+            CreateMap<kc_goods, GoodsDto>();
+            CreateMap<GoodsDto, kc_goods>();
+
+            CreateMap<cw_prefee, CWPreFeeDto>();
+            CreateMap<CWPreFeeDto, cw_prefee>();
+
+            CreateMap<cw_cusaccount, CWCusAccountDto>();
+            CreateMap<CWCusAccountDto, cw_cusaccount>();
+
+            CreateMap<fw_clean, FWCleanDto>();
+            CreateMap<FWCleanDto, fw_clean>();
 
             CreateMap<set_paytype, SetPaytypeDto>()
                 .ForMember(d => d.IsReturnT, opt => opt.MapFrom(s => s.IsReturn ? "是":"否"))

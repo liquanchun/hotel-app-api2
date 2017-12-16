@@ -66,6 +66,11 @@ namespace Hotel.App.API2
             services.AddScoped<IYxCustomerRepository, YxCustomerRepository>();
             services.AddScoped<IKcStoreinlistRepository, KcStoreinlistRepository>();
 
+            services.AddScoped<ICwCusaccountRepository, CwCusaccountRepository>();
+            services.AddScoped<ICwInvoiceRepository, CwInvoiceRepository>();
+            services.AddScoped<ICwPreauthRepository, CwPreauthRepository>();
+            services.AddScoped<ICwPrefeeRepository, CwPrefeeRepository>();
+
         }
     }
 }

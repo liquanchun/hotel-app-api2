@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Hotel.App.Data.Abstract;
+using Hotel.App.Data.Repositories;
+using Hotel.App.Model.Account;
 
 namespace Hotel.App.Data
 {
@@ -82,6 +85,12 @@ namespace Hotel.App.Data
 
             modelBuilder.Entity<yx_customer>().ToTable("yx_customer");
             modelBuilder.Entity<kc_storeinlist>().ToTable("kc_storeinlist");
+
+            modelBuilder.Entity<cw_cusaccount>().ToTable("cw_cusaccount");
+            modelBuilder.Entity<cw_invoice>().ToTable("cw_invoice");
+            modelBuilder.Entity<cw_preauth>().ToTable("cw_preauth");
+            modelBuilder.Entity<cw_prefee>().ToTable("cw_prefee");
+
         }
     }
 }

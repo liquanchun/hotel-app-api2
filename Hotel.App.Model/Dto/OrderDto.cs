@@ -74,5 +74,9 @@ namespace Hotel.App.Model.Dto
         ///
         ///</summary>
         public string CreatedBy { get; set; }
+
+        public int ComeType { get; set; }
+
+        public string ComeTypeTxt { get; set; }
     }
 }

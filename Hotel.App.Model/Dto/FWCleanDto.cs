@@ -1,42 +1,33 @@
-namespace Hotel.App.Model.Store
+namespace Hotel.App.Model.House
 {
    using System;
-   public partial class Goods
+   public partial class FWCleanDto
    {
       ///<summary>
       ///
       ///</summary>
       public int Id { get; set; }
       ///<summary>
-      ///
+      ///房号
       ///</summary>
-      public string Name { get; set; }
+      public string HouseCode { get; set; }
       ///<summary>
-      ///
+      ///扫房时间
       ///</summary>
-      public int TypeId { get; set; }
+      public DateTime CleanTime { get; set; }
+      ///<summary>
+      ///扫房人
+      ///</summary>
+      public string CleanMan { get; set; }
 
-       public string TypeName { get; set; }
+       ///<summary>
+       ///扫房人
+       ///</summary>
+       public string CleanManTxt { get; set; }
         ///<summary>
-        ///
+        ///是否续住
         ///</summary>
-        public string Unit { get; set; }
-      ///<summary>
-      ///
-      ///</summary>
-      public decimal Price { get; set; }
-      ///<summary>
-      ///
-      ///</summary>
-      public decimal EmpPrice { get; set; }
-      ///<summary>
-      ///
-      ///</summary>
-      public decimal MaxAmount { get; set; }
-      ///<summary>
-      ///
-      ///</summary>
-      public decimal MinAmount { get; set; }
+        public bool IsOverStay { get; set; }
       ///<summary>
       ///
       ///</summary>

@@ -4,44 +4,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
-using Hotel.App.Model.Store;
+using Hotel.App.Model.Account;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
-using Hotel.App.API2.Common;
-
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
-    public class KcGoodsController : Controller
+    public class CwCusaccountController : Controller
     {
 		private readonly IMapper _mapper;
-        private IKcGoodsRepository _kcGoodsRpt;
         private readonly ISysDicRepository _sysDicRpt;
-        public KcGoodsController(IKcGoodsRepository kcGoodsRpt, ISysDicRepository sysDicRpt,
+        private readonly ISetPaytypeRepository _setPaytypeRepository;
+        private readonly ICwCusaccountRepository _cwCusaccountRpt;
+        public CwCusaccountController(ICwCusaccountRepository cwCusaccountRpt, ISysDicRepository sysDicRpt, ISetPaytypeRepository setPaytypeRepository,
         IMapper mapper)
         {
-            _kcGoodsRpt = kcGoodsRpt;
-            _sysDicRpt = sysDicRpt;
+            _cwCusaccountRpt = cwCusaccountRpt;
+            _setPaytypeRepository = setPaytypeRepository;
             _mapper = mapper;
+            _sysDicRpt = sysDicRpt;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<kc_goods> entityDto = null;
+		    IEnumerable<cw_cusaccount> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _kcGoodsRpt.FindBy(f => f.IsValid);
+				entityDto = _cwCusaccountRpt.FindBy(f => f.IsValid);
 			});
-            var entity = _mapper.Map<IEnumerable<kc_goods>, IEnumerable<GoodsDto>>(entityDto).ToList();
-            var dicList = _sysDicRpt.GetAll().ToList();
+            var entity = _mapper.Map<IEnumerable<cw_cusaccount>, IEnumerable<CWCusAccountDto>>(entityDto).ToList();
+            var payTypeList = this._setPaytypeRepository.GetAll();
             foreach (var hs in entity)
             {
-                var dic = dicList.FirstOrDefault(f => f.Id == hs.TypeId);
-                if (dic != null) hs.TypeName = dic.DicName;
+                hs.PayTypeTxt = payTypeList.FirstOrDefault(f => f.Id == hs.PayType).Name;
             }
             return new OkObjectResult(entity);
         }
@@ -49,43 +48,40 @@ namespace Hotel.App.API2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _cwCusaccountRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]kc_goods value)
+        public async Task<IActionResult> Post([FromBody]cw_cusaccount value)
         {
             value.CreatedAt = DateTime.Now;
-			value.UpdatedAt = DateTime.Now;
-            value.IsValid = true;
+			value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
-            _kcGoodsRpt.Add(value);
-            _kcGoodsRpt.Commit();
+            _cwCusaccountRpt.Add(value);
+            _cwCusaccountRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]kc_goods value)
+        public async Task<IActionResult> Put(int id, [FromBody]cw_cusaccount value)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _cwCusaccountRpt.GetSingle(id);
 
             if (single == null)
             {
                 return NotFound();
             }
-            ObjectCopy.Copy<kc_goods>(single, value, new string[] { "name","typeId", "unit", "maxAmount", "minAmount", "remark" });
-            //更新字段内容
-            single.UpdatedAt = DateTime.Now;
-            if(User.Identity is ClaimsIdentity identity)
-            {
-                single.CreatedBy = identity.Name ?? "test";
-            }
-            _kcGoodsRpt.Commit();
+			//更新字段内容
+			if(User.Identity is ClaimsIdentity identity)
+			{
+				single.CreatedBy = identity.Name ?? "test";
+			}
+            _cwCusaccountRpt.Commit();
             return new NoContentResult();
         }
 
@@ -93,13 +89,14 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _cwCusaccountRpt.GetSingle(id);
             if (single == null)
             {
                 return new NotFoundResult();
             }
+
             single.IsValid = false;
-            _kcGoodsRpt.Commit();
+            _cwCusaccountRpt.Commit();
 
             return new NoContentResult();
         }

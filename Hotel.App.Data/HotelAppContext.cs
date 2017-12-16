@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Hotel.App.Model;
+using Hotel.App.Model.Account;
 using Hotel.App.Model.SYS;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Hotel.App.Model.House;
@@ -69,6 +70,11 @@ namespace Hotel.App.Data
         public DbSet<yx_customer> YxCustomers { get; set; }
 
         public DbSet<kc_storeinlist> KcStoreinlists { get; set; }
+
+        public DbSet<cw_cusaccount> CwCusaccounts { get; set; }
+        public DbSet<cw_invoice> CwInvoices { get; set; }
+        public DbSet<cw_preauth> CwPreauths { get; set; }
+        public DbSet<cw_prefee> CwPrefees { get; set; }
         public HotelAppContext(DbContextOptions options) : base(options)
         {
         }

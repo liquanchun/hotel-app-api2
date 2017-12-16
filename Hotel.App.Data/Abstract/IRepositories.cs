@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hotel.App.Model.Account;
 
 namespace Hotel.App.Data.Abstract
 {
@@ -74,4 +75,8 @@ namespace Hotel.App.Data.Abstract
 
     public interface IKcStoreinlistRepository : IEntityBaseRepository<kc_storeinlist> { }
 
+    public interface ICwCusaccountRepository : IEntityBaseRepository<cw_cusaccount> { }
+    public interface ICwInvoiceRepository : IEntityBaseRepository<cw_invoice> { }
+    public interface ICwPreauthRepository : IEntityBaseRepository<cw_preauth> { }
+    public interface ICwPrefeeRepository : IEntityBaseRepository<cw_prefee> { }
 }

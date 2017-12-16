@@ -9,6 +9,7 @@ using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
 using Hotel.App.API2.Common;
+using Hotel.App.Data;
 using Hotel.App.Model.SYS;
 using Newtonsoft.Json.Serialization;
 
@@ -23,17 +24,26 @@ namespace Hotel.App.API2.Controllers
         private readonly IFwHouseinfoRepository _fwHouseinfoRpt;
         private readonly ISetHouseTypeRepository _setHouseTypeRpt;
         private readonly ISysDicRepository _sysDicRpt;
+        private readonly HotelAppContext _context;
         private readonly IFwStatelogRepository _fwStatelogRepository;
-        public FwHouseinfoController(IFwHouseinfoRepository fwHouseinfoRpt, 
+        private readonly IFwCleanRepository _cleanRepository;
+        private readonly IFwRepairRepository _fwRepairRepository;
+        public FwHouseinfoController(IFwHouseinfoRepository fwHouseinfoRpt,
+            HotelAppContext context,
             ISetHouseTypeRepository setHouseTypeRpt,
+            IFwRepairRepository fwRepairRepository,
             ISysDicRepository sysDicRpt,
             IFwStatelogRepository fwStatelogRepository,
-                IMapper mapper)
+            IFwCleanRepository cleanRepository,
+        IMapper mapper)
         {
             _fwHouseinfoRpt = fwHouseinfoRpt;
             _setHouseTypeRpt = setHouseTypeRpt;
             _fwStatelogRepository = fwStatelogRepository;
+            _cleanRepository = cleanRepository;
+            _fwRepairRepository = fwRepairRepository;
             _sysDicRpt = sysDicRpt;
+            _context = context;
             _mapper = mapper;
         }
         // GET: api/values
@@ -73,6 +83,63 @@ namespace Hotel.App.API2.Controllers
             return new OkObjectResult(single);
         }
 
+        [HttpPost("clear")]
+        public async Task<IActionResult> PostClear([FromBody] fw_clean value)
+        {
+            int oldState = int.Parse(value.CreatedBy);
+            string createBy = string.Empty;
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                createBy = identity.Name ?? "test";
+            }
+            value.CreatedBy = createBy;
+            value.IsValid = true;
+            value.CleanTime = DateTime.Now;
+            value.IsOverStay = false;
+
+            using (var tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    //增加扫房日志
+                    _cleanRepository.Add(value);
+                    _cleanRepository.Commit();
+                    //新增房态日志
+                    _fwStatelogRepository.Add(new fw_statelog()
+                    {
+                        HouseCode = value.HouseCode,
+                        OldState = oldState,
+                        NewState = 1001,
+                        OrderNo = string.Empty,
+                        CreatedAt = DateTime.Now,
+                        UpdatedAt = DateTime.Now,
+                        IsValid = true,
+                        CreatedBy = createBy
+                    });
+                    _fwStatelogRepository.Commit();
+                    //修改房屋状态
+                   var house = _fwHouseinfoRpt.GetSingle(f => f.Code == value.HouseCode);
+                    if (house != null)
+                    {
+                        house.State = 1001;
+                    }
+                    _fwHouseinfoRpt.Commit();
+
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return new BadRequestResult();
+                }
+            }
+            return new OkObjectResult(value);
+        }
+        [HttpPost("repair")]
+        public async Task<IActionResult> PostRepair([FromBody] fw_repair value)
+        {
+            return new OkObjectResult(value);
+        }
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]fw_houseinfo value)

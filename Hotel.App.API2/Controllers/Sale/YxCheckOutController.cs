@@ -9,6 +9,7 @@ using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
 using Hotel.App.Data;
+using Hotel.App.Model.Account;
 using Hotel.App.Model.Dto;
 using Hotel.App.Model.House;
 
@@ -27,6 +28,8 @@ namespace Hotel.App.API2.Controllers
         private readonly ISetPaytypeRepository _setPaytypeRepository;
         private readonly ISetHouseTypeRepository _setHouseTypeRepository;
         private readonly IYxCustomerRepository _yxCustomerRpt;
+        private readonly ISysDicRepository _sysDicRpt;
+        private readonly ICwCusaccountRepository _cwCusaccountRpt;
         private readonly HotelAppContext _context;
         public YxCheckOutController(IYxOrderRepository yxOrderRpt, 
             IYxOrderlistRepository yxOrderlistRpt,
@@ -35,9 +38,12 @@ namespace Hotel.App.API2.Controllers
             ISetPaytypeRepository setPaytypeRepository,
             ISetHouseTypeRepository setHouseTypeRepository,
             IYxCustomerRepository yxCustomerRpt,
+            ICwCusaccountRepository cwCusaccountRpt,
+        ISysDicRepository sysDicRpt,
         HotelAppContext context,
                 IMapper mapper)
         {
+            _sysDicRpt = sysDicRpt;
             _yxOrderRpt = yxOrderRpt;
             _yxOrderlistRpt = yxOrderlistRpt;
             _fwHouseinfoRpt = fwHouseinfoRpt;
@@ -45,136 +51,115 @@ namespace Hotel.App.API2.Controllers
             _setPaytypeRepository = setPaytypeRepository;
             _setHouseTypeRepository = setHouseTypeRepository;
             _yxCustomerRpt = yxCustomerRpt;
+            _cwCusaccountRpt = cwCusaccountRpt;
             _context = context;
             _mapper = mapper;
         }
         // GET: api/values
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("{code}")]
+        public async Task<IActionResult> Get(string code)
         {
-            IEnumerable<yx_order> entityDto = null;
-            await Task.Run(() =>
+            //订单信息
+            var orderDetail = _yxOrderlistRpt.FindBy(f => f.HouseCode == code && f.IsValid).OrderByDescending(f => f.Id)
+                .First();
+            if (orderDetail == null)
             {
-                entityDto = _yxOrderRpt.FindBy(f =>
-                    f.IsValid);  //&& f.CreatedAt > DateTime.Today && f.CreatedAt < DateTime.Today.AddDays(1)
-            });
-            var orderDtoList = _mapper.Map<IEnumerable<yx_order>, IEnumerable<OrderDto>>(entityDto).ToList();
-            var payTypeList = this._setPaytypeRepository.GetAll();
-            var houseTypeList = this._setHouseTypeRepository.GetAll();
-
-            var entityListDto = new List<yx_orderlist>();
-            foreach (var od in orderDtoList)
-            {
-                od.PayTypeTxt = payTypeList.FirstOrDefault(f => f.Id == od.PayType).Name;
-                entityListDto.AddRange(_yxOrderlistRpt.FindBy(f => f.OrderId == od.Id));
+                return BadRequest($"未找到房号{code}的订单");
             }
-
-            var orderDetailList = _mapper.Map<List<yx_orderlist>, List<OrderListDto>>(entityListDto).ToList();
-            foreach (var odt in orderDetailList)
+            //房屋状态
+            var houseInfo = _fwHouseinfoRpt.GetSingle(f => f.Code == code);
+            if (houseInfo.State != 1003 && houseInfo.State != 1004)
+            {
+                var state = _sysDicRpt.GetSingle(houseInfo.State);
+                return BadRequest($"房号{code}状态为{state.DicName}，不能结算。");
+            }
+            //订单信息
+            var orderInfo = _yxOrderRpt.GetSingle(orderDetail.OrderId);
+            if (orderInfo == null)
+            {
+                return BadRequest($"未找到房号{code}订单信息。");
+            }
+            //订单列表
+            var houseTypeList = this._setHouseTypeRepository.GetAll();
+            var orderDetailList = _yxOrderlistRpt.FindBy(f => f.OrderId == orderInfo.Id).ToList();
+            var orderDetaiDTOlList = _mapper.Map<List<yx_orderlist>, List<OrderListDto>>(orderDetailList).ToList();
+            foreach (var odt in orderDetaiDTOlList)
             {
                 odt.HouseTypeTxt = houseTypeList.FirstOrDefault(f => f.Id == odt.HouseType).TypeName;
             }
-            var orderObj = new OrderDataDto { OrderList = orderDtoList, OrderDetailList = orderDetailList};
+
+            var orderDto = _mapper.Map<yx_order, OrderDto>(orderInfo);
+            var payTypeList = this._setPaytypeRepository.GetAll();
+            orderDto.PayTypeTxt = payTypeList.FirstOrDefault(f => f.Id == orderDto.PayType).Name;
+            if (orderDto.ComeType > 0 && _sysDicRpt.GetSingle(orderDto.ComeType) != null)
+            {
+                orderDto.ComeTypeTxt = _sysDicRpt.GetSingle(orderDto.ComeType).DicName;
+            }
+            var orderObj = new OrderDataDto { OrderList = new List<OrderDto>(){orderDto}, OrderDetailList = orderDetaiDTOlList };
             return new OkObjectResult(orderObj);
         }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var single = _yxOrderRpt.GetSingle(id);
-            return new OkObjectResult(single);
-        }
         /// <summary>
-        /// 客人入住办理
+        /// 客人退房办理,对于整张单结算
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CheckInOrderDto value)
+        public async Task<IActionResult> Post([FromBody]cw_cusaccount value)
         {
-            //订单信息
+            value.CreatedAt = DateTime.Now;
+            value.IsValid = true;
             string createBy = string.Empty;
-            var order = value.YxOrder;
-            order.CreatedAt = DateTime.Now;
-            order.UpdatedAt = DateTime.Now;
-            order.IsValid = true;
             if (User.Identity is ClaimsIdentity identity)
             {
                 createBy = identity.Name ?? "test";
             }
-            order.CreatedBy = createBy;
-            order.Status = "未结账";
-            order.OrderNo = GetOrderNo(order.InType);
-            _yxOrderRpt.Add(order);
-            //事务处理
+            value.CreatedBy = createBy;
+
             using (var tran = _context.Database.BeginTransaction())
             {
                 try
                 {
+                    _cwCusaccountRpt.Add(value);
+                    _cwCusaccountRpt.Commit();
+
+                    var orderDetail = _yxOrderlistRpt.FindBy(f => f.HouseCode == value.HouseCode && f.IsValid).OrderByDescending(f => f.Id)
+                        .First();
+                    //更改订单状态
+                    var order = _yxOrderRpt.GetSingle(f => f.Id == orderDetail.OrderId);
+                    order.Status = "已结算";
+                    order.UpdatedAt = DateTime.Now;
                     _yxOrderRpt.Commit();
-                    //订单明细
-                    foreach (var orderDetail in value.YxOrderList)
+
+                    var orderDetailList = _yxOrderlistRpt.FindBy(f => f.OrderId == order.Id);
+                    foreach (var ordd in orderDetailList)
                     {
-                        orderDetail.OrderId = order.Id;
-                        orderDetail.CreatedAt = DateTime.Now;
-                        orderDetail.UpdatedAt = DateTime.Now;
-                        orderDetail.IsValid = true;
-                        orderDetail.CreatedBy = createBy;
-                        //计算预计退房时间
-                        orderDetail.PreLeaveTime = DateTime.Today.AddDays(orderDetail.Days + 1).AddHours(12);
-                        _yxOrderlistRpt.Add(orderDetail);
-                        //修改房屋状态
-                        var houseInfo = _fwHouseinfoRpt.FindBy(f => f.Code == orderDetail.HouseCode).FirstOrDefault();
+                        //更新房态
+                        var house = _fwHouseinfoRpt.GetSingle(f => f.Code == ordd.HouseCode);
+                        house.State = 1002;//空脏
+                        _fwHouseinfoRpt.Commit();
+
                         //新增房态日志
                         _fwStatelogRepository.Add(new fw_statelog()
                         {
                             HouseCode = orderDetail.HouseCode,
-                            OldState = houseInfo.State,
-                            NewState = 1003,
+                            OldState = house.State,
+                            NewState = 1002,
                             OrderNo = order.OrderNo,
                             CreatedAt = DateTime.Now,
                             UpdatedAt = DateTime.Now,
                             IsValid = true,
                             CreatedBy = createBy
                         });
-                        if (houseInfo != null)
-                        {
-                            houseInfo.State = 1003;  //住人净
-                            houseInfo.OrderNo = order.OrderNo;
-                            houseInfo.CusName = value.YxOrderList.Count == 1 && orderDetail.CusName != order.CusName ? order.CusName + "，" + orderDetail.CusName : orderDetail.CusName;
-                        }
-                        //添加到客户资料表中
-                        if (!_yxCustomerRpt.Exist(f => f.IDCardNo == order.IdCard))
-                        {
-                            var customer = new yx_customer
-                            {
-                                CustomerName = orderDetail.CusName,
-                                IDCardNo = orderDetail.IdCard,
-                                Mobile = order.CusPhone,
-                                IsValid = true,
-                                CreatedBy = createBy,
-                                CreatedAt = DateTime.Now,
-                                UpdatedAt = DateTime.Now
-                            };
-                            _yxCustomerRpt.Add(customer);
-                        }
+                        _fwStatelogRepository.Commit();
                     }
-                    _yxCustomerRpt.Commit();
-                    _fwStatelogRepository.Commit();
-                    _fwHouseinfoRpt.Commit();
-                    _yxOrderlistRpt.Commit();
                     tran.Commit();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                    tran.Rollback();
-                    return new BadRequestResult();
+                    return BadRequest(e.Message);
                 }
             }
-
             return new OkObjectResult(value);
         }
         // PUT api/values/5

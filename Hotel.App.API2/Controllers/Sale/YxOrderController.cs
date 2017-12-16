@@ -9,6 +9,7 @@ using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
 using Hotel.App.Data;
+using Hotel.App.Model.Account;
 using Hotel.App.Model.Dto;
 using Hotel.App.Model.House;
 
@@ -27,6 +28,8 @@ namespace Hotel.App.API2.Controllers
         private readonly ISetPaytypeRepository _setPaytypeRepository;
         private readonly ISetHouseTypeRepository _setHouseTypeRepository;
         private readonly IYxCustomerRepository _yxCustomerRpt;
+        private readonly ICwPrefeeRepository _cwPrefeeRepository;
+        private readonly ICwPreauthRepository _cwPreauthRepository;
         private readonly HotelAppContext _context;
         public YxOrderController(IYxOrderRepository yxOrderRpt, 
             IYxOrderlistRepository yxOrderlistRpt,
@@ -35,6 +38,8 @@ namespace Hotel.App.API2.Controllers
             ISetPaytypeRepository setPaytypeRepository,
             ISetHouseTypeRepository setHouseTypeRepository,
             IYxCustomerRepository yxCustomerRpt,
+            ICwPrefeeRepository cwPrefeeRepository,
+            ICwPreauthRepository cwPreauthRepository,
         HotelAppContext context,
                 IMapper mapper)
         {
@@ -45,6 +50,8 @@ namespace Hotel.App.API2.Controllers
             _setPaytypeRepository = setPaytypeRepository;
             _setHouseTypeRepository = setHouseTypeRepository;
             _yxCustomerRpt = yxCustomerRpt;
+            _cwPrefeeRepository = cwPrefeeRepository;
+            _cwPreauthRepository = cwPreauthRepository;
             _context = context;
             _mapper = mapper;
         }
@@ -161,6 +168,42 @@ namespace Hotel.App.API2.Controllers
                             _yxCustomerRpt.Add(customer);
                         }
                     }
+
+                    if (order.PayType == 1)
+                    {
+                        //预授权支付
+                        _cwPreauthRepository.Add(new cw_preauth()
+                        {
+                            HouseCode = value.YxOrderList.First().HouseCode,
+                            CusName = order.CusName,
+                            AuthNo = order.BillNo,
+                            Amount = order.HouseFee,
+                            OrderNo = order.OrderNo,
+                            Remark = order.Remark,
+                            CreatedBy = order.CreatedBy,
+                            CreatedAt = DateTime.Now,
+                            IsValid = true
+                        });
+                        _cwPreauthRepository.Commit();
+                    }
+                    else
+                    {
+                        //预定金
+                        _cwPrefeeRepository.Add(new cw_prefee()
+                        {
+                            HouseCode = value.YxOrderList.First().HouseCode,
+                            CusName = order.CusName,
+                            PayType = order.PayType,
+                            Amount = order.HouseFee,
+                            OrderNo = order.OrderNo,
+                            Remark = order.Remark,
+                            CreatedBy = order.CreatedBy,
+                            CreatedAt = DateTime.Now,
+                            IsValid = true
+                        });
+                        _cwPrefeeRepository.Commit();
+                    }
+
                     _yxCustomerRpt.Commit();
                     _fwStatelogRepository.Commit();
                     _fwHouseinfoRpt.Commit();
@@ -169,9 +212,8 @@ namespace Hotel.App.API2.Controllers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
                     tran.Rollback();
-                    return new BadRequestResult();
+                    return BadRequest(e.Message);
                 }
             }
 

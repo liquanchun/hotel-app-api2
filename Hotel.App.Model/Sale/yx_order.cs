@@ -67,5 +67,7 @@ namespace Hotel.App.Model.Sale
       ///
       ///</summary>
       public string CreatedBy { get; set; }
+
+      public int ComeType { get; set; }
    }
 }
