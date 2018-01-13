@@ -14,7 +14,7 @@ namespace Hotel.App.Model.Store
       ///<summary>
       ///类型
       ///</summary>
-      public string TypeName { get; set; }
+      public int TypeId { get; set; }
       ///<summary>
       ///
       ///</summary>
@@ -26,23 +26,19 @@ namespace Hotel.App.Model.Store
       ///<summary>
       ///仓库
       ///</summary>
-      public string Storage { get; set; }
+      public int StoreId { get; set; }
+       ///<summary>
+       ///仓库
+       ///</summary>
+       public int OrgId { get; set; }
+        ///<summary>
+        ///经办人
+        ///</summary>
+        public string Operator { get; set; }
       ///<summary>
-      ///经办人
+      ///合计金额
       ///</summary>
-      public string Operator { get; set; }
-      ///<summary>
-      ///商品
-      ///</summary>
-      public int GoodsId { get; set; }
-      ///<summary>
-      ///数量
-      ///</summary>
-      public decimal GoodsAmount { get; set; }
-      ///<summary>
-      ///价格
-      ///</summary>
-      public decimal GoodsPrice { get; set; }
+      public decimal Amount { get; set; }
       ///<summary>
       ///
       ///</summary>
@@ -63,5 +59,7 @@ namespace Hotel.App.Model.Store
       ///
       ///</summary>
       public string CreatedBy { get; set; }
+
+      public string Status { get; set; }
    }
 }

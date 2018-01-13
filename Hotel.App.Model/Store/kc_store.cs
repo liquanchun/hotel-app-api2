@@ -10,19 +10,19 @@ namespace Hotel.App.Model.Store
       ///<summary>
       ///仓库
       ///</summary>
-      public string Storage { get; set; }
+      public int StoreId { get; set; }
       ///<summary>
       ///商品ID
       ///</summary>
       public int GoodsId { get; set; }
       ///<summary>
-      ///数量
+      ///金额
       ///</summary>
       public decimal Amount { get; set; }
       ///<summary>
-      ///总价
+      ///数量
       ///</summary>
-      public decimal TotalPrice { get; set; }
+      public decimal Number { get; set; }
       ///<summary>
       ///
       ///</summary>

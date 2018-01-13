@@ -75,6 +75,13 @@ namespace Hotel.App.API2.Controllers
             var single = _sysUserRpt.GetSingle(f => f.UserId == userId);
             return new OkObjectResult(single);
         }
+        // GET api/values/5
+        [HttpGet("org/{orgId}")]
+        public async Task<IActionResult> GetUserByOrgId(int orgId)
+        {
+            var users = _sysUserRpt.FindBy(f => f.OrgId == orgId);
+            return new OkObjectResult(users);
+        }
         // POST api/values
         //[Route("login")]
         //[HttpPost( Name ="Login")]
