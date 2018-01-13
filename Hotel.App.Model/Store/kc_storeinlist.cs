@@ -7,10 +7,12 @@ namespace Hotel.App.Model.Store
       ///
       ///</summary>
       public int Id { get; set; }
+
+      public int GoodsTypeId { get; set; }
       ///<summary>
       ///
       ///</summary>
-      public int GoodsId { get; set; }
+        public int GoodsId { get; set; }
       ///<summary>
       ///
       ///</summary>

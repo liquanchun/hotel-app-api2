@@ -63,6 +63,15 @@ namespace Hotel.App.API2.Core
             CreateMap<fw_clean, FWCleanDto>();
             CreateMap<FWCleanDto, fw_clean>();
 
+            CreateMap<kc_storein, StoreInGridDto>();
+            CreateMap<StoreInGridDto, kc_storein>();
+
+            CreateMap<kc_storeinlist, StoreInListDto>();
+            CreateMap<StoreInListDto, kc_storeinlist>();
+
+            CreateMap<kc_store, StoreDto>();
+            CreateMap<StoreDto, kc_store>();
+
             CreateMap<set_paytype, SetPaytypeDto>()
                 .ForMember(d => d.IsReturnT, opt => opt.MapFrom(s => s.IsReturn ? "是":"否"))
                 .ForMember(d => d.IsIntegralT, opt => opt.MapFrom(s => s.IsIntegral ? "是" : "否"))

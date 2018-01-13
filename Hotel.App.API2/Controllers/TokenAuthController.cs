@@ -5,21 +5,28 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
+using Hotel.App.Data;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
+using Hotel.App.Model.SYS;
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
     public class TokenAuthController : Controller
     {
-        [HttpPut("Login")]
-        public IActionResult Login([FromBody]User user)
+        private readonly HotelAppContext _context;
+        public TokenAuthController(HotelAppContext context)
         {
-            User existUser = UserStorage.Users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
-
+            _context = context;
+        }
+        [HttpPost("Login")]
+        public IActionResult Login([FromBody]sys_user user)
+        {
+            //User existUser = UserStorage.Users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+            var existUser =
+                _context.SysUsers.FirstOrDefault(f => f.UserId == user.UserId && f.Pwd == user.Pwd);
             if (existUser != null)
             {
 
@@ -42,17 +49,17 @@ namespace Hotel.App.API2.Controllers
             return Json(new RequestResult
             {
                 State = RequestState.Failed,
-                Msg = "Username or password is invalid"
+                Msg = "用户名或密码错误。"
             });
         }
 
-        private string GenerateToken(User user, DateTime expires)
+        private string GenerateToken(sys_user user, DateTime expires)
         {
             var handler = new JwtSecurityTokenHandler();
 
             ClaimsIdentity identity = new ClaimsIdentity(
-                new GenericIdentity(user.Username, "TokenAuth"),
-                new[] { new Claim("ID", user.ID.ToString())}
+                new GenericIdentity(user.UserId, "TokenAuth"),
+                new[] { new Claim("ID", user.UserId)}
             );
 
             var securityToken = handler.CreateToken(new SecurityTokenDescriptor

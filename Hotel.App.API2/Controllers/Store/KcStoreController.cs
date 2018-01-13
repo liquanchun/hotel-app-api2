@@ -8,6 +8,9 @@ using Hotel.App.Model.Store;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.Model.Dto;
+using Hotel.App.Model.SYS;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -17,11 +20,17 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly IKcStoreRepository _kcStoreRpt;
+        private readonly IKcGoodsRepository _kcGoodsRepository;
+        private readonly ISysDicRepository _sysDicRepository;
         public KcStoreController(IKcStoreRepository kcStoreRpt,
-				IMapper mapper)
+            ISysDicRepository sysDicRepository,
+            IKcGoodsRepository kcGoodsRepository,
+                IMapper mapper)
         {
             _kcStoreRpt = kcStoreRpt;
 			_mapper = mapper;
+            _sysDicRepository = sysDicRepository;
+            _kcGoodsRepository = kcGoodsRepository;
         }
         // GET: api/values
         [HttpGet]
@@ -32,7 +41,19 @@ namespace Hotel.App.API2.Controllers
             {
 				entityDto = _kcStoreRpt.FindBy(f => f.IsValid);
 			});
-            return new OkObjectResult(entityDto);
+            var storeDtoList = _mapper.Map<IEnumerable<kc_store>, IEnumerable<StoreDto>>(entityDto).ToList();
+
+            var kcGoodsList = _kcGoodsRepository.GetAll();
+            var sysDicList = _sysDicRepository.GetAll();
+            var sysDics = sysDicList as sys_dic[] ?? sysDicList.ToArray();
+            var kcGoodses = kcGoodsList as kc_goods[] ?? kcGoodsList.ToArray();
+            foreach (var store in storeDtoList)
+            {
+                store.GoodsTypeIdTxt = sysDics.FirstOrDefault(f => f.Id == store.GoodsTypeId)?.DicName;
+                store.StoreIdTxt = sysDics.FirstOrDefault(f => f.Id == store.StoreId)?.DicName;
+                store.GoodsIdTxt = kcGoodses.FirstOrDefault(f => f.Id == store.GoodsId)?.Name;
+            }
+            return new OkObjectResult(storeDtoList);
         }
         // GET api/values/5
         [HttpGet("{id}")]

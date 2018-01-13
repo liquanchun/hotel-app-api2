@@ -9,6 +9,7 @@ using Hotel.App.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Hotel.App.API2.Controllers
 {
@@ -34,11 +35,14 @@ namespace Hotel.App.API2.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public string Get(int id)
         {
-            var username = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            return username;
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                return identity.Name ?? "test";
+            }
+            return "no";
         }
 
         // POST api/values

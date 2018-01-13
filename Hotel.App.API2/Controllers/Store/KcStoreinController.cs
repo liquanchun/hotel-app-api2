@@ -10,6 +10,7 @@ using AutoMapper;
 using System.Security.Claims;
 using Hotel.App.Data;
 using Hotel.App.Model.Dto;
+using Hotel.App.Model.SYS;
 using NLog;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,28 +24,74 @@ namespace Hotel.App.API2.Controllers
         private readonly IKcStoreinRepository _kcStoreinRpt;
         private readonly IKcStoreinlistRepository _kcStoreinlistRpt;
         private readonly IKcStoreRepository _kcStoreRpt;
+        private readonly IKcGoodsRepository _kcGoodsRepository;
+        private readonly ISysUserRepository _sysUserRepository;
+        private readonly IKcSupplierRepository _kcSupplierRepository;
+        private readonly ISysDicRepository _sysDicRepository;
+        private readonly ISysOrgRepository _sysOrgRepository;
         private readonly HotelAppContext _context;
         public KcStoreinController(IKcStoreinRepository kcStoreinRpt, HotelAppContext context,
             IKcStoreRepository kcStoreRpt,
-            IKcStoreinlistRepository kcStoreinlistRepository,IMapper mapper)
+            ISysUserRepository sysUserRepository,
+            IKcSupplierRepository kcSupplierRepository,
+            ISysDicRepository sysDicRepository,
+            ISysOrgRepository sysOrgRepository,
+            IKcGoodsRepository kcGoodsRepository,
+        IKcStoreinlistRepository kcStoreinlistRepository,IMapper mapper)
         {
             _kcStoreinRpt = kcStoreinRpt;
 			_mapper = mapper;
             _context = context;
             _kcStoreinlistRpt = kcStoreinlistRepository;
             _kcStoreRpt = kcStoreRpt;
+            _sysUserRepository = sysUserRepository;
+            _kcSupplierRepository = kcSupplierRepository;
+            _sysDicRepository = sysDicRepository;
+            _sysOrgRepository = sysOrgRepository;
+            _kcGoodsRepository = kcGoodsRepository;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<kc_storein> entityDto = null;
+            IEnumerable<kc_storein> entityDto = null;
+            IEnumerable<kc_storeinlist> entityDetailDto = null;
             await Task.Run(() =>
             {
-				entityDto = _kcStoreinRpt.FindBy(f => f.IsValid);
-			});
-            return new OkObjectResult(entityDto);
+                entityDto = _kcStoreinRpt.FindBy(f => f.IsValid);
+                entityDetailDto = _kcStoreinlistRpt.GetAll();
+            });
+            var storeinDtoList = _mapper.Map<IEnumerable<kc_storein>, IEnumerable<StoreInGridDto>>(entityDto).ToList();
+            var storeinDetailDtoList = _mapper.Map<IEnumerable<kc_storeinlist>, IEnumerable<StoreInListDto>>(entityDetailDto).ToList();
+
+            var sysUserList = _sysUserRepository.GetAll();
+            var kcSupplierList = _kcSupplierRepository.GetAll();
+            var sysDicList = _sysDicRepository.GetAll();
+            var sysOrgList = _sysOrgRepository.GetAll();
+            var kcGoodsList = _kcGoodsRepository.GetAll();
+
+            var sysDics = sysDicList as sys_dic[] ?? sysDicList.ToArray();
+            var sysUsers = sysUserList as sys_user[] ?? sysUserList.ToArray();
+            var sysOrgs = sysOrgList as sys_org[] ?? sysOrgList.ToArray();
+            var kcSuppliers = kcSupplierList as kc_supplier[] ?? kcSupplierList.ToArray();
+
+            foreach (var store in storeinDtoList)
+            {
+                store.OperatorTxt = sysUsers.FirstOrDefault(f => f.UserId == store.Operator)?.UserName;
+                store.OrgIdTxt = sysOrgs.FirstOrDefault(f => f.Id == store.OrgId)?.DeptName;
+                store.StoreIdTxt = sysDics.FirstOrDefault(f => f.Id == store.StoreId)?.DicName;
+                store.SupplierIdTxt = kcSuppliers.FirstOrDefault(f => f.Id == store.SupplierId)?.Name;
+                store.TypeIdTxt = sysDics.FirstOrDefault(f => f.Id == store.TypeId)?.DicName;
+            }
+            var kcGoodses = kcGoodsList as kc_goods[] ?? kcGoodsList.ToArray();
+            foreach (var strdetail in storeinDetailDtoList)
+            {
+                strdetail.GoodsIdTxt = kcGoodses.FirstOrDefault(f => f.Id == strdetail.GoodsId)?.Name;
+                strdetail.GoodsTypeIdTxt = sysDics.FirstOrDefault(f => f.Id == strdetail.GoodsTypeId)?.DicName;
+            }
+            return new OkObjectResult(new StoreInAllDto(){  StoreInList = storeinDtoList , StoreInDetailList = storeinDetailDtoList });
         }
+
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -52,7 +99,43 @@ namespace Hotel.App.API2.Controllers
             var single = _kcStoreinRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
-
+        [HttpGet("cancel/{id}")]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var single = _kcStoreinRpt.GetSingle(id);
+            single.Status = "作废";
+            single.UpdatedAt = DateTime.Now;
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                single.CreatedBy = identity.Name ?? "test";
+            }
+            using (var tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var storeList = _kcStoreinlistRpt.FindBy(f => f.orderno == single.OrderNo);
+                    foreach (var store in storeList)
+                    {
+                        var kucun = _kcStoreRpt.GetSingle(f =>
+                            f.GoodsId == store.GoodsId && f.StoreId == single.StoreId);
+                        if (kucun != null)
+                        {
+                            kucun.Amount = kucun.Amount - store.amount;
+                            kucun.Number = kucun.Number - store.number;
+                        }
+                    }
+                    _kcStoreRpt.Commit();
+                    _kcStoreinRpt.Commit();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return BadRequest(ex.Message);
+                }
+            }
+            return new OkObjectResult(single);
+        }
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]StoreInDto value)

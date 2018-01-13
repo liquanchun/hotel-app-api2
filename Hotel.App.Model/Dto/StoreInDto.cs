@@ -12,4 +12,10 @@ namespace Hotel.App.Model.Dto
 
         public List<kc_storeinlist> StoreinList { get; set; }
     }
+    public class StoreInAllDto
+    {
+        public List<StoreInGridDto> StoreInList { get; set; }
+
+        public List<StoreInListDto> StoreInDetailList { get; set; }
+    }
 }

@@ -11,10 +11,12 @@ namespace Hotel.App.Model.Store
       ///单号
       ///</summary>
       public string OrderNo { get; set; }
-      ///<summary>
-      ///类型
-      ///</summary>
-      public int TypeId { get; set; }
+
+       public string BillNo { get; set; }
+        ///<summary>
+        ///类型
+        ///</summary>
+        public int TypeId { get; set; }
       ///<summary>
       ///
       ///</summary>

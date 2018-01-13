@@ -15,10 +15,12 @@ namespace Hotel.App.Model.Store
       ///商品ID
       ///</summary>
       public int GoodsId { get; set; }
+
+      public int GoodsTypeId { get; set; }
       ///<summary>
       ///金额
       ///</summary>
-      public decimal Amount { get; set; }
+        public decimal Amount { get; set; }
       ///<summary>
       ///数量
       ///</summary>
