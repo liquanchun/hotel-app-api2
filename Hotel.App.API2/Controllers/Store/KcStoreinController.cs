@@ -8,6 +8,8 @@ using Hotel.App.Model.Store;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Hotel.App.Data;
 using Hotel.App.Model.Dto;
 using Hotel.App.Model.SYS;
@@ -58,7 +60,7 @@ namespace Hotel.App.API2.Controllers
             IEnumerable<kc_storeinlist> entityDetailDto = null;
             await Task.Run(() =>
             {
-                entityDto = _kcStoreinRpt.FindBy(f => f.IsValid);
+                entityDto = _kcStoreinRpt.FindBy(f => f.IsValid).OrderByDescending(f => f.CreatedAt);
                 entityDetailDto = _kcStoreinlistRpt.GetAll();
             });
             var storeinDtoList = _mapper.Map<IEnumerable<kc_storein>, IEnumerable<StoreInGridDto>>(entityDto).ToList();
@@ -77,7 +79,7 @@ namespace Hotel.App.API2.Controllers
 
             foreach (var store in storeinDtoList)
             {
-                store.OperatorTxt = sysUsers.FirstOrDefault(f => f.UserId == store.Operator)?.UserName;
+                store.OperatorTxt = sysUsers.FirstOrDefault(f => f.Id == store.Operator)?.UserName;
                 store.OrgIdTxt = sysOrgs.FirstOrDefault(f => f.Id == store.OrgId)?.DeptName;
                 store.StoreIdTxt = sysDics.FirstOrDefault(f => f.Id == store.StoreId)?.DicName;
                 store.SupplierIdTxt = kcSuppliers.FirstOrDefault(f => f.Id == store.SupplierId)?.Name;
@@ -90,6 +92,51 @@ namespace Hotel.App.API2.Controllers
                 strdetail.GoodsTypeIdTxt = sysDics.FirstOrDefault(f => f.Id == strdetail.GoodsTypeId)?.DicName;
             }
             return new OkObjectResult(new StoreInAllDto(){  StoreInList = storeinDtoList , StoreInDetailList = storeinDetailDtoList });
+        }
+        // GET api/values/5
+        [HttpGet("byorg")]
+        public async Task<IActionResult> GetGroupByOrg()
+        {
+            //var single = _kcStoreinRpt.FindBy(f => f.IsValid).GroupBy(f => f.OrgId).Select(f => f.ToList());
+            var query = from m in _kcStoreinRpt.FindBy(f => f.IsValid)
+                group m by m.OrgId
+                into g
+                join o in _sysOrgRepository.FindBy(f => f.IsValid) on g.FirstOrDefault().OrgId equals o.Id
+                select new {Name = o.DeptName, Value = g.Count()};
+            return new OkObjectResult(query);
+        }
+
+        [HttpGet("bymonth")]
+        public async Task<IActionResult> GetGroupByMonth()
+        {
+            var orgList = _sysOrgRepository.FindBy(f => f.IsValid && f.ParentId > 0).ToList();
+            var storeInList = _kcStoreinRpt.FindBy(f => f.IsValid).ToList();
+            Dictionary<string, Dictionary<string, int>> dictionary2 = new Dictionary<string, Dictionary<string, int>>();
+
+            try
+            {
+                foreach (var o in orgList)
+                {
+                    Dictionary<string, int> dictionary = new Dictionary<string, int>();
+                    for (int i = 5; i >= 0; i--)
+                    {
+                        var dateTime = i > 0 ? DateTime.Today.AddMonths(-i) : DateTime.Today;
+                        var startTime = new DateTime(dateTime.Year, dateTime.Month, 1);
+                        var endTime = startTime.AddMonths(1).AddDays(-1);
+                        var storein = storeInList
+                            .FindAll(f => f.CreatedAt >= startTime && f.CreatedAt <= endTime && f.OrgId == o.Id)
+                            .ToList();
+
+                        dictionary.Add(dateTime.ToString("yyyy年MM月"), storein.Count);
+                    }
+                    dictionary2.Add(o.DeptName, dictionary);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return new OkObjectResult(dictionary2);
         }
 
         // GET api/values/5
@@ -142,6 +189,10 @@ namespace Hotel.App.API2.Controllers
         {
             if (value.Storein != null && value.StoreinList != null)
             {
+                if (_kcStoreinRpt.Exist(f => f.OrderNo == value.Storein.OrderNo))
+                {
+                    return BadRequest($"入库单号{value.Storein.OrderNo}已经存在。");
+                }
                 var storeIn = value.Storein;
                 storeIn.CreatedAt = DateTime.Now;
                 storeIn.UpdatedAt = DateTime.Now;
@@ -151,19 +202,22 @@ namespace Hotel.App.API2.Controllers
                 {
                     storeIn.CreatedBy = identity.Name ?? "test";
                 }
-                storeIn.OrderNo = GetOrderNo();
+                //storeIn.OrderNo = GetOrderNo();
                 using (var tran = _context.Database.BeginTransaction())
                 {
                     try
                     {
                         //入库单
                         _kcStoreinRpt.Add(storeIn);
+                        _kcStoreinRpt.Commit();
                         foreach (var store in value.StoreinList)
                         {
                             //入库明细
                             store.orderno = storeIn.OrderNo;
                             _kcStoreinlistRpt.Add(store);
-                            //更新库存
+                            _kcStoreinlistRpt.Commit();
+
+                            //更新库存(仓库，货位，产品)
                             var kucun = _kcStoreRpt.GetSingle(f =>
                                 f.GoodsId == store.GoodsId && f.StoreId == storeIn.StoreId);
                             if (kucun == null)
@@ -177,7 +231,10 @@ namespace Hotel.App.API2.Controllers
                                     CreatedAt = DateTime.Now,
                                     UpdatedAt = DateTime.Now,
                                     IsValid = true,
-                                    CreatedBy = storeIn.CreatedBy
+                                    CreatedBy = storeIn.CreatedBy,
+                                    OrgId = storeIn.OrgId,
+                                    GoodsSite = store.goodssite,
+                                    GoodsTypeId = store.GoodsTypeId
                                 };
                                 _kcStoreRpt.Add(kcstore);
                             }
@@ -186,11 +243,8 @@ namespace Hotel.App.API2.Controllers
                                 kucun.Amount = kucun.Amount + store.amount;
                                 kucun.Number = kucun.Number + store.number;
                             }
+                            _kcStoreRpt.Commit();
                         }
-                        _kcStoreRpt.Commit();
-                        _kcStoreinlistRpt.Commit();
-                        _kcStoreinRpt.Commit();
-
                         tran.Commit();
                     }
                     catch (Exception ex)
@@ -242,14 +296,15 @@ namespace Hotel.App.API2.Controllers
         /// </summary>
         /// <param name="intype"></param>
         /// <returns></returns>
-        private string GetOrderNo()
+        [HttpGet("OrderNo")]
+        public IActionResult GetOrderNo()
         {
             string preCode = "RK";
             int orderCount = _kcStoreinRpt
                 .FindBy(f => f.CreatedAt > DateTime.Today && f.CreatedAt < DateTime.Today.AddDays(1)).Count();
             string orderNo =
                 $"{preCode}{DateTime.Today:yyyyMMdd}{(orderCount + 1).ToString().PadLeft(3, '0')}";
-            return orderNo;
+            return new OkObjectResult(new {data = orderNo});
         }
     }
 }

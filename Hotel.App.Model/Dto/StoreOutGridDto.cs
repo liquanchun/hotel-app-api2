@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Hotel.App.Model.Dto
 {
-    public class StoreInGridDto
+    public class StoreOutGridDto
     {
         ///<summary>
         ///
@@ -25,14 +25,9 @@ namespace Hotel.App.Model.Dto
         ///</summary>
         public string TypeIdTxt { get; set; }
         ///<summary>
-        ///
-        ///</summary>
-        public int SupplierId { get; set; }
-        public string SupplierIdTxt { get; set; }
-        ///<summary>
         ///日期
         ///</summary>
-        public DateTime InTime { get; set; }
+        public DateTime OutTime { get; set; }
         ///<summary>
         ///仓库
         ///</summary>

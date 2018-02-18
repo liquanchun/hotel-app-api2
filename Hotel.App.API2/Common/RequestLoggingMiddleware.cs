@@ -21,6 +21,10 @@ namespace Hotel.App.API2
         public async Task Invoke(HttpContext context)
         {
             var request = context.Request;
+            if (request.Path == "/api/TokenAuth")
+            {
+                return;
+            }
             _logger.LogInformation("request.Path:" + request.Path);
             //_logger.LogInformation("request.Headers:" + JsonConvert.SerializeObject(request.Headers, Formatting.Indented));
             _logger.LogInformation("request.QueryString:" + JsonConvert.SerializeObject(request.QueryString, Formatting.Indented));

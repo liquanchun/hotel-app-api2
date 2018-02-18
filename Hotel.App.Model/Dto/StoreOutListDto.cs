@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Hotel.App.Model.Dto
 {
-    public class StoreInListDto
+    public class StoreOutListDto
     {///<summary>
         ///
         ///</summary>

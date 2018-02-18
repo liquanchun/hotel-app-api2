@@ -55,5 +55,13 @@ namespace Hotel.App.Model.Store
       ///
       ///</summary>
       public string CreatedBy { get; set; }
-   }
+
+       public string LinkManTitle { get; set; }
+
+       public string LinkManTel { get; set; }
+
+       public string FaxNo { get; set; }
+
+       public string City { get; set; }
+    }
 }

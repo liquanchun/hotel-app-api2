@@ -57,5 +57,8 @@ namespace Hotel.App.Model.Store
       ///
       ///</summary>
       public string CreatedBy { get; set; }
-   }
+       public string GoodsCode { get; set; }
+
+       public string GoodsNo { get; set; }
+    }
 }

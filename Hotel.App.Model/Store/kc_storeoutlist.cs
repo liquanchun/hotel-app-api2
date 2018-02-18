@@ -1,7 +1,7 @@
 namespace Hotel.App.Model.Store
 {
    using System;
-   public partial class kc_storeinlist : IEntityBase
+   public partial class kc_storeoutlist : IEntityBase
    {
       ///<summary>
       ///

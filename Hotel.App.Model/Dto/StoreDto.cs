@@ -52,5 +52,11 @@ namespace Hotel.App.Model.Dto
         ///
         ///</summary>
         public string CreatedBy { get; set; }
+
+        public string GoodsSite { get; set; }
+
+        public int OrgId { get; set; }
+
+        public string OrgTxt { get; set; }
     }
 }

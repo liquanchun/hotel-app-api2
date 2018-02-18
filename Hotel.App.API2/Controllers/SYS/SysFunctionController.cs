@@ -6,12 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
 using Hotel.App.Model.SYS;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Hotel.App.API2.Core;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SysFunctionController : Controller
     {
         private readonly ISysFunctionRepository _sysFunctionRpt;

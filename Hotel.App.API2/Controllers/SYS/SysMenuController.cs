@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
 using Hotel.App.Model.SYS;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Hotel.App.API2.Core;
 using Hotel.App.Data;
 using Microsoft.Azure.KeyVault.Models;
@@ -15,6 +17,7 @@ using Microsoft.Azure.KeyVault.Models;
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SysMenuController : Controller
     {
         private readonly IMapper _mapper;

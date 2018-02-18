@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
 using Hotel.App.Model.Store;
-using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
 using Hotel.App.API2.Common;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class KcGoodsController : Controller
     {
 		private readonly IMapper _mapper;
@@ -78,7 +80,7 @@ namespace Hotel.App.API2.Controllers
             {
                 return NotFound();
             }
-            ObjectCopy.Copy<kc_goods>(single, value, new string[] { "name","typeId", "unit", "maxAmount", "minAmount", "remark" });
+            ObjectCopy.Copy<kc_goods>(single, value, new string[] { "name","typeId", "unit", "goodsCode", "minAmount", "remark", "goodsNo", "price" });
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
             if(User.Identity is ClaimsIdentity identity)

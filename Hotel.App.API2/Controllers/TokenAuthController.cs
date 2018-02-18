@@ -75,14 +75,14 @@ namespace Hotel.App.API2.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
-        public IActionResult GetUserInfo()
+        public IActionResult CheckSession()
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
-            return Json(new RequestResult
+            if (claimsIdentity == null)
             {
-                State = RequestState.Success,
-                Data = new { UserName = claimsIdentity.Name }
-            });
+                return new NoContentResult();
+            }
+            return new OkObjectResult(new { data = claimsIdentity.Name });
         }
     }
 }

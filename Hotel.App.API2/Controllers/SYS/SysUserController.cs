@@ -9,22 +9,27 @@ using AutoMapper;
 using NLog;
 using System.Security.Claims;
 using Hotel.App.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SysUserController : Controller
     {
         private readonly IMapper _mapper;
         private readonly ISysUserRepository _sysUserRpt;
         private readonly ISysRoleUserRepository _sysRoleUserRpt;
         private readonly ISysRoleRepository _sysRoleRpt;
+        private readonly ISysOrgRepository _orgRepository;
         private readonly HotelAppContext _context;
         public SysUserController(ISysUserRepository sysUserRpt, 
             ISysRoleUserRepository sysRoleUserRpt, 
             ISysRoleRepository sysRoleRpt,
-            HotelAppContext context,
+            ISysOrgRepository orgRepository,
+        HotelAppContext context,
             IMapper mapper)
         {
             _sysUserRpt = sysUserRpt;
@@ -32,40 +37,40 @@ namespace Hotel.App.API2.Controllers
             _sysRoleRpt = sysRoleRpt;
             _context = context;
             _mapper = mapper;
+            _orgRepository = orgRepository;
         }
         // GET: api/values
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             IEnumerable<SysUserDto> entityDto = null;
-            await Task.Run(() =>
+            var users = _sysUserRpt.FindBy(f => f.IsDelete == false);
+            entityDto = _mapper.Map<IEnumerable<sys_user>, IEnumerable<SysUserDto>>(users);
+
+            var orgList = _orgRepository.GetAll().ToList();
+            foreach (var item in entityDto)
             {
-                var users = _sysUserRpt.FindBy(f => f.IsDelete == false);
-                entityDto = _mapper.Map<IEnumerable<sys_user>, IEnumerable<SysUserDto>>(users);
-                foreach (var item in entityDto)
+                //角色名称转换
+                List<string> roleName = new List<string>();
+                if (!string.IsNullOrEmpty(item.RoleIds))
                 {
-                    //角色名称转换
-                    List<string> roleName = new List<string>();
-                    if (!string.IsNullOrEmpty(item.RoleIds))
+                    string[] roleid = item.RoleIds.Split(",".ToCharArray());
+                    for (int i = 0; i < roleid.Length; i++)
                     {
-                        string[] roleid = item.RoleIds.Split(",".ToCharArray());
-                        for (int i = 0; i < roleid.Length; i++)
+                        if (!string.IsNullOrEmpty(roleid[i]))
                         {
-                            if (!string.IsNullOrEmpty(roleid[i]))
+                            var role = _sysRoleRpt.GetSingle(int.Parse(roleid[i]));
+                            if (role != null)
                             {
-                                var role = _sysRoleRpt.GetSingle(int.Parse(roleid[i]));
-                                if (role != null)
-                                {
-                                    roleName.Add(role.RoleName);
-                                }
+                                roleName.Add(role.RoleName);
                             }
                         }
                     }
-                    item.RoleNames = string.Join(",", roleName);
                 }
-            });
-            return new OkObjectResult(entityDto);
-           
+                item.OrgIdTxt = orgList.FirstOrDefault(f => f.Id == item.OrgId)?.DeptName;
+                item.RoleNames = string.Join(",", roleName);
+            }
+            return new OkObjectResult(entityDto.ToList().OrderBy(f => f.UserName));
         }
 
         // GET api/values/5
@@ -177,8 +182,9 @@ namespace Hotel.App.API2.Controllers
                         }
                         userDb.IsValid = value.IsValid;
                         userDb.Mobile = value.Mobile;
-                        userDb.Weixin = value.Weixin;
-                        userDb.Email = value.Email;
+                        userDb.Tel = value.Tel;
+                        userDb.Works = value.Works;
+                        userDb.Title = value.Title;
                         userDb.UserId = value.UserId;
                         userDb.UserName = value.UserName;
                         userDb.UpdatedAt = DateTime.Now;

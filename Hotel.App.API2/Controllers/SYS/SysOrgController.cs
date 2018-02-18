@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
 using Hotel.App.Model.SYS;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Hotel.App.API2.Core;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SysOrgController : Controller
     {
         private readonly ISysOrgRepository _sysOrgRpt;
@@ -56,6 +60,11 @@ namespace Hotel.App.API2.Controllers
             }
             value.CreatedAt = DateTime.Now;
             value.UpdatedAt = DateTime.Now;
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                value.CreatedBy = identity.Name ?? "test";
+            }
+            value.IsValid = true;
             _sysOrgRpt.Add(value);
             _sysOrgRpt.Commit();
             return new OkObjectResult(value);
@@ -68,14 +77,18 @@ namespace Hotel.App.API2.Controllers
         /// <returns></returns>
         // POST api/values
         [HttpPost("{id}/{uid}", Name = "NewUserOrg")]
-        public IActionResult NewUserOrg(int id,int uid)
+        public IActionResult NewUserOrg(int id,string uid)
         {
-            sys_user sysUser = _sysUserRpt.GetSingle(uid);
-            if (sysUser != null)
+            var usrids = uid.Split(',');
+            foreach (var idstr in usrids)
             {
-                sysUser.OrgId = id;
-                _sysUserRpt.Commit();
+                sys_user sysUser = _sysUserRpt.GetSingle(int.Parse(idstr));
+                if (sysUser != null)
+                {
+                    sysUser.OrgId = id;
+                }
             }
+            _sysUserRpt.Commit();
             return new NoContentResult();
         }
         // PUT api/values/5

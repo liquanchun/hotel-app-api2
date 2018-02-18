@@ -19,14 +19,16 @@ namespace Hotel.App.Model.SYS
       ///
       ///</summary>
       public string Mobile { get; set; }
-      ///<summary>
-      ///微信
-      ///</summary>
-      public string Weixin { get; set; }
+
+      public string Tel { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
+      public string Works { get; set; }
       ///<summary>
       ///
       ///</summary>
-      public string Email { get; set; }
+      public string Title { get; set; }
       ///<summary>
       ///
       ///</summary>

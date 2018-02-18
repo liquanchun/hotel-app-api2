@@ -7,11 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
 using Hotel.App.Model.SYS;
 using Hotel.App.API2.Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SysDicController : Controller
     {
         private readonly ISysDicRepository _sysDicRpt;

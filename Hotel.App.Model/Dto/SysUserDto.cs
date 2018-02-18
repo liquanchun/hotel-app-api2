@@ -18,14 +18,15 @@ namespace Hotel.App.Model.SYS
         /// mobile
         /// </summary>		
         public string Mobile { get; set; }
-        /// <summary>
-        /// weixin
-        /// </summary>		
-        public string Weixin { get; set; }
-        /// <summary>
-        /// email
-        /// </summary>		
-        public string Email { get; set; }
+        public string Tel { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
+        public string Works { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
+        public string Title { get; set; }
         /// <summary>
         /// pwd
         /// </summary>		
@@ -38,6 +39,8 @@ namespace Hotel.App.Model.SYS
         /// org_id
         /// </summary>		
         public int OrgId { get; set; }
+
+        public string OrgIdTxt { get; set; }
         /// <summary>
         /// updatedAt
         /// </summary>		

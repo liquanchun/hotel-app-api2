@@ -69,6 +69,12 @@ namespace Hotel.App.API2.Core
             CreateMap<kc_storeinlist, StoreInListDto>();
             CreateMap<StoreInListDto, kc_storeinlist>();
 
+            CreateMap<kc_storeout, StoreOutGridDto>();
+            CreateMap<StoreOutGridDto, kc_storeout>();
+
+            CreateMap<kc_storeoutlist, StoreOutListDto>();
+            CreateMap<StoreOutListDto, kc_storeoutlist>();
+
             CreateMap<kc_store, StoreDto>();
             CreateMap<StoreDto, kc_store>();
 

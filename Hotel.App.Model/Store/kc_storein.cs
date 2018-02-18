@@ -36,7 +36,7 @@ namespace Hotel.App.Model.Store
         ///<summary>
         ///经办人
         ///</summary>
-        public string Operator { get; set; }
+        public int Operator { get; set; }
       ///<summary>
       ///合计金额
       ///</summary>

@@ -85,6 +85,7 @@ namespace Hotel.App.Data
 
             modelBuilder.Entity<yx_customer>().ToTable("yx_customer");
             modelBuilder.Entity<kc_storeinlist>().ToTable("kc_storeinlist");
+            modelBuilder.Entity<kc_storeoutlist>().ToTable("kc_storeoutlist");
 
             modelBuilder.Entity<cw_cusaccount>().ToTable("cw_cusaccount");
             modelBuilder.Entity<cw_invoice>().ToTable("cw_invoice");
