@@ -92,6 +92,7 @@ namespace Hotel.App.Data
             modelBuilder.Entity<cw_preauth>().ToTable("cw_preauth");
             modelBuilder.Entity<cw_prefee>().ToTable("cw_prefee");
 
+            modelBuilder.Entity<yx_serviceitem>().ToTable("yx_serviceitem");
         }
     }
 }

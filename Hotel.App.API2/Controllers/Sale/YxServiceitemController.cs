@@ -4,28 +4,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
-using Hotel.App.Model.Store;
+using Hotel.App.Model.Sale;
+using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
 using Hotel.App.API2.Common;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using Hotel.App.Model.Dto;
+using Hotel.App.Model.Store;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class KcGoodsController : Controller
+    public class YxServiceitemController : Controller
     {
 		private readonly IMapper _mapper;
-        private IKcGoodsRepository _kcGoodsRpt;
+        private readonly IYxServiceitemRepository _yxServiceitemRpt;
         private readonly ISysDicRepository _sysDicRpt;
-        public KcGoodsController(IKcGoodsRepository kcGoodsRpt, ISysDicRepository sysDicRpt,
-        IMapper mapper)
+        public YxServiceitemController(IYxServiceitemRepository yxServiceitemRpt, ISysDicRepository sysDicRpt,
+                IMapper mapper)
         {
-            _kcGoodsRpt = kcGoodsRpt;
+            _yxServiceitemRpt = yxServiceitemRpt;
             _sysDicRpt = sysDicRpt;
             _mapper = mapper;
         }
@@ -33,12 +33,12 @@ namespace Hotel.App.API2.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-		    IEnumerable<kc_goods> entityDto = null;
+		    IEnumerable<yx_serviceitem> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _kcGoodsRpt.FindBy(f => f.IsValid);
+				entityDto = _yxServiceitemRpt.FindBy(f => f.IsValid);
 			});
-            var entity = _mapper.Map<IEnumerable<kc_goods>, IEnumerable<GoodsDto>>(entityDto).ToList();
+            var entity = _mapper.Map<IEnumerable<yx_serviceitem>, IEnumerable<ServiceItemDto>>(entityDto).ToList();
             var dicList = _sysDicRpt.GetAll().ToList();
             foreach (var hs in entity)
             {
@@ -51,43 +51,43 @@ namespace Hotel.App.API2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _yxServiceitemRpt.GetSingle(id);
             return new OkObjectResult(single);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]kc_goods value)
+        public async Task<IActionResult> Post([FromBody]yx_serviceitem value)
         {
             value.CreatedAt = DateTime.Now;
 			value.UpdatedAt = DateTime.Now;
-            value.IsValid = true;
+			value.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {
                 value.CreatedBy = identity.Name ?? "test";
             }
-            _kcGoodsRpt.Add(value);
-            _kcGoodsRpt.Commit();
+            _yxServiceitemRpt.Add(value);
+            _yxServiceitemRpt.Commit();
             return new OkObjectResult(value);
         }
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]kc_goods value)
+        public async Task<IActionResult> Put(int id, [FromBody]yx_serviceitem value)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _yxServiceitemRpt.GetSingle(id);
 
             if (single == null)
             {
                 return NotFound();
             }
-            ObjectCopy.Copy(single, value, "name", "typeId", "unit", "goodsCode", "minAmount", "remark", "goodsNo", "price");
+            ObjectCopy.Copy(single, value, "name", "typeId", "unit", "itemCode", "integral", "remark", "price");
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
-            if(User.Identity is ClaimsIdentity identity)
-            {
-                single.CreatedBy = identity.Name ?? "test";
-            }
-            _kcGoodsRpt.Commit();
+			if(User.Identity is ClaimsIdentity identity)
+			{
+				single.CreatedBy = identity.Name ?? "test";
+			}
+            _yxServiceitemRpt.Commit();
             return new NoContentResult();
         }
 
@@ -95,13 +95,14 @@ namespace Hotel.App.API2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var single = _kcGoodsRpt.GetSingle(id);
+            var single = _yxServiceitemRpt.GetSingle(id);
             if (single == null)
             {
                 return new NotFoundResult();
             }
+
             single.IsValid = false;
-            _kcGoodsRpt.Commit();
+            _yxServiceitemRpt.Commit();
 
             return new NoContentResult();
         }

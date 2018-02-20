@@ -80,4 +80,6 @@ namespace Hotel.App.Data.Abstract
     public interface ICwPreauthRepository : IEntityBaseRepository<cw_preauth> { }
     public interface ICwPrefeeRepository : IEntityBaseRepository<cw_prefee> { }
     public interface IKcStoreoutlistRepository : IEntityBaseRepository<kc_storeoutlist> { }
+
+    public interface IYxServiceitemRepository : IEntityBaseRepository<yx_serviceitem> { }
 }

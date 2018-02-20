@@ -75,6 +75,8 @@ namespace Hotel.App.Data
         public DbSet<cw_invoice> CwInvoices { get; set; }
         public DbSet<cw_preauth> CwPreauths { get; set; }
         public DbSet<cw_prefee> CwPrefees { get; set; }
+
+        public DbSet<yx_serviceitem> YxServiceitems { get; set; }
         public HotelAppContext(DbContextOptions options) : base(options)
         {
         }

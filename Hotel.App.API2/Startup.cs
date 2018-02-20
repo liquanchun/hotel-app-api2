@@ -88,7 +88,6 @@ namespace Hotel.App.API2
                     // machines which should have synchronised time, this can be set to zero. and default value will be 5minutes
                     ClockSkew = TimeSpan.FromMinutes(0)
                 };
-
             });
 
             // Add MVC services to the services container.
@@ -100,7 +99,6 @@ namespace Hotel.App.API2
                     opts.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm";
                     opts.SerializerSettings.DateParseHandling = DateParseHandling.None;
                 });
-
             services.AddAutoMapper();
         }
 
