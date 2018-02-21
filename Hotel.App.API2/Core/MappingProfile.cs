@@ -81,6 +81,15 @@ namespace Hotel.App.API2.Core
             CreateMap<yx_serviceitem, ServiceItemDto>();
             CreateMap<ServiceItemDto, yx_serviceitem>();
 
+            CreateMap<yx_bookservice, BookServiceDto>();
+            CreateMap<BookServiceDto, yx_bookservice>();
+
+            CreateMap<yx_orderservice, OrderServiceDto>();
+            CreateMap<OrderServiceDto, yx_orderservice>();
+
+            CreateMap<yx_book, BookingDto>();
+            CreateMap<BookingDto, yx_book>();
+
             CreateMap<set_paytype, SetPaytypeDto>()
                 .ForMember(d => d.IsReturnT, opt => opt.MapFrom(s => s.IsReturn ? "是":"否"))
                 .ForMember(d => d.IsIntegralT, opt => opt.MapFrom(s => s.IsIntegral ? "是" : "否"))

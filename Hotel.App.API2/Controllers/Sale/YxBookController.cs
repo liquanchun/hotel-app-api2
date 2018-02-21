@@ -17,11 +17,14 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly IYxBookRepository _yxBookRpt;
+        private readonly ISetHouseTypeRepository _setHouseTypeRepository;
         public YxBookController(IYxBookRepository yxBookRpt,
-				IMapper mapper)
+            ISetHouseTypeRepository setHouseTypeRepository,
+        IMapper mapper)
         {
             _yxBookRpt = yxBookRpt;
-			_mapper = mapper;
+            _setHouseTypeRepository = setHouseTypeRepository;
+            _mapper = mapper;
         }
         // GET: api/values
         [HttpGet]
@@ -32,7 +35,14 @@ namespace Hotel.App.API2.Controllers
             {
 				entityDto = _yxBookRpt.FindBy(f => f.IsValid);
 			});
-            return new OkObjectResult(entityDto);
+            var entity = _mapper.Map<IEnumerable<yx_book>, IEnumerable<BookingDto>>(entityDto).ToList();
+            var dicList = _setHouseTypeRepository.GetAll().ToList();
+            foreach (var hs in entity)
+            {
+                var dic = dicList.FirstOrDefault(f => f.Id == hs.HouseTypeId);
+                if (dic != null) hs.HouseTypeName = dic.TypeName;
+            }
+            return new OkObjectResult(entity);
         }
         // GET api/values/5
         [HttpGet("{id}")]

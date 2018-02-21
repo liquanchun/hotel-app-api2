@@ -82,4 +82,8 @@ namespace Hotel.App.Data.Abstract
     public interface IKcStoreoutlistRepository : IEntityBaseRepository<kc_storeoutlist> { }
 
     public interface IYxServiceitemRepository : IEntityBaseRepository<yx_serviceitem> { }
+
+    public interface IYxBookserviceRepository : IEntityBaseRepository<yx_bookservice> { }
+    public interface IYxOrderserviceRepository : IEntityBaseRepository<yx_orderservice> { }
+
 }

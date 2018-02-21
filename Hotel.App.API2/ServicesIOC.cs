@@ -73,7 +73,8 @@ namespace Hotel.App.API2
             services.AddScoped<IKcStoreoutlistRepository, KcStoreoutlistRepository>();
 
             services.AddScoped<IYxServiceitemRepository, YxServiceitemRepository>();
-
+            services.AddScoped<IYxBookserviceRepository, YxBookserviceRepository>();
+            services.AddScoped<IYxOrderserviceRepository, YxOrderserviceRepository>();
         }
     }
 }

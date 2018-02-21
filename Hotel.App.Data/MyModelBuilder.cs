@@ -93,6 +93,9 @@ namespace Hotel.App.Data
             modelBuilder.Entity<cw_prefee>().ToTable("cw_prefee");
 
             modelBuilder.Entity<yx_serviceitem>().ToTable("yx_serviceitem");
+            modelBuilder.Entity<yx_bookservice>().ToTable("yx_bookservice");
+            modelBuilder.Entity<yx_orderservice>().ToTable("yx_orderservice");
+
         }
     }
 }
