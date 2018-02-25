@@ -14,14 +14,14 @@ namespace Hotel.App.Model.Sale
       ///<summary>
       ///
       ///</summary>
-      public int ServiceType { get; set; }
+      public int TypeId { get; set; }
 
-      public string ServiceTypeTxt { get; set; }
+      public string TypeIdTxt { get; set; }
         ///<summary>
         ///
         ///</summary>
-        public string ServiceCode { get; set; }
-        public string ServiceName { get; set; }
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
         ///<summary>
         ///房价活动
         ///</summary>

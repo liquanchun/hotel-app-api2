@@ -30,7 +30,7 @@ namespace Hotel.App.API2.Controllers
             _mapper = mapper;
         }
         // GET: api/values
-        [HttpGet("{orderno}")]
+        [HttpGet("{orderNo}")]
         public async Task<IActionResult> Get(string orderNo)
         {
 		    IEnumerable<yx_bookservice> entityDto = null;
@@ -42,15 +42,15 @@ namespace Hotel.App.API2.Controllers
             var dicList = _sysDicRpt.GetAll().ToList();
             foreach (var hs in entity)
             {
-                var dic = dicList.FirstOrDefault(f => f.Id == hs.ServiceType);
-                if (dic != null) hs.ServiceTypeTxt = dic.DicName;
+                var dic = dicList.FirstOrDefault(f => f.Id == hs.TypeId);
+                if (dic != null) hs.TypeIdTxt = dic.DicName;
             }
 
             var serList = _yxServiceitemRpt.GetAll().ToList();
             foreach (var hs in entity)
             {
-                var dic = serList.FirstOrDefault(f => f.ItemCode == hs.ServiceCode);
-                if (dic != null) hs.ServiceName = dic.Name;
+                var dic = serList.FirstOrDefault(f => f.ItemCode == hs.ItemCode);
+                if (dic != null) hs.ItemName = dic.Name;
             }
 
             return new OkObjectResult(entity);

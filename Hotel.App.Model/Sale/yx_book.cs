@@ -54,7 +54,7 @@ namespace Hotel.App.Model.Sale
       ///<summary>
       ///入住方式
       ///</summary>
-      public string CheckInType { get; set; }
+      public int CheckInType { get; set; }
       ///<summary>
       ///入住标准
       ///</summary>

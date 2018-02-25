@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Hotel.App.Model.Sale
 {
    using System;
@@ -54,11 +56,15 @@ namespace Hotel.App.Model.Sale
       ///<summary>
       ///入住方式
       ///</summary>
-      public string CheckInType { get; set; }
-      ///<summary>
-      ///入住标准
-      ///</summary>
-      public string CheckInMode { get; set; }
+      public int CheckInType { get; set; }
+       ///<summary>
+       ///入住方式
+       ///</summary>
+       public string CheckInTypeTxt { get; set; }
+        ///<summary>
+        ///入住标准
+        ///</summary>
+        public string CheckInMode { get; set; }
       ///<summary>
       ///渠道
       ///</summary>
@@ -105,5 +111,11 @@ namespace Hotel.App.Model.Sale
        public string HouseTypeName { get; set; }
 
         public int HouseNum { get; set; }
+    }
+
+    public class NewBooking
+    {
+        public yx_book Booking { get; set; }
+        public List<yx_bookservice> Bookservices { get; set; }
     }
 }

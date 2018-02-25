@@ -8,6 +8,8 @@ using Hotel.App.Model.Sale;
 using Hotel.App.API2.Core;
 using AutoMapper;
 using System.Security.Claims;
+using Hotel.App.Data;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Hotel.App.API2.Controllers
@@ -17,30 +19,57 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly IYxBookRepository _yxBookRpt;
+        private readonly IYxBookserviceRepository _yxBookserviceRepository;
         private readonly ISetHouseTypeRepository _setHouseTypeRepository;
+        private readonly ISysDicRepository _sysDicRepository;
+        private readonly HotelAppContext _context;
         public YxBookController(IYxBookRepository yxBookRpt,
+            HotelAppContext context,
             ISetHouseTypeRepository setHouseTypeRepository,
+            IYxBookserviceRepository yxBookserviceRepository,
+            ISysDicRepository sysDicRepository,
         IMapper mapper)
         {
             _yxBookRpt = yxBookRpt;
             _setHouseTypeRepository = setHouseTypeRepository;
+            _context = context;
             _mapper = mapper;
+            _yxBookserviceRepository = yxBookserviceRepository;
+            _sysDicRepository = sysDicRepository;
         }
         // GET: api/values
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("type/{type}")]
+        public async Task<IActionResult> Get(string type)
         {
 		    IEnumerable<yx_book> entityDto = null;
             await Task.Run(() =>
             {
-				entityDto = _yxBookRpt.FindBy(f => f.IsValid);
-			});
+                if (type == "0")
+                {
+                    entityDto = _yxBookRpt.FindBy(f => f.IsValid && f.Status == "取消");
+                }
+                else if (type == "1")
+                {
+                    entityDto = _yxBookRpt.FindBy(f => f.IsValid && f.Status != "取消");
+                }
+                else
+                {
+                    entityDto = _yxBookRpt.FindBy(f => f.IsValid);
+                }
+            });
             var entity = _mapper.Map<IEnumerable<yx_book>, IEnumerable<BookingDto>>(entityDto).ToList();
-            var dicList = _setHouseTypeRepository.GetAll().ToList();
+            var houseList = _setHouseTypeRepository.GetAll().ToList();
             foreach (var hs in entity)
             {
-                var dic = dicList.FirstOrDefault(f => f.Id == hs.HouseTypeId);
+                var dic = houseList.FirstOrDefault(f => f.Id == hs.HouseTypeId);
                 if (dic != null) hs.HouseTypeName = dic.TypeName;
+            }
+
+            var dicList = _sysDicRepository.GetAll().ToList();
+            foreach (var hs in entity)
+            {
+                var dic = dicList.FirstOrDefault(f => f.Id == hs.CheckInType);
+                if (dic != null) hs.CheckInTypeTxt = dic.DicName;
             }
             return new OkObjectResult(entity);
         }
@@ -54,20 +83,44 @@ namespace Hotel.App.API2.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]yx_book value)
+        public async Task<IActionResult> Post([FromBody]NewBooking value)
         {
-            value.Status = "未完成";
-            value.OrderNo = GetOrderNo();
-            value.CreatedAt = DateTime.Now;
-			value.UpdatedAt = DateTime.Now;
-            value.BookTime = DateTime.Now;
-            value.IsValid = true;
+            yx_book book = value.Booking;
+            book.Status = "未完成";
+            book.OrderNo = GetOrderNo();
+            book.CreatedAt = DateTime.Now;
+            book.UpdatedAt = DateTime.Now;
+            book.BookTime = DateTime.Now;
+            book.IsValid = true;
             if(User.Identity is ClaimsIdentity identity)
             {
-                value.CreatedBy = identity.Name ?? "test";
+                book.CreatedBy = identity.Name ?? "test";
             }
-            _yxBookRpt.Add(value);
-            _yxBookRpt.Commit();
+            using (var tran = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    _yxBookRpt.Add(book);
+                    _yxBookRpt.Commit();
+                    //保存预约服务项目
+                    if (value.Bookservices != null)
+                    {
+                        foreach (var ser in value.Bookservices)
+                        {
+                            ser.Id = 0;
+                            ser.OrderNo = book.OrderNo;
+                            _yxBookserviceRepository.Add(ser);
+                        }
+                    }
+                    _yxBookserviceRepository.Commit();
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    return new BadRequestResult();
+                }
+            }
             return new OkObjectResult(value);
         }
         // PUT api/values/5
