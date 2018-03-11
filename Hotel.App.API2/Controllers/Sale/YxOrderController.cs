@@ -30,6 +30,9 @@ namespace Hotel.App.API2.Controllers
         private readonly IYxCustomerRepository _yxCustomerRpt;
         private readonly ICwPrefeeRepository _cwPrefeeRepository;
         private readonly ICwPreauthRepository _cwPreauthRepository;
+        private readonly IYxBookRepository _bookRepository;
+        private readonly IYxBookserviceRepository _yxBookserviceRepository;
+        private readonly IYxOrderserviceRepository _yxOrderserviceRepository;
         private readonly HotelAppContext _context;
         public YxOrderController(IYxOrderRepository yxOrderRpt, 
             IYxOrderlistRepository yxOrderlistRpt,
@@ -40,6 +43,9 @@ namespace Hotel.App.API2.Controllers
             IYxCustomerRepository yxCustomerRpt,
             ICwPrefeeRepository cwPrefeeRepository,
             ICwPreauthRepository cwPreauthRepository,
+            IYxBookRepository bookRepository,
+            IYxBookserviceRepository yxBookserviceRepository,
+            IYxOrderserviceRepository yxOrderserviceRepository,
         HotelAppContext context,
                 IMapper mapper)
         {
@@ -52,6 +58,9 @@ namespace Hotel.App.API2.Controllers
             _yxCustomerRpt = yxCustomerRpt;
             _cwPrefeeRepository = cwPrefeeRepository;
             _cwPreauthRepository = cwPreauthRepository;
+            _bookRepository = bookRepository;
+            _yxBookserviceRepository = yxBookserviceRepository;
+            _yxOrderserviceRepository = yxOrderserviceRepository;
             _context = context;
             _mapper = mapper;
         }
@@ -203,7 +212,32 @@ namespace Hotel.App.API2.Controllers
                         });
                         _cwPrefeeRepository.Commit();
                     }
+                    if (!string.IsNullOrEmpty(order.BookOrderNo))
+                    {
+                        var book = _bookRepository.GetSingle(f => f.OrderNo == order.BookOrderNo);
+                        book.Status = "已完成";
+                        _bookRepository.Commit();
 
+                        var bookServices = _yxBookserviceRepository.FindBy(f => f.OrderNo == order.BookOrderNo);
+                        foreach (var bs in bookServices)
+                        {
+                            var orderSer = new yx_orderservice()
+                            {
+                                OrderNo = order.OrderNo,
+                                TypeId = bs.TypeId,
+                                ItemCode = bs.ItemCode,
+                                ServiceTime = bs.ServiceTime,
+                                Times = bs.Times,
+                                Price = bs.Price,
+                                CreatedAt = DateTime.Now,
+                                UpdatedAt = DateTime.Now,
+                                IsValid = true,
+                                CreatedBy = order.CreatedBy
+                            };
+                            _yxOrderserviceRepository.Add(orderSer);
+                        }
+                        _yxOrderserviceRepository.Commit();
+                    }
                     _yxCustomerRpt.Commit();
                     _fwStatelogRepository.Commit();
                     _fwHouseinfoRpt.Commit();

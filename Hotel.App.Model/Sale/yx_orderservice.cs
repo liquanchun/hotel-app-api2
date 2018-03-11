@@ -22,7 +22,7 @@ namespace Hotel.App.Model.Sale
       ///<summary>
       ///房价活动
       ///</summary>
-      public string ServiceTime { get; set; }
+      public DateTime ServiceTime { get; set; }
       ///<summary>
       ///房价方案
       ///</summary>

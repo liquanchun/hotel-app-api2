@@ -78,5 +78,7 @@ namespace Hotel.App.Model.Dto
         public int ComeType { get; set; }
 
         public string ComeTypeTxt { get; set; }
+
+        public string BookOrderNo { get; set; }
     }
 }

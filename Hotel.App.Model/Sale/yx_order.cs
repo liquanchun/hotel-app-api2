@@ -69,5 +69,10 @@ namespace Hotel.App.Model.Sale
       public string CreatedBy { get; set; }
 
       public int ComeType { get; set; }
-   }
+
+       /// <summary>
+       /// 预约单号
+       /// </summary>
+       public string BookOrderNo { get; set; }
+    }
 }
