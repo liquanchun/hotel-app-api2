@@ -26,7 +26,7 @@ namespace Hotel.App.Model.Sale
       ///<summary>
       ///入住方式
       ///</summary>
-      public string InType { get; set; }
+      public int InType { get; set; }
       ///<summary>
       ///支付方式
       ///</summary>

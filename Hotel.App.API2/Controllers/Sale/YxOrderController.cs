@@ -33,6 +33,7 @@ namespace Hotel.App.API2.Controllers
         private readonly IYxBookRepository _bookRepository;
         private readonly IYxBookserviceRepository _yxBookserviceRepository;
         private readonly IYxOrderserviceRepository _yxOrderserviceRepository;
+        private readonly ISysDicRepository _sysDicRepository;
         private readonly HotelAppContext _context;
         public YxOrderController(IYxOrderRepository yxOrderRpt, 
             IYxOrderlistRepository yxOrderlistRpt,
@@ -46,6 +47,7 @@ namespace Hotel.App.API2.Controllers
             IYxBookRepository bookRepository,
             IYxBookserviceRepository yxBookserviceRepository,
             IYxOrderserviceRepository yxOrderserviceRepository,
+            ISysDicRepository sysDicRepository,
         HotelAppContext context,
                 IMapper mapper)
         {
@@ -61,6 +63,7 @@ namespace Hotel.App.API2.Controllers
             _bookRepository = bookRepository;
             _yxBookserviceRepository = yxBookserviceRepository;
             _yxOrderserviceRepository = yxOrderserviceRepository;
+            _sysDicRepository = sysDicRepository;
             _context = context;
             _mapper = mapper;
         }
@@ -155,12 +158,9 @@ namespace Hotel.App.API2.Controllers
                             IsValid = true,
                             CreatedBy = createBy
                         });
-                        if (houseInfo != null)
-                        {
-                            houseInfo.State = 1003;  //住人净
-                            houseInfo.OrderNo = order.OrderNo;
-                            houseInfo.CusName = value.YxOrderList.Count == 1 && orderDetail.CusName != order.CusName ? order.CusName + "，" + orderDetail.CusName : orderDetail.CusName;
-                        }
+                        houseInfo.State = 1003;  //住人净
+                        houseInfo.OrderNo = order.OrderNo;
+                        houseInfo.CusName = value.YxOrderList.Count == 1 && orderDetail.CusName != order.CusName ? order.CusName + "，" + orderDetail.CusName : orderDetail.CusName;
                         //添加到客户资料表中
                         if (!_yxCustomerRpt.Exist(f => f.IDCardNo == order.IdCard))
                         {
@@ -336,26 +336,30 @@ namespace Hotel.App.API2.Controllers
         /// </summary>
         /// <param name="intype"></param>
         /// <returns></returns>
-        private string GetOrderNo(string intype)
+        private string GetOrderNo(int intype)
         {
-            string preCode = string.Empty;
-            switch (intype)
+            string preCode = "XX";
+            var type = _sysDicRepository.GetSingle(intype);
+            if (type != null)
             {
-                case "全天房":
-                    preCode = "QT";
-                    break;
-                case "钟点房":
-                    preCode = "ZD";
-                    break;
-                case "特殊房":
-                    preCode = "TS";
-                    break;
-                case "免费房":
-                    preCode = "MF";
-                    break;
-                default:
-                    preCode = "DH";
-                    break;
+                switch (type.DicName)
+                {
+                    case "全天房":
+                        preCode = "QT";
+                        break;
+                    case "钟点房":
+                        preCode = "ZD";
+                        break;
+                    case "特殊房":
+                        preCode = "TS";
+                        break;
+                    case "免费房":
+                        preCode = "MF";
+                        break;
+                    default:
+                        preCode = "DH";
+                        break;
+                }
             }
             int orderCount = _yxOrderRpt
                 .FindBy(f => f.CreatedAt > DateTime.Today && f.CreatedAt < DateTime.Today.AddDays(1)).Count();

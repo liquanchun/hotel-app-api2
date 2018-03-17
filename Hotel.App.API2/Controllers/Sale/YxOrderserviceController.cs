@@ -31,7 +31,7 @@ namespace Hotel.App.API2.Controllers
             _mapper = mapper;
         }
         // GET: api/values
-        [HttpGet("{orderno}")]
+        [HttpGet("orderno/{orderNo}")]
         public async Task<IActionResult> Get(string orderNo)
         {
 		    IEnumerable<yx_orderservice> entityDto = null;

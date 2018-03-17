@@ -28,6 +28,8 @@ namespace Hotel.App.API2.Controllers
         private readonly IFwStatelogRepository _fwStatelogRepository;
         private readonly IFwCleanRepository _cleanRepository;
         private readonly IFwRepairRepository _fwRepairRepository;
+        private readonly IYxOrderRepository _yxOrderRepository;
+        private readonly IYxOrderlistRepository _yxOrderlistRepository;
         public FwHouseinfoController(IFwHouseinfoRepository fwHouseinfoRpt,
             HotelAppContext context,
             ISetHouseTypeRepository setHouseTypeRpt,
@@ -35,6 +37,8 @@ namespace Hotel.App.API2.Controllers
             ISysDicRepository sysDicRpt,
             IFwStatelogRepository fwStatelogRepository,
             IFwCleanRepository cleanRepository,
+            IYxOrderRepository yxOrderRepository,
+            IYxOrderlistRepository yxOrderlistRepository,
         IMapper mapper)
         {
             _fwHouseinfoRpt = fwHouseinfoRpt;
@@ -42,6 +46,8 @@ namespace Hotel.App.API2.Controllers
             _fwStatelogRepository = fwStatelogRepository;
             _cleanRepository = cleanRepository;
             _fwRepairRepository = fwRepairRepository;
+            _yxOrderRepository = yxOrderRepository;
+            _yxOrderlistRepository = yxOrderlistRepository;
             _sysDicRpt = sysDicRpt;
             _context = context;
             _mapper = mapper;
@@ -72,9 +78,90 @@ namespace Hotel.App.API2.Controllers
                 var dic = dicList.FirstOrDefault(f => f.Id == hs.State);
                 if (dic != null) hs.StateTxt = dic.DicName;
             }
-
             return new OkObjectResult(entity.OrderBy(f => f.Code));
         }
+        /// <summary>
+        /// 计算入住方式和客源的数量
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("checkin")]
+        public async Task<IActionResult> GetCheckin()
+        {
+            IEnumerable<fw_houseinfo> entityDto = null;
+            await Task.Run(() =>
+            {
+                entityDto = _fwHouseinfoRpt.FindBy(f => f.IsValid && (f.State == 1003 || f.State == 1004)).ToList();
+            });
+            List<HouseCheckIn> houserCheckIns = new List<HouseCheckIn>();
+            var orders = _yxOrderRepository.GetAll().ToList();
+            var orderList = _yxOrderlistRepository.GetAll().ToList();
+            foreach (var house in entityDto)
+            {
+                var odlist = orderList.FindAll(f => f.HouseCode == house.Code)
+                    .OrderByDescending(f => f.CreatedAt).FirstOrDefault();
+                if (odlist != null)
+                {
+                    var order = orders.Find(f => f.Id == odlist.OrderId);
+                    houserCheckIns.Add(new HouseCheckIn()
+                    {
+                        Code = house.Code,
+                        InType = order.InType,
+                        ComeType = order.ComeType
+                    });
+                }
+            }
+
+            List<int> intype = new List<int>();
+            List<int> comtype = new List<int>();
+            foreach (var hs in houserCheckIns)
+            {
+                if (!intype.Contains(hs.InType))
+                {
+                    intype.Add(hs.InType);
+                }
+                if (!comtype.Contains(hs.ComeType))
+                {
+                    comtype.Add(hs.ComeType);
+                }
+            }
+
+            var dicList = _sysDicRpt.GetAll().ToList();
+            List<HouseInType> houseInTypeList = new List<HouseInType>();
+            List<HouseComeType> houseComeTypeList = new List<HouseComeType>();
+            foreach (var s1 in intype)
+            {
+                var dic = dicList.Find(f => f.Id == s1);
+                if (dic != null)
+                {
+                    houseInTypeList.Add(new HouseInType()
+                    {
+                        InType = dic.Id,
+                        InTypeTxt = dic.DicName,
+                        Count = houserCheckIns.Count(f => f.InType == s1)
+                    });
+                }
+            }
+            foreach (var s2 in comtype)
+            {
+                var dic = dicList.Find(f => f.Id == s2);
+                if (dic != null)
+                {
+                    houseComeTypeList.Add(new HouseComeType()
+                    {
+                        ComeType = dic.Id,
+                        ComeTypeTxt = dic.DicName,
+                        Count = houserCheckIns.Count(f => f.ComeType == s2)
+                    });
+                }
+            }
+            return new OkObjectResult(new HouseCheckInList()
+            {
+                HouseCheckIns = houserCheckIns,
+                HouseInTypeList = houseInTypeList,
+                HouseComeTypeList = houseComeTypeList
+            });
+        }
+
         // GET api/values/
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
