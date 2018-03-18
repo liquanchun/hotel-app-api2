@@ -23,7 +23,6 @@ namespace Hotel.App.API2.Controllers
         private readonly ISysUserRepository _sysUserRpt;
         private readonly ISysRoleUserRepository _sysRoleUserRpt;
         private readonly ISysRoleRepository _sysRoleRpt;
-        private readonly ISysOrgRepository _orgRepository;
         private readonly HotelAppContext _context;
         public SysUserController(ISysUserRepository sysUserRpt, 
             ISysRoleUserRepository sysRoleUserRpt, 
@@ -37,7 +36,6 @@ namespace Hotel.App.API2.Controllers
             _sysRoleRpt = sysRoleRpt;
             _context = context;
             _mapper = mapper;
-            _orgRepository = orgRepository;
         }
         // GET: api/values
         [HttpGet]
@@ -47,7 +45,6 @@ namespace Hotel.App.API2.Controllers
             var users = _sysUserRpt.FindBy(f => f.IsDelete == false);
             entityDto = _mapper.Map<IEnumerable<sys_user>, IEnumerable<SysUserDto>>(users);
 
-            var orgList = _orgRepository.GetAll().ToList();
             foreach (var item in entityDto)
             {
                 //角色名称转换
@@ -67,7 +64,6 @@ namespace Hotel.App.API2.Controllers
                         }
                     }
                 }
-                item.OrgIdTxt = orgList.FirstOrDefault(f => f.Id == item.OrgId)?.DeptName;
                 item.RoleNames = string.Join(",", roleName);
             }
             return new OkObjectResult(entityDto.ToList().OrderBy(f => f.UserName));
@@ -80,32 +76,6 @@ namespace Hotel.App.API2.Controllers
             var single = _sysUserRpt.GetSingle(f => f.UserId == userId);
             return new OkObjectResult(single);
         }
-        // GET api/values/5
-        [HttpGet("org/{orgId}")]
-        public async Task<IActionResult> GetUserByOrgId(int orgId)
-        {
-            var users = _sysUserRpt.FindBy(f => f.OrgId == orgId);
-            return new OkObjectResult(users);
-        }
-        // POST api/values
-        //[Route("login")]
-        //[HttpPost( Name ="Login")]
-        //public IActionResult Login([FromBody]sys_user value)
-        //{
-        //    var oldSysUser = _sysUserRpt.FindBy(f => f.UserId == value.UserId && f.Pwd == value.Pwd);
-        //    if (oldSysUser.Count() == 0)
-        //    {
-        //        return BadRequest(string.Concat(value.UserId, "不存在或密码错误。"));
-        //    }
-        //    var user = _sysUserRpt.GetSingle(f => f.UserId == value.UserId);
-        //    if(user != null)
-        //    {
-        //        user.LastLoginTime = DateTime.Now;
-        //        _sysUserRpt.Commit();
-        //    }
-        //    return new OkObjectResult(user);
-        //}
-        // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]sys_user value)
         {
@@ -182,9 +152,7 @@ namespace Hotel.App.API2.Controllers
                         }
                         userDb.IsValid = value.IsValid;
                         userDb.Mobile = value.Mobile;
-                        userDb.Tel = value.Tel;
-                        userDb.Works = value.Works;
-                        userDb.Title = value.Title;
+                        userDb.WebChat = value.WebChat;
                         userDb.UserId = value.UserId;
                         userDb.UserName = value.UserName;
                         userDb.UpdatedAt = DateTime.Now;
@@ -231,12 +199,9 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            else
-            {
-                sysUser.IsDelete = true;
-                _sysUserRpt.Commit();
-                return new NoContentResult();
-            }
+            sysUser.IsDelete = true;
+            _sysUserRpt.Commit();
+            return new NoContentResult();
         }
     }
 }

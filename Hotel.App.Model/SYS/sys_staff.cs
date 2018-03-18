@@ -1,7 +1,7 @@
 namespace Hotel.App.Model.SYS
 {
    using System;
-   public partial class sys_user : IEntityBase
+   public partial class sys_staff : IEntityBase
    {
       ///<summary>
       ///
@@ -10,31 +10,37 @@ namespace Hotel.App.Model.SYS
       ///<summary>
       ///
       ///</summary>
-      public string UserId { get; set; }
+      public string EmployeeNo { get; set; }
       ///<summary>
       ///
       ///</summary>
-      public string UserName { get; set; }
+      public string Name { get; set; }
       ///<summary>
       ///
       ///</summary>
       public string Mobile { get; set; }
+
+      public string Tel { get; set; }
       ///<summary>
       ///
       ///</summary>
-      public string Pwd { get; set; }
+      public string Title { get; set; }
+       ///<summary>
+       ///
+       ///</summary>
+       public string Address { get; set; }
+       ///<summary>
+       ///
+       ///</summary>
+       public string IDCard { get; set; }
+       ///<summary>
+       ///
+       ///</summary>
+       public string WebChat { get; set; }
       ///<summary>
       ///
       ///</summary>
-      public DateTime LastLoginTime { get; set; }
-      ///<summary>
-      ///
-      ///</summary>
-      public string WebChat { get; set; }
-      ///<summary>
-      ///
-      ///</summary>
-      public string RoleIds { get; set; }
+      public int OrgId { get; set; }
       ///<summary>
       ///
       ///</summary>
@@ -47,8 +53,6 @@ namespace Hotel.App.Model.SYS
       ///
       ///</summary>
       public bool IsValid { get; set; }
-
-      public bool IsDelete { get; set; }
       ///<summary>
       ///
       ///</summary>

@@ -19,11 +19,11 @@ namespace Hotel.App.API2.Controllers
     public class SysOrgController : Controller
     {
         private readonly ISysOrgRepository _sysOrgRpt;
-        private readonly ISysUserRepository _sysUserRpt;
-        public SysOrgController(ISysOrgRepository sysOrgRpt,ISysUserRepository sysUserRpt)
+        private readonly ISysStaffRepository _sysStaffRpt;
+        public SysOrgController(ISysOrgRepository sysOrgRpt,ISysStaffRepository sysStaffRpt)
         {
             _sysOrgRpt = sysOrgRpt;
-            _sysUserRpt = sysUserRpt;
+            _sysStaffRpt = sysStaffRpt;
         }
         // GET: api/values
         [HttpGet]
@@ -36,10 +36,10 @@ namespace Hotel.App.API2.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}/users",Name ="GetUserList")]
-        public IActionResult GetUserList(int id)
+        [HttpGet("{id}/staff",Name ="GetStaffList")]
+        public IActionResult GetStaffList(int id)
         {
-            return new OkObjectResult(_sysUserRpt.FindBy(f => f.IsValid && f.OrgId == id).ToList());
+            return new OkObjectResult(_sysStaffRpt.FindBy(f => f.IsValid && f.OrgId == id).ToList());
         }
 
         // GET api/values/5
@@ -76,19 +76,15 @@ namespace Hotel.App.API2.Controllers
         /// <param name="uid"></param>
         /// <returns></returns>
         // POST api/values
-        [HttpPost("{id}/{uid}", Name = "NewUserOrg")]
-        public IActionResult NewUserOrg(int id,string uid)
+        [HttpPost("{id}/{empno}", Name = "NewStaffOrg")]
+        public IActionResult NewStaffOrg(int id,string empno)
         {
-            var usrids = uid.Split(',');
-            foreach (var idstr in usrids)
+            sys_staff sysStaff = _sysStaffRpt.GetSingle(f => f.EmployeeNo == empno);
+            if (sysStaff != null)
             {
-                sys_user sysUser = _sysUserRpt.GetSingle(int.Parse(idstr));
-                if (sysUser != null)
-                {
-                    sysUser.OrgId = id;
-                }
+                sysStaff.OrgId = id;
             }
-            _sysUserRpt.Commit();
+            _sysStaffRpt.Commit();
             return new NoContentResult();
         }
         // PUT api/values/5
@@ -106,7 +102,7 @@ namespace Hotel.App.API2.Controllers
             {
                 return new NotFoundResult();
             }
-            if(_sysUserRpt.FindBy(f => f.OrgId == sysOrg.Id).Any())
+            if(_sysStaffRpt.FindBy(f => f.OrgId == sysOrg.Id).Any())
             {
                 return BadRequest(string.Concat(sysOrg.DeptName, "已经关联用户，不能删除。"));
             }
@@ -122,14 +118,14 @@ namespace Hotel.App.API2.Controllers
         /// <param name="id"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        [HttpDelete("{id}/{uid}",Name ="DeleteUserOrg")]
-        public IActionResult DeleteUserOrg(int id,int uid)
+        [HttpDelete("{id}/{empno}", Name ="DeleteStaffOrg")]
+        public IActionResult DeleteStaffOrg(int id,string empno)
         {
-            sys_user sysUser = _sysUserRpt.GetSingle(uid);
-            if (sysUser != null)
+            sys_staff sysStaff = _sysStaffRpt.GetSingle(f => f.EmployeeNo == empno);
+            if (sysStaff != null)
             {
-                sysUser.OrgId = 0;
-                _sysUserRpt.Commit();
+                sysStaff.OrgId = 0;
+                _sysStaffRpt.Commit();
             }
             return new NoContentResult();
         }

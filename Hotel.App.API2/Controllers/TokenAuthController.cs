@@ -6,29 +6,33 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
 using Hotel.App.Data;
+using Hotel.App.Data.Abstract;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Hotel.App.Model.SYS;
+using Microsoft.AspNetCore.Http;
 
 namespace Hotel.App.API2.Controllers
 {
     [Route("api/[controller]")]
     public class TokenAuthController : Controller
     {
-        private readonly HotelAppContext _context;
-        public TokenAuthController(HotelAppContext context)
+        private readonly ISysUserRepository _sysUserRpt;
+        public TokenAuthController(ISysUserRepository sysUserRpt)
         {
-            _context = context;
+            _sysUserRpt = sysUserRpt;
         }
         [HttpPost("Login")]
         public IActionResult Login([FromBody]sys_user user)
         {
             //User existUser = UserStorage.Users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
             var existUser =
-                _context.SysUsers.FirstOrDefault(f => f.UserId == user.UserId && f.Pwd == user.Pwd);
+                _sysUserRpt.GetSingle(f => f.UserId == user.UserId && f.Pwd == user.Pwd);
             if (existUser != null)
             {
+                existUser.LastLoginTime = DateTime.Now;
+                _sysUserRpt.Commit();
 
                 var requestAt = DateTime.Now;
                 var expiresIn = requestAt + TokenAuthOption.ExpiresSpan;

@@ -21,6 +21,9 @@ namespace Hotel.App.API2.Core
             CreateMap<sys_user, SysUserDto>();
             CreateMap<SysUserDto, sys_user>();
 
+            CreateMap<sys_staff, SysStaffDto>();
+            CreateMap<SysStaffDto, sys_staff>();
+
             CreateMap<set_card, SetCardDto>();
             CreateMap<SetCardDto, set_card>();
 

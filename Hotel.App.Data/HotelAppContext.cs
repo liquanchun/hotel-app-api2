@@ -79,6 +79,8 @@ namespace Hotel.App.Data
         public DbSet<yx_serviceitem> YxServiceitems { get; set; }
         public DbSet<yx_bookservice> YxBookservices { get; set; }
         public DbSet<yx_orderservice> YxOrderservices { get; set; }
+
+        public DbSet<sys_staff> SysStaffs { get; set; }
         public HotelAppContext(DbContextOptions options) : base(options)
         {
         }

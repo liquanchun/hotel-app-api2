@@ -3,31 +3,41 @@ using System.Collections.Generic;
 
 namespace Hotel.App.Model.SYS
 {
-    public class SysUserDto
+    public class SysStaffDto
     {
         public int Id { get; set; }
         /// <summary>
         /// user_id
         /// </summary>		
-        public string UserId { get; set; }
-        /// <summary>
-        /// user_name
-        /// </summary>		
-        public string UserName { get; set; }
+        public string EmployeeNo { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
+        public string Name { get; set; }
         /// <summary>
         /// mobile
         /// </summary>		
         public string Mobile { get; set; }
+        public string Tel { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
+        public string Title { get; set; }
+        public string Address { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
+        public string IDCard { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
         public string WebChat { get; set; }
-       
         /// <summary>
-        /// pwd
+        /// org_id
         /// </summary>		
-        public string Pwd { get; set; }
-        /// <summary>
-        /// last_login_time
-        /// </summary>		
-        public DateTime LastLoginTime { get; set; }
+        public int OrgId { get; set; }
+
+        public string OrgIdTxt { get; set; }
         /// <summary>
         /// updatedAt
         /// </summary>		
@@ -40,10 +50,6 @@ namespace Hotel.App.Model.SYS
         /// isvalid
         /// </summary>		
         public bool IsValid { get; set; }
-        public bool IsDelete { get; set; }
-        public string RoleIds { get; set; }
-
-        public string RoleNames { get; set; }
     }
 }
 

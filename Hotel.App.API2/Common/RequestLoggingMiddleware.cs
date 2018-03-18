@@ -49,6 +49,11 @@ namespace Hotel.App.API2
                     context.Request.Body = injectedRequestStream;
                 }
 
+                if (request.Path.ToString() == "/api/tokenauth/login")
+                {
+                    
+                }
+
                 _logger.LogInformation(requestLog);
 
                 await _next.Invoke(context);                                

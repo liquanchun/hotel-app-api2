@@ -27,6 +27,8 @@ namespace Hotel.App.Data.Abstract
 
     public interface ISysUserRepository : IEntityBaseRepository<sys_user> { }
 
+    public interface ISysStaffRepository : IEntityBaseRepository<sys_staff> { }
+
     public interface ISysDicRepository : IEntityBaseRepository<sys_dic> { }
 
     public interface IUserAccessLogRepository : IEntityBaseRepository<user_access_log> { }
