@@ -166,13 +166,14 @@ namespace Hotel.App.API2.Controllers
                         {
                             var customer = new yx_customer
                             {
-                                CustomerName = orderDetail.CusName,
+                                Name = orderDetail.CusName,
                                 IDCardNo = orderDetail.IdCard,
                                 Mobile = order.CusPhone,
                                 IsValid = true,
                                 CreatedBy = createBy,
                                 CreatedAt = DateTime.Now,
-                                UpdatedAt = DateTime.Now
+                                UpdatedAt = DateTime.Now,
+                                IsCard = false
                             };
                             _yxCustomerRpt.Add(customer);
                         }

@@ -12,7 +12,7 @@ namespace Hotel.App.Model.SYS
     using System;
     using System.Collections.Generic;
     
-    public partial class SetCardIntegralDto
+    public partial class SetCardDiscountDto
     {
         ///<summary>
         ///
@@ -22,10 +22,6 @@ namespace Hotel.App.Model.SYS
         ///活动名称
         ///</summary>
         public string Name { get; set; }
-        ///<summary>
-        ///方式类型
-        ///</summary>
-        public string InteType { get; set; }
         ///<summary>
         ///会员卡类型
         ///</summary>
@@ -41,15 +37,16 @@ namespace Hotel.App.Model.SYS
         ///</summary>
         public int? HouseTypeId { get; set; }
         public string HouseTypeTxt { get; set; }
-        /// <summary>
-        /// 商品ID
-        /// </summary>
+
+        ///<summary>
+        ///房型ID
+        ///</summary>
         public int? GoodsId { get; set; }
         public string GoodsTxt { get; set; }
         ///<summary>
-        ///积分
+        ///折扣
         ///</summary>
-        public int Integral { get; set; }
+        public decimal Discount { get; set; }
         ///<summary>
         ///活动开始日期
         ///</summary>

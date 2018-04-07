@@ -10,7 +10,7 @@ namespace Hotel.App.Model.Sale
       ///<summary>
       ///客户姓名
       ///</summary>
-      public string CustomerName { get; set; }
+      public string Name { get; set; }
       ///<summary>
       ///性别
       ///</summary>
@@ -23,10 +23,14 @@ namespace Hotel.App.Model.Sale
       ///手机号码
       ///</summary>
       public string Mobile { get; set; }
-      ///<summary>
-      ///
-      ///</summary>
-      public string Address { get; set; }
+       ///<summary>
+       ///微信
+       ///</summary>
+       public string wechat { get; set; }
+        ///<summary>
+        ///
+        ///</summary>
+        public string Address { get; set; }
       ///<summary>
       ///
       ///</summary>
@@ -36,13 +40,26 @@ namespace Hotel.App.Model.Sale
       ///</summary>
       public bool IsCard { get; set; }
       ///<summary>
-      ///
+      ///会员类型
       ///</summary>
-      public string CardType { get; set; }
+      public int? CardTypeId { get; set; }
+      /// <summary>
+      /// 累计积分
+      /// </summary>
+      public int SumIntegral { get; set; }
+      /// <summary>
+      /// 剩余积分
+      /// </summary>
+      public int RemainIntegral { get; set; }
+      /// <summary>
+      /// 累计消费金额
+      /// </summary>
+
+      public decimal SumConsume { get; set; }
       ///<summary>
       ///
       ///</summary>
-      public string Remark { get; set; }
+        public string Remark { get; set; }
       ///<summary>
       ///
       ///</summary>

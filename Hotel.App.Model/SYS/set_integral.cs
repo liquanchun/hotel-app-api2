@@ -18,23 +18,31 @@ namespace Hotel.App.Model.SYS
       ///<summary>
       ///会员卡类型
       ///</summary>
-      public int CardType { get; set; }
+      public int CardTypeId { get; set; }
+      /// <summary>
+      /// 项目ID
+      /// </summary>
+      public int? ServiceItemId { get; set; }
       ///<summary>
-      ///天数/金额
+      ///房型ID
       ///</summary>
-      public int DayOrFee { get; set; }
+        public int? HouseTypeId { get; set; }
+      /// <summary>
+      /// 商品ID
+      /// </summary>
+      public int? GoodsId { get; set; }
       ///<summary>
       ///积分
       ///</summary>
-      public int Integral { get; set; }
+        public int Integral { get; set; }
       ///<summary>
       ///活动开始日期
       ///</summary>
-      public string StartDate { get; set; }
+      public DateTime StartDate { get; set; }
       ///<summary>
       ///活动结束日期
       ///</summary>
-      public string EndDate { get; set; }
+      public DateTime EndDate { get; set; }
       ///<summary>
       ///
       ///</summary>

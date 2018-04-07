@@ -96,6 +96,9 @@ namespace Hotel.App.Data
             modelBuilder.Entity<yx_bookservice>().ToTable("yx_bookservice");
             modelBuilder.Entity<yx_orderservice>().ToTable("yx_orderservice");
             modelBuilder.Entity<sys_staff>().ToTable("sys_staff");
+
+            modelBuilder.Entity<set_card_discount>().ToTable("set_card_discount");
+            modelBuilder.Entity<set_card_exchange>().ToTable("set_card_exchange");
         }
     }
 }

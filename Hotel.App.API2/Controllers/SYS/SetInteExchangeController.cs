@@ -17,12 +17,12 @@ namespace Hotel.App.API2.Controllers
     {
 		private readonly IMapper _mapper;
         private readonly ISetInteExchangeRepository _setInteExchangeRpt;
-        private readonly ISetCardRepository _setCardRpt;
-        public SetInteExchangeController(ISetInteExchangeRepository setInteExchangeRpt, ISetCardRepository setCardRpt,
+        private readonly IYxCustomerRepository _yxCustomerRepository;
+        public SetInteExchangeController(ISetInteExchangeRepository setInteExchangeRpt, IYxCustomerRepository yxCustomerRepository,
                 IMapper mapper)
         {
             _setInteExchangeRpt = setInteExchangeRpt;
-            _setCardRpt = setCardRpt;
+            _yxCustomerRepository = yxCustomerRepository;
             _mapper = mapper;
         }
         // GET: api/values
@@ -35,10 +35,10 @@ namespace Hotel.App.API2.Controllers
 				entityDto = _setInteExchangeRpt.FindBy(f => f.IsValid);
 			});
             var entity = _mapper.Map<IEnumerable<set_inte_exchange>, IEnumerable<SetIneExchangDto>>(entityDto).ToList();
-            var cardTypeList = _setCardRpt.GetAll().ToList();
+            var customerList = _yxCustomerRepository.GetAll().ToList();
             foreach (var hs in entity)
             {
-                hs.CardTypeTxt = cardTypeList.FirstOrDefault(f => f.Id == hs.CardType)?.Name;
+                hs.CustomerMobile = customerList.FirstOrDefault(f => f.Id == hs.CustomerId)?.Mobile;
             }
             return new OkObjectResult(entity);
         }
@@ -77,12 +77,9 @@ namespace Hotel.App.API2.Controllers
             }
             //更新字段内容
             single.UpdatedAt = DateTime.Now;
-            single.CardType = value.CardType;
-            single.EndDate = value.EndDate;
             single.ExchangeInte = value.ExchangeInte;
             single.ExchangeType = value.ExchangeType;
-            single.GiftName = value.GiftName;
-            single.Name = value.Name;
+            single.ItemName = value.ItemName;
             single.Remark = value.Remark;
             if(User.Identity is ClaimsIdentity identity)
             {

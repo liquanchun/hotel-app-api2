@@ -8,33 +8,25 @@ namespace Hotel.App.Model.SYS
       ///</summary>
       public int Id { get; set; }
       ///<summary>
-      ///活动名称
+      ///兑换项目
       ///</summary>
-      public string Name { get; set; }
+      public string ItemName { get; set; }
       ///<summary>
       ///兑换类型
       ///</summary>
       public string ExchangeType { get; set; }
       ///<summary>
-      ///
+      ///会员ID
       ///</summary>
-      public int CardType { get; set; }
+      public int CustomerId { get; set; }
       ///<summary>
-      ///礼品名称
+      ///兑换时间
       ///</summary>
-      public string GiftName { get; set; }
+      public DateTime ExchangeTime { get; set; }
       ///<summary>
       ///兑换所需积分
       ///</summary>
       public int ExchangeInte { get; set; }
-      ///<summary>
-      ///活动开始日期
-      ///</summary>
-      public string StartDate { get; set; }
-      ///<summary>
-      ///活动结束日期
-      ///</summary>
-      public string EndDate { get; set; }
       ///<summary>
       ///
       ///</summary>

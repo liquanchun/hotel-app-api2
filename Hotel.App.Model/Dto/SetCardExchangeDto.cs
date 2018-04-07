@@ -12,7 +12,7 @@ namespace Hotel.App.Model.SYS
     using System;
     using System.Collections.Generic;
     
-    public partial class SetCardIntegralDto
+    public partial class SetCardExchangeDto
     {
         ///<summary>
         ///
@@ -22,15 +22,6 @@ namespace Hotel.App.Model.SYS
         ///活动名称
         ///</summary>
         public string Name { get; set; }
-        ///<summary>
-        ///方式类型
-        ///</summary>
-        public string InteType { get; set; }
-        ///<summary>
-        ///会员卡类型
-        ///</summary>
-        public int CardTypeId { get; set; }
-        public string CardTypeTxt { get; set; }
         /// <summary>
         /// 项目ID
         /// </summary>

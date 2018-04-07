@@ -25,7 +25,7 @@ namespace DataBaseTools
         {
             try
             {
-                string mysql = "select table_name from information_schema.tables where table_schema='hotel-app' and table_type='base table' order by table_name";
+                string mysql = "select table_name from information_schema.tables where table_schema='hotel_app' and table_type='base table' order by table_name";
 
                 //创建数据库连接
                 myconnection.Open();
@@ -173,7 +173,7 @@ namespace DataBaseTools
         {
             string sqlstring = string.Format(
                 @"select COLUMN_NAME,IS_NULLABLE,DATA_TYPE,COLUMN_COMMENT from information_schema.columns  
-            where table_schema = 'hotel-app' and table_name = '{0}' ", table_name);
+            where table_schema = 'hotel_app' and table_name = '{0}' ", table_name);
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("namespace Hotel.App.Model." + textBox1.Text);
             sb.AppendLine("{");

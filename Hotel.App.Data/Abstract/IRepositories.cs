@@ -88,4 +88,7 @@ namespace Hotel.App.Data.Abstract
     public interface IYxBookserviceRepository : IEntityBaseRepository<yx_bookservice> { }
     public interface IYxOrderserviceRepository : IEntityBaseRepository<yx_orderservice> { }
 
+    public interface ISetCardDiscountRepository : IEntityBaseRepository<set_card_discount> { }
+    public interface ISetCardExchangeRepository : IEntityBaseRepository<set_card_exchange> { }
+
 }

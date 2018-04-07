@@ -93,6 +93,15 @@ namespace Hotel.App.API2.Core
             CreateMap<yx_book, BookingDto>();
             CreateMap<BookingDto, yx_book>();
 
+            CreateMap<set_integral, SetCardIntegralDto>();
+            CreateMap<SetCardIntegralDto, set_integral>();
+
+            CreateMap<set_card_discount, SetCardDiscountDto>();
+            CreateMap<SetCardDiscountDto, set_card_discount>();
+
+            CreateMap<set_card_exchange, SetCardExchangeDto>();
+            CreateMap<SetCardExchangeDto, set_card_exchange>();
+
             CreateMap<set_paytype, SetPaytypeDto>()
                 .ForMember(d => d.IsReturnT, opt => opt.MapFrom(s => s.IsReturn ? "是":"否"))
                 .ForMember(d => d.IsIntegralT, opt => opt.MapFrom(s => s.IsIntegral ? "是" : "否"))
