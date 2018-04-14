@@ -23,18 +23,24 @@ namespace Hotel.App.API2.Controllers
         private readonly IMapper _mapper;
         private readonly ISysMenuRepository _sysMenuRpt;
         private readonly ISysRoleMenuRepository _sysRoleMenuRpt;
-        private ISysRoleRepository _sysRoleRpt;
-        private readonly HotelAppContext _context;
+        private readonly ISysRoleUserRepository _sysRoleUserRepository;
+        private readonly ISysUserRepository _sysUserRepository;
+        private readonly ISysRoleRepository _sysRoleRpt;
+        private readonly StoreAppContext _context;
 
         public SysMenuController(ISysMenuRepository sysMenuRpt,
             ISysRoleMenuRepository sysRoleMenuRpt,
             ISysRoleRepository sysRoleRpt,
-            HotelAppContext context,
-            IMapper mapper)
+            StoreAppContext context,
+            ISysRoleUserRepository sysRoleUserRepository,
+            ISysUserRepository sysUserRepository,
+        IMapper mapper)
         {
             _sysMenuRpt = sysMenuRpt;
             _sysRoleMenuRpt = sysRoleMenuRpt;
+            _sysRoleUserRepository = sysRoleUserRepository;
             _sysRoleRpt = sysRoleRpt;
+            _sysUserRepository = sysUserRepository;
             _context = context;
             _mapper = mapper;
         }
@@ -64,6 +70,48 @@ namespace Hotel.App.API2.Controllers
             //}
 
             return new OkObjectResult(_menusVM);
+        }
+        /// <summary>
+        /// 根据当前登录用户获取菜单权限
+        /// </summary>
+        /// <returns></returns>
+        // GET api/values/5
+        [HttpGet("byuser")]
+        public IActionResult GetMenu()
+        {
+            var _menusVM = _sysMenuRpt.FindBy(f => f.IsValid).OrderBy(f => f.MenuOrder).ToList();
+            string userId = string.Empty;
+            if (User.Identity is ClaimsIdentity identity)
+            {
+                userId = identity.Name ?? "admin";
+            }
+            var user = _sysUserRepository.GetSingle(f => f.UserId == userId);
+            if (userId == "admin" || user == null)
+            {
+                return Get();
+            }
+            var roleUser = _sysRoleUserRepository.FindBy(f => f.UserId == user.Id);
+            List<int> roleId = new List<int>();
+            foreach (var ru in roleUser)
+            {
+                roleId.Add(ru.RoleId);
+            }
+            var roleM = _sysRoleMenuRpt.GetAll().ToList();
+            var roleMenuList = new List<sys_role_menu>();
+            foreach (var ri in roleId)
+            {
+                roleMenuList.AddRange(roleM.FindAll(f => f.RoleId == ri));
+            }
+
+            List<sys_menu> sys_menuList = new List<sys_menu>();
+            foreach (var mv in _menusVM)
+            {
+                if (roleMenuList.Exists(f => f.MenuId == mv.Id))
+                {
+                    sys_menuList.Add(mv);
+                }
+            }
+            return new OkObjectResult(sys_menuList); ;
         }
         // GET api/values/5
         [HttpGet("{id}")]
