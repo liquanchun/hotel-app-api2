@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotel.App.Data.Abstract;
@@ -26,12 +27,12 @@ namespace Hotel.App.API2.Controllers
         private readonly ISysRoleUserRepository _sysRoleUserRepository;
         private readonly ISysUserRepository _sysUserRepository;
         private readonly ISysRoleRepository _sysRoleRpt;
-        private readonly StoreAppContext _context;
+        private readonly HotelAppContext _context;
 
         public SysMenuController(ISysMenuRepository sysMenuRpt,
             ISysRoleMenuRepository sysRoleMenuRpt,
             ISysRoleRepository sysRoleRpt,
-            StoreAppContext context,
+            HotelAppContext context,
             ISysRoleUserRepository sysRoleUserRepository,
             ISysUserRepository sysUserRepository,
         IMapper mapper)

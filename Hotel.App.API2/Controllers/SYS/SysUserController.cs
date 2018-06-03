@@ -150,15 +150,6 @@ namespace Hotel.App.API2.Controllers
                         {
                             return NotFound();
                         }
-                        userDb.IsValid = value.IsValid;
-                        userDb.Mobile = value.Mobile;
-                        userDb.WebChat = value.WebChat;
-                        userDb.UserId = value.UserId;
-                        userDb.UserName = value.UserName;
-                        userDb.UpdatedAt = DateTime.Now;
-                        userDb.RoleIds = value.RoleIds;
-                        _sysUserRpt.Commit();
-
                         if (value.RoleIds != userDb.RoleIds)
                         {
                             //修改了用户角色
@@ -177,6 +168,14 @@ namespace Hotel.App.API2.Controllers
                             }
                             _sysRoleUserRpt.Commit();
                         }
+						userDb.IsValid = value.IsValid;
+                        userDb.Mobile = value.Mobile;
+                        userDb.WebChat = value.WebChat;
+                        userDb.UserId = value.UserId;
+                        userDb.UserName = value.UserName;
+                        userDb.UpdatedAt = DateTime.Now;
+                        userDb.RoleIds = value.RoleIds;
+                        _sysUserRpt.Commit();
                         tran.Commit();
                     }
                     catch (Exception ex)
