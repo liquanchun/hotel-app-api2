@@ -90,5 +90,5 @@ namespace Hotel.App.Data.Abstract
 
     public interface ISetCardDiscountRepository : IEntityBaseRepository<set_card_discount> { }
     public interface ISetCardExchangeRepository : IEntityBaseRepository<set_card_exchange> { }
-
+    public interface ISetPhotoRepository : IEntityBaseRepository<set_photo> { }
 }

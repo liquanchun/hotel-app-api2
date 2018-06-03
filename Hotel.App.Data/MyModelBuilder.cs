@@ -99,6 +99,7 @@ namespace Hotel.App.Data
 
             modelBuilder.Entity<set_card_discount>().ToTable("set_card_discount");
             modelBuilder.Entity<set_card_exchange>().ToTable("set_card_exchange");
+            modelBuilder.Entity<set_photo>().ToTable("set_photo");
         }
     }
 }

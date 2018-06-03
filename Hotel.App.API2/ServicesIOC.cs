@@ -80,6 +80,7 @@ namespace Hotel.App.API2
             services.AddScoped<ISetCardDiscountRepository, SetCardDiscountRepository>();
             services.AddScoped<ISetCardExchangeRepository, SetCardExchangeRepository>();
 
+            services.AddScoped<ISetPhotoRepository, SetPhotoRepository>();
         }
     }
 }

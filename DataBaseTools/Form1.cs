@@ -134,7 +134,10 @@ namespace DataBaseTools
 
             string controllerName = table_name_U + "Controller";
             string controllerFile = contorllerPath + "\\" + controllerName + ".cs";
-
+            if (File.Exists(controllerFile))
+            {
+                File.Delete(controllerFile);
+            }
             File.Copy(templatefile, controllerFile);
             string controllertext = File.ReadAllText(controllerFile);
             controllertext = controllertext.Replace("{table_name}", table_name)
@@ -158,7 +161,10 @@ namespace DataBaseTools
 
             string controllerName = table_name_U + "Repository";
             string controllerFile = contorllerPath + "\\" + controllerName + ".cs";
-
+            if (File.Exists(controllerFile))
+            {
+                File.Delete(controllerFile);
+            }
             File.Copy(templatefile, controllerFile);
             string controllertext = File.ReadAllText(controllerFile);
             controllertext = controllertext.Replace("{table_name}", table_name)
