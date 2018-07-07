@@ -52,30 +52,17 @@ namespace Hotel.App.API2.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post(IFormFile file)
+        public async Task<IActionResult> Post([FromBody]set_photo value)
         {
-            set_photo value = new set_photo();
-            value.CreatedAt = DateTime.Now;
-			value.UpdatedAt = DateTime.Now;
-			value.IsValid = true;
-            if(User.Identity is ClaimsIdentity identity)
+            var entityDto = value;
+            entityDto.CreatedAt = DateTime.Now;
+            entityDto.UpdatedAt = DateTime.Now;
+            entityDto.IsValid = true;
+            if (User.Identity is ClaimsIdentity identity)
             {
-                value.CreatedBy = identity.Name ?? "admin";
+                entityDto.CreatedBy = identity.Name ?? "test";
             }
-            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "upload");
-            if (!Directory.Exists(uploadsFolderPath))
-            {
-                Directory.CreateDirectory(uploadsFolderPath);
-            }
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolderPath, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-            value.FileName = fileName;
-            _setPhotoRpt.Add(value);
+            _setPhotoRpt.Add(entityDto);
             _setPhotoRpt.Commit();
             return new OkObjectResult(value);
         }
